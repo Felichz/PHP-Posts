@@ -1,7 +1,7 @@
 # PHP-Posts
-Una simple app donde se pueden hacer publicaciones, con autenticacion previa.
+App en PHP 7 donde se pueden hacer publicaciones, con autenticacion previa.
 
-Re-practicando patrones de diseño como el Front Controller y MVC, y aprendiendo implementacion de estándares PSR, como el autoloading de clases PSR-4, el manejo de respuestas HTTP PSR-7, y aprendiendo gestión de librerías con composer, se usaron las siguientes librerías:
+Practicados patrones de diseño como el Front Controller y MVC, logrando una estructura profesional de calidad y aprendida la implementacion de estándares PSR, como el autoloading de clases PSR-4, el manejo de respuestas HTTP PSR-7; Aprendida la gestión de librerías con composer, se usaron las siguientes librerías:
 
 Eloquent, illuminate/database (Interacción con la Base de Datos)<br/>
 Diactoros, zendframework/zend-diactoros (Implementación de mensajes HTTP PSR-7)<br/>
