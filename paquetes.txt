@@ -11,7 +11,7 @@ Powerful, flexible web routing for PSR-7 requests.
 
 Para qué se usa un router:
 La direccion url debería corresponder con nuestro directorio del proyecto en el servidor. 
-Pero, debido a que estamos usando la programación a objetos y el patrón MVS, el directorio 
+Pero, debido a que estamos usando la programación a objetos y el patrón MVC, el directorio 
 cambia de estructura y las url de nuestro proyecto no son tan amigables.
 
 Para solucionarlo, se usó el paquete aura/router que a modo practico: el router escucha todas las 
