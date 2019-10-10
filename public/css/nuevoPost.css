@@ -1,0 +1,6 @@
+ul { 
+    list-style: none; 
+    padding: 0;
+}
+
+ul li { padding: .5em; }

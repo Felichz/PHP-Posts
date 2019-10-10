@@ -1,0 +1,21 @@
+{% extends 'defaultTemplate.twig.html' %}
+
+{% block head %}
+<title>Registrar usuario</title>
+{% endblock %}
+
+{% block content %}
+<h1>Registrar usuario</h1>
+
+<form action="/PlatziPHP/user/signup" method="POST">
+    <input type="text" name='email' placeholder='Email' />
+    <input type="password" name='password' placeholder='Contrase&nacute;a' />
+    <input type="submit" value='Registrar'/>
+</form>
+
+<a href="../">Volver</a>
+
+<br/>
+
+<h2>{{ mensaje }}</h2>
+{% endblock %}

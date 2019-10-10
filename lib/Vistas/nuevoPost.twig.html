@@ -1,0 +1,40 @@
+{% extends "defaultTemplate.twig.html" %}
+
+{% block head %}
+<title>Nuevo Post</title>
+<link rel="stylesheet" href="/PlatziPHP/css/nuevoPost.css">
+{% endblock %}
+
+{% block content %}
+<!-- 
+<input type="button" value="Nuevo Post" onclick="document.getElementById('nuevo-post').style = 'display: block;'"/>
+<br/><br/>
+-->
+<form id="nuevo-post" action="/PlatziPHP/posts/added" method="POST" enctype="multipart/form-data" >
+    <ul>
+        <li>
+            <label>
+                Autor: 
+                {{autor}}
+            </label>
+        </li>
+        <li>
+            <label>
+                Título: 
+                <input type="text" name="titulo"/>
+            </label>
+        </li>
+        <li>
+            <label>
+                Miniatura:
+                <input type='file' name='miniatura'/>
+            </label>
+        </li>
+    </ul>
+    <input type="submit" value="Publicar">
+</form>
+
+<a href="../">Volver</a>
+
+<h2>{{ mensaje }}</h2>
+{% endblock %}

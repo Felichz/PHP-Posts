@@ -1,0 +1,33 @@
+{% extends 'defaultTemplate.twig.html' %}
+
+{% block head %}
+    <title>Inicio</title>
+    <link rel="stylesheet" href="/PlatziPHP/css/index.css"/>
+{% endblock %}
+
+{% block content %}
+    <div class='botonEnlace'>
+        <a href='posts/add' target='blank'>Nuevo Post</a>
+    </div>
+    <br/>
+    <div class='botonEnlace'>
+        <a href='user/signup'>Registrar usuario</a>
+    </div>
+    <br/>
+    <div class='botonEnlace'>
+        <a href='user/signin'>Acceder usuario</a>
+    </div>
+    <br/>
+
+    <ul id='posts'>
+        {% for post in posts %}
+        <li>
+            <p class='titulo'>{{post.titulo}}</p>
+            <i><b>Autor: <u class='autor'>{{post.autor}}</u></b></i>
+            <br/>
+            <img src="public/uploads/{{post.miniatura}}" alt="" class='miniatura'/>
+            <h3>Contenido post de la BD</h3>
+        </li>
+        {% endfor %}  
+    </ul>
+{% endblock %}

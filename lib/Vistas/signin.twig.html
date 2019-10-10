@@ -1,0 +1,21 @@
+{% extends 'defaultTemplate.twig.html' %}
+
+{% block head %}
+<title>Acceso de usuario</title>
+{% endblock %}
+
+{% block content %}
+<h1>Acceso de usuario</h1>
+
+<form action="/PlatziPHP/user/signin" method="POST">
+    <input type="text" name='email' placeholder='Email' />
+    <input type="password" name='password' placeholder='Contrase&nacute;a' />
+    <input type="submit" value='Acceder'/>
+</form>
+
+<a href="../">Volver</a>
+
+<br/>
+
+<h2>{{ mensaje }}</h2>
+{% endblock %}
