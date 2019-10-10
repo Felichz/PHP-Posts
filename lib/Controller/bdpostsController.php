@@ -21,7 +21,7 @@ class bdpostsController {
         }
         $autor = $_SESSION['user']['email'];
 
-        if ($request -> getMethod() == 'POST')
+        if ($request->getMethod() == 'POST')
         {
             // Validar entrada de datos con librería respect/validation
 
@@ -46,8 +46,14 @@ class bdpostsController {
                 }
 
                 if($miniatura->getError() == UPLOAD_ERR_OK){
+                    // Crea la carpeta si no existe
+                    if(!file_exists('../public/uploads')) {
+                        mkdir('../public/uploads');
+                    }
+
+                    // Mover imagen a uploads
                     $filename = time() . '-' . $miniatura->getClientFilename();
-                    $miniatura -> moveTo('../public/uploads/' . $filename);
+                    $miniatura->moveTo('../public/uploads/' . $filename);
                 }
 
                 $NuevoPost = new BDPosts();
