@@ -23,5 +23,5 @@ map (nuestro mapa del sitio), el router (dentro del front controller) llama a lo
 archivos con las clases y métodos, dejando la url mas amigable y permitiendo el acceso solo 
 a los archivos que deseamos.
 
-# Uso:
+# Configuración:
 Se debe reemplazar ".env_sample" por ".env" y configurar las respectivas variables (Configura la base de datos)
