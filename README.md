@@ -3,12 +3,12 @@ Una simple app donde se pueden hacer publicaciones, con autenticacion previa.
 
 Re-practicando patrones de diseño como el Front Controller y MVC, y aprendiendo implementacion de estándares PSR, como el autoloading de clases PSR-4, el manejo de respuestas HTTP PSR-7, y aprendiendo gestión de librerías con composer, se usaron las siguientes librerías:
 
-Eloquent, illuminate/database (Interacción con la Base de Datos)
-Diactoros, zendframework/zend-diactoros (Implementación de mensajes HTTP PSR-7)
-Aura Router, aura/router (Router HTTP PSR-7)
-Twig, twig/twig (El gestor de plantillas)
-respect/validation (Se usó para hacer validaciones datos en formularios)
-vlucas/phpdotenv (Simular variables de entorno a nivel local)
+Eloquent, illuminate/database (Interacción con la Base de Datos)<br/>
+Diactoros, zendframework/zend-diactoros (Implementación de mensajes HTTP PSR-7)<br/>
+Aura Router, aura/router (Router HTTP PSR-7)<br/>
+Twig, twig/twig (El gestor de plantillas)<br/>
+respect/validation (Se usó para hacer validaciones datos en formularios)<br/>
+vlucas/phpdotenv (Simular variables de entorno a nivel local)<br/>
 
 -------------------------------
 
