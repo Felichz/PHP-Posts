@@ -1,10 +1,13 @@
 <?php namespace App\Controller;
 
 use \Zend\Diactoros\Response\HtmlResponse;
+use App\Controller\TwigVistas;
 
 class indexController {
 
-    public function ejecutarIndexController($twig){
+    public function ejecutarIndexController(){
+        $twig = TwigVistas::obtenerTwig();
+
         //Post de Felix
         $felix = new \App\Model\Usuario('Felix', '12345');
         $model_post = new \App\Model\Post();

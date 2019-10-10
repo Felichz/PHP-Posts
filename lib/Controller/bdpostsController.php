@@ -1,14 +1,18 @@
 <?php namespace App\Controller;
 
 use App\Model\BDPosts;
-use Respect\Validation\Validator as Validator;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
+use Respect\Validation\Validator as Validator;
+use App\Controller\TwigVistas;
 use \Exception;
 
 class bdpostsController {
 
-    public function ejecutarBdpostsController($request, $twig = NULL) {
+    public function ejecutarBdpostsController() {
+        GLOBAL $request;
+        $twig = TwigVistas::obtenerTwig();
+
         /* 
             Todo lo que se está manejando aquí con el objeto request,
             viene de las interfaces estándar establecidas en PSR-7, 

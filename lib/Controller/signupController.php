@@ -1,27 +1,33 @@
 <?php namespace App\Controller;
 
+use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
-use \App\Model\BDUsers;
 use \Respect\Validation\Validator;
+use App\Controller\TwigVistas;
 use \Exception;
 
 class SignupController
 {
-    public function ejecutarSignupController ($twig, $mensaje = NULL)
+    public function ejecutarSignupController ()
     {
+        $twig = TwigVistas::obtenerTwig();
+
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
             return new RedirectResponse('/PlatziPHP/user/dashboard');
         }
 
-        return $this->renderizar($twig, $mensaje);
+        return $this->renderizar($twig);
     }
 
     // Se ejecuta si se detecta el método POST, también ejecuta la funcion principal,
     // la funcion base 'ejecutarSignupController' la cual renderiza lo visual
-    public function procesarSignup ($request, $twig)
+    public function procesarSignup ()
     {
+        GLOBAL $request;
+        $twig = TwigVistas::obtenerTwig();
+
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
             return new RedirectResponse('/PlatziPHP/user/dashboard');
@@ -57,10 +63,8 @@ class SignupController
                 throw new Exception('Email ya registrado');
             }
 
-            // En el model se encripta la contraseña antes de crear el registro
+            // No se arrojaron Exceptions, se realiza registro
             $BDUsers->registrarUsuario($email, $password);
-
-            // Registrado con exito
             // Inicia la sesion y redirecciona al dashboard
             $_SESSION['user'] = [
                 'email' => $email
@@ -75,7 +79,7 @@ class SignupController
         return $this->renderizar($twig, $mensaje);
     }
 
-    function renderizar ($twig, $mensaje) 
+    function renderizar ($twig, $mensaje = NULL) 
     {
         return new HtmlResponse($twig->render('signup.twig.html', ['mensaje' => $mensaje]));;
     }

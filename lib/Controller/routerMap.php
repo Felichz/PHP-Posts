@@ -12,39 +12,33 @@ class routerMap {
         $map->get('addPosts', '/PlatziPHP/posts/add', 
         [
             'controllerName' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'ejecutarBDPostsController',
-            'controllerParameters' => '$request, $twig'
+            'controllerAction' => 'ejecutarBDPostsController'
         ]);
         $map->post('addedPosts', '/PlatziPHP/posts/added', 
         [
             'controllerName' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'ejecutarBDPostsController',
-            'controllerParameters' => '$request, $twig'
+            'controllerAction' => 'ejecutarBDPostsController'
         ]);
         $map->get('signup', '/PlatziPHP/user/signup', 
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
             'controllerName' => 'App\Controller\SignupController',
-            'controllerAction' => 'ejecutarSignupController',
-            'controllerParameters' => '$twig'
+            'controllerAction' => 'ejecutarSignupController'
         ]);
         $map->post('procesarSignup', '/PlatziPHP/user/signup', 
         [
             'controllerName' => 'App\Controller\SignupController',
-            'controllerAction' => 'procesarSignup',
-            'controllerParameters' => '$request, $twig'
+            'controllerAction' => 'procesarSignup'
         ]); 
         $map->get('signin', '/PlatziPHP/user/signin', 
         [
             'controllerName' => 'App\Controller\SigninController',
-            'controllerAction' => 'ejecutarSigninController',
-            'controllerParameters' => '$twig'
+            'controllerAction' => 'ejecutarSigninController'
         ]);
         $map->post('procesarSignin', '/PlatziPHP/user/signin', 
         [
             'controllerName' => 'App\Controller\SigninController',
-            'controllerAction' => 'procesarSignin',
-            'controllerParameters' => '$request, $twig'
+            'controllerAction' => 'procesarSignin'
         ]);
         $map->get('logout', '/PlatziPHP/user/logout', 
         [
@@ -55,11 +49,10 @@ class routerMap {
         [
             'controllerName' => 'App\Controller\DashboardController',
             'controllerAction' => 'ejecutarDashboardController',
-            'controllerParameters' => '$twig',
             'needsAuth' => true
         ]);
 
-        return $map;
+        // return $map;
     }
 
 }

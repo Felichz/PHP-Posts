@@ -1,27 +1,32 @@
 <?php namespace App\Controller;
 
+use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
-use \App\Model\BDUsers;
 use \Respect\Validation\Validator;
+use App\Controller\TwigVistas;
 use \Exception;
 
 class SigninController
 {
-    public function ejecutarSigninController ($twig, $mensaje = NULL)
+    public function ejecutarSigninController ()
     {
+        $twig = TwigVistas::obtenerTwig();
+        
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
             return new RedirectResponse('/PlatziPHP/user/dashboard');
         }
 
-        return $this->renderizar($twig, $mensaje);
+        return $this->renderizar($twig);
     }
 
-    // Se ejecuta si se detecta el método POST, también ejecuta la funcion principal,
-    // la funcion base 'ejecutarSigninController' la cual renderiza lo visual
-    public function procesarSignin ($request, $twig)
+    // Se ejecuta si se detecta el método POST
+    public function procesarSignin ()
     {
+        GLOBAL $request;
+        $twig = TwigVistas::obtenerTwig();
+
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
             return new RedirectResponse('/PlatziPHP/user/dashboard');
@@ -49,7 +54,7 @@ class SigninController
                 throw new Exception('Datos incorrectos');
             }
 
-            // Logeado con éxito, pasaron las validaciones
+            // Logeado con éxito, no se arrojaron Exceptions
             $_SESSION['user'] = [
                 'email' => $email
             ];
@@ -70,7 +75,7 @@ class SigninController
         return new RedirectResponse('/PlatziPHP/user/signin');
     }
 
-    public function renderizar ($twig, $mensaje)
+    public function renderizar ($twig, $mensaje = NULL)
     {
         return new HtmlResponse($twig->render('signin.twig.html', ['mensaje' => $mensaje]));
     }
