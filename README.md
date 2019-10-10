@@ -22,3 +22,6 @@ peticiones del url en nuestra app y recupera los valores introducidos; y según 
 map (nuestro mapa del sitio), el router (dentro del front controller) llama a los respectivos 
 archivos con las clases y métodos, dejando la url mas amigable y permitiendo el acceso solo 
 a los archivos que deseamos.
+
+# Uso:
+Se debe reemplazar ".env_sample" por ".env" y configurar las respectivas variables (Configura la base de datos)
