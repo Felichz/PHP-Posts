@@ -16,7 +16,7 @@ class BDPosts extends Model
             $posts[$k]['miniatura'] = $registro->miniatura;
         }
 
-        return $posts;
+        return $posts ?? NULL;
     }
 }
 
