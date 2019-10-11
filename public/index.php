@@ -13,7 +13,7 @@ session_start();
 // Autoloader de Composer
 require_once '../vendor/autoload.php';
 
-use App\Controller\routerMap; // Clase con todas las rutas de la APP PlatziPHP mapeadas
+use App\Controller\routerMap; // Clase con todas las rutas de la APP mapeadas
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 
 // Cargar variables de entorno (configuracion local)
