@@ -3,49 +3,49 @@
 class routerMap {
 
     static function mapear($map){
-        $map->get('index', '/PlatziPHP/', 
+        $map->get('index', getenv('APP_HOST'), 
             [
             'controllerClass' => 'App\Controller\indexController',
             'controllerAction' => 'ejecutarIndexController',
             'controllerParameters' => '$twig'
             ]);
-        $map->get('addPosts', '/PlatziPHP/posts/add', 
+        $map->get('addPosts', getenv('APP_HOST') . 'posts/add', 
         [
             'controllerClass' => 'App\Controller\bdpostsController',
             'controllerAction' => 'ejecutarBDPostsController'
         ]);
-        $map->post('addedPosts', '/PlatziPHP/posts/added', 
+        $map->post('addedPosts', getenv('APP_HOST') . 'posts/added', 
         [
             'controllerClass' => 'App\Controller\bdpostsController',
             'controllerAction' => 'ejecutarBDPostsController'
         ]);
-        $map->get('signup', '/PlatziPHP/user/signup', 
+        $map->get('signup', getenv('APP_HOST') . 'user/signup', 
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
             'controllerClass' => 'App\Controller\SignupController',
             'controllerAction' => 'ejecutarSignupController'
         ]);
-        $map->post('procesarSignup', '/PlatziPHP/user/signup', 
+        $map->post('procesarSignup', getenv('APP_HOST') . 'user/signup', 
         [
             'controllerClass' => 'App\Controller\SignupController',
             'controllerAction' => 'procesarSignup'
         ]); 
-        $map->get('signin', '/PlatziPHP/user/signin', 
+        $map->get('signin', getenv('APP_HOST') . 'user/signin', 
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'ejecutarSigninController'
         ]);
-        $map->post('procesarSignin', '/PlatziPHP/user/signin', 
+        $map->post('procesarSignin', getenv('APP_HOST') . 'user/signin', 
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'procesarSignin'
         ]);
-        $map->get('logout', '/PlatziPHP/user/logout', 
+        $map->get('logout', getenv('APP_HOST') . 'user/logout', 
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'logout'
         ]);
-        $map->get('dashboard', '/PlatziPHP/user/dashboard', 
+        $map->get('dashboard', getenv('APP_HOST') . 'user/dashboard', 
         [
             'controllerClass' => 'App\Controller\DashboardController',
             'controllerAction' => 'ejecutarDashboardController',

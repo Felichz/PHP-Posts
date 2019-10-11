@@ -15,7 +15,7 @@ class SigninController
         
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
-            return new RedirectResponse('/PlatziPHP/user/dashboard');
+            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
         }
 
         return $this->renderizar($twig);
@@ -29,7 +29,7 @@ class SigninController
 
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
-            return new RedirectResponse('/PlatziPHP/user/dashboard');
+            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
         }
 
         // Validaciones y procesamiento
@@ -58,7 +58,7 @@ class SigninController
             $_SESSION['user'] = [
                 'email' => $email
             ];
-            return new RedirectResponse('/PlatziPHP/user/dashboard');
+            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
         }
         catch (Exception $e) {
             $mensaje = $e->getMessage();
@@ -72,12 +72,15 @@ class SigninController
     {
         unset($_SESSION['user']);
 
-        return new RedirectResponse('/PlatziPHP/user/signin');
+        return new RedirectResponse(getenv('APP_HOST') . 'user/signin');
     }
 
     public function renderizar ($twig, $mensaje = NULL)
     {
-        return new HtmlResponse($twig->render('signin.twig.html', ['mensaje' => $mensaje]));
+        return new HtmlResponse($twig->render('signin.twig.html', [
+            'mensaje' => $mensaje,
+            'apphost' => getenv('APP_HOST')
+            ]));
     }
 }
 

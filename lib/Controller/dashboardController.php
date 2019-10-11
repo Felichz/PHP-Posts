@@ -10,7 +10,10 @@ class DashboardController
         $twig = TwigVistas:: obtenerTwig();
         
         $email = $_SESSION['user']['email'];
-        return new HtmlResponse( $twig->render('dashboard.twig.html', ['email' => $email]) );
+        return new HtmlResponse( $twig->render('dashboard.twig.html', [
+            'email' => $email,
+            'apphost' => getenv('APP_HOST')
+            ]) );
     }
 }
 

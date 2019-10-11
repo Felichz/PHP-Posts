@@ -2,7 +2,7 @@
 
 {% block head %}
 <title>Nuevo Post</title>
-<link rel="stylesheet" href="/PlatziPHP/css/nuevoPost.css">
+<link rel="stylesheet" href="{{apphost}}css/nuevoPost.css">
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
 <input type="button" value="Nuevo Post" onclick="document.getElementById('nuevo-post').style = 'display: block;'"/>
 <br/><br/>
 -->
-<form id="nuevo-post" action="/PlatziPHP/posts/added" method="POST" enctype="multipart/form-data" >
+<form id="nuevo-post" action="{{apphost}}posts/added" method="POST" enctype="multipart/form-data" >
     <ul>
         <li>
             <label>

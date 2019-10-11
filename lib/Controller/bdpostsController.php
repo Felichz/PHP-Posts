@@ -21,7 +21,7 @@ class bdpostsController {
 
         // Redireccion si la sesion no esta definida por un usuario
         if ( !isset($_SESSION['user']) ) {
-            return new RedirectResponse('/PlatziPHP/user/signin');
+            return new RedirectResponse(getenv('APP_HOST') . 'user/signin');
         }
         $autor = $_SESSION['user']['email'];
 
@@ -67,13 +67,17 @@ class bdpostsController {
                 $NuevoPost->save();
 
                 $mensaje = 'Publicación realizada con éxito!';
-                $response = new HtmlResponse($twig->render('nuevoPostRealizado.twig.html', ['mensaje' => $mensaje]));                
+                $response = new HtmlResponse($twig->render('nuevoPostRealizado.twig.html', [
+                    'mensaje' => $mensaje,
+                    'apphost' => getenv('APP_HOST')
+                    ]));                
             } catch (Exception $e) {
                 $mensaje = $e->getMessage();
 
                 $response = new HtmlResponse($twig->render('nuevoPost.twig.html', [
                     'mensaje' => $mensaje,
-                    'autor' => $autor
+                    'autor' => $autor,
+                    'apphost' => getenv('APP_HOST')
                 ]));
             }
             
@@ -82,7 +86,10 @@ class bdpostsController {
         else
         {
             //Renderizar la platilla con Twig
-            $response = new HtmlResponse($twig->render('nuevoPost.twig.html', ['autor' => $autor]));
+            $response = new HtmlResponse($twig->render('nuevoPost.twig.html', [
+                'autor' => $autor,
+                'apphost' => getenv('APP_HOST')
+                ]));
             return $response;
         }
     }

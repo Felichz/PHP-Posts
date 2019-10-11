@@ -14,7 +14,10 @@ class indexController {
 
         //Renderizar la platilla index con Twig
         //echo $twig->render('index.html', array('autores' => $autores));
-        $response = new HtmlResponse($twig->render('index.twig.html', array('posts' => $posts)));
+        $response = new HtmlResponse($twig->render('index.twig.html', [
+            'posts' => $posts,
+            'apphost' => getenv('APP_HOST')
+            ]));
         return $response;
 }
 }

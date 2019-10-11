@@ -54,7 +54,7 @@ else if( permisosRuta() ){
     $response = ejecutarControlador($route);
 }
 else {
-    $response = new RedirectResponse('/PlatziPHP/user/signin');
+    $response = new RedirectResponse(getenv('APP_HOST') . 'user/signin');
 }
 
 // Procesar respuesta HTTP si es que la hay
