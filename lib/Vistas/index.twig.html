@@ -6,18 +6,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class='botonEnlace'>
-        <a href='posts/add' target='blank'>Nuevo Post</a>
-    </div>
-    <br/>
-    <div class='botonEnlace'>
-        <a href='user/signup'>Registrar usuario</a>
-    </div>
-    <br/>
-    <div class='botonEnlace'>
-        <a href='user/signin'>Acceder usuario</a>
-    </div>
-    <br/>
+    <header>
+        <div class='botonEnlace'>
+            <a href='posts/add' target='blank'>Nuevo Post</a>
+        </div>
+        <div class='botonEnlace'>
+            <a href='user/signup'>Registrar usuario</a>
+        </div>
+        <div class='botonEnlace'>
+            <a href='user/signin'>Acceder usuario</a>
+        </div>
+    </header>
 
     <ul id='posts'>
         {% for post in posts %}
