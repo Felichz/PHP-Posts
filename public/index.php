@@ -97,10 +97,10 @@ function permisosRuta() {
 // Ejecuta controlador respectivo segun la ruta dada
 function ejecutarControlador($route){
 
-    $controllerName = $route->handler['controllerName'];
+    $controllerClass = $route->handler['controllerClass'];
     $controllerAction = $route->handler['controllerAction'];
 
-    $controllerObject = new $controllerName;
+    $controllerObject = new $controllerClass;
 
     $response = $controllerObject -> $controllerAction();
     
