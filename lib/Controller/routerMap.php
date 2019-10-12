@@ -2,31 +2,25 @@
 
 class routerMap {
 
-    public static $rutasPublicas = [
-        'index' => '/',
-        'addPosts' => '/posts/add',
-        'addedPosts' => '/posts/added',
-        'signup' => '/user/signup',
-        'procesarSignup' => '/user/signup',
-        'signin' => '/user/signin',
-        'procesarSignin' => '/user/signin',
-        'logout' => '/user/logout',
-        'dashboard' => '/user/dashboard',
-        'uploads' => '/public/uploads'
-    ];
-
     static function obtenerRutasPublicas()
     {
-        $rutasPublicas = self::$rutasPublicas;
-        $rutas = array();
 
         $dir = '/' . getenv('APP_DIR');
 
-        foreach ($rutasPublicas as $k => $v) {
-            $rutas[$k] = $dir . $v;
-        }
+        $rutasPublicas = [
+            'index' => $dir . '/',
+            'addPosts' => $dir . '/posts/add',
+            'addedPosts' => $dir . '/posts/added',
+            'signup' => $dir . '/user/signup',
+            'procesarSignup' => $dir . '/user/signup',
+            'signin' => $dir . '/user/signin',
+            'procesarSignin' => $dir . '/user/signin',
+            'logout' => $dir . '/user/logout',
+            'dashboard' => $dir . '/user/dashboard',
+            'uploads' => $dir . '/public/uploads'
+        ];
 
-        return $rutas;
+        return $rutasPublicas;
     }
 
     static function obtenerRutasServer()
@@ -42,52 +36,51 @@ class routerMap {
     }
 
     static function mapear($map){
-        $rutas = self::$rutasPublicas;
-        $dir = '/' . getenv('APP_DIR');
+        $rutas = self::obtenerRutasPublicas();
 
-        $map->get('index', $dir . $rutas['index'],
+        $map->get('index', $rutas['index'],
             [
             'controllerClass' => 'App\Controller\indexController',
             'controllerAction' => 'ejecutarIndexController',
             'controllerParameters' => '$twig'
             ]);
-        $map->get('addPosts', $dir . $rutas['addPosts'],
+        $map->get('addPosts', $rutas['addPosts'],
         [
             'controllerClass' => 'App\Controller\bdpostsController',
             'controllerAction' => 'ejecutarBDPostsController'
         ]);
-        $map->post('addedPosts', $dir . $rutas['addedPosts'],
+        $map->post('addedPosts', $rutas['addedPosts'],
         [
             'controllerClass' => 'App\Controller\bdpostsController',
             'controllerAction' => 'ejecutarBDPostsController'
         ]);
-        $map->get('signup', $dir . $rutas['signup'],
+        $map->get('signup', $rutas['signup'],
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
             'controllerClass' => 'App\Controller\SignupController',
             'controllerAction' => 'ejecutarSignupController'
         ]);
-        $map->post('procesarSignup', $dir . $rutas['procesarSignup'],
+        $map->post('procesarSignup', $rutas['procesarSignup'],
         [
             'controllerClass' => 'App\Controller\SignupController',
             'controllerAction' => 'procesarSignup'
         ]); 
-        $map->get('signin', $dir . $rutas['signin'],
+        $map->get('signin', $rutas['signin'],
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'ejecutarSigninController'
         ]);
-        $map->post('procesarSignin', $dir . $rutas['procesarSignin'],
+        $map->post('procesarSignin', $rutas['procesarSignin'],
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'procesarSignin'
         ]);
-        $map->get('logout', $dir . $rutas['logout'],
+        $map->get('logout', $rutas['logout'],
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'logout'
         ]);
-        $map->get('dashboard', $dir . $rutas['dashboard'],
+        $map->get('dashboard', $rutas['dashboard'],
         [
             'controllerClass' => 'App\Controller\DashboardController',
             'controllerAction' => 'ejecutarDashboardController',
