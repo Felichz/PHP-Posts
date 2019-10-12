@@ -5,20 +5,21 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use \Respect\Validation\Validator;
 use App\Controller\TwigVistas;
+use App\Controller\routerMap;
 use \Exception;
 
 class SignupController
 {
     public function ejecutarSignupController ()
     {
-        $twig = TwigVistas::obtenerTwig();
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
-            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
+            return new redirectResponse($rutasPublicas['dashboard']);
         }
 
-        return $this->renderizar($twig);
+        return $this->renderizar();
     }
 
     // Se ejecuta si se detecta el método POST, también ejecuta la funcion principal,
@@ -26,11 +27,12 @@ class SignupController
     public function procesarSignup ()
     {
         GLOBAL $request;
-        $twig = TwigVistas::obtenerTwig();
+        $twigVistas = new TwigVistas;
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
-            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
+            return new redirectResponse($rutasPublicas['dashboard']);
         }
         
         // Validaciones y procesamiento
@@ -69,21 +71,22 @@ class SignupController
             $_SESSION['user'] = [
                 'email' => $email
             ];
-            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
+            return new redirectResponse($rutasPublicas['dashboard']);
         }
         catch (Exception $e) {
             $mensaje = $e->getMessage();
         }
 
         // Retorna la respuesta HTTP HtmlResponse
-        return $this->renderizar($twig, $mensaje);
+        return $this->renderizar($mensaje);
     }
 
-    function renderizar ($twig, $mensaje = NULL) 
+    function renderizar ($mensaje = NULL) 
     {
-        return new HtmlResponse($twig->render('signup.twig.html', [
-            'mensaje' => $mensaje,
-            'apphost' => getenv('APP_HOST')
+        $twigVistas = new TwigVistas;
+
+        return new HtmlResponse($twigVistas->renderizar('signup.twig.html', [
+            'mensaje' => $mensaje
             ]));;
     }
 }

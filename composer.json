@@ -1,7 +1,6 @@
 {
     "autoload": {
         "psr-4": {
-            // Se le indica que si un namespace comienza con 'App' entonces debe buscar en la carpeta 'lib'
             "App\\": "lib/"
         }
     },

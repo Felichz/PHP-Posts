@@ -2,19 +2,19 @@
 
 {% block head %}
     <title>Inicio</title>
-    <link rel="stylesheet" href="{{apphost}}css/index.css"/>
+    <link rel="stylesheet" href="{{appAddress}}css/index.css"/>
 {% endblock %}
 
 {% block content %}
     <header>
         <div class='botonEnlace'>
-            <a href='posts/add' target='blank'>Nuevo Post</a>
+            <a href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
         </div>
         <div class='botonEnlace'>
-            <a href='user/signup'>Registrar usuario</a>
+            <a href='{{rutas.signup}}'>Registrar usuario</a>
         </div>
         <div class='botonEnlace'>
-            <a href='user/signin'>Acceder usuario</a>
+            <a href='{{rutas.signin}}'>Acceder usuario</a>
         </div>
     </header>
 
@@ -24,7 +24,7 @@
             <p class='titulo'>{{post.titulo}}</p>
             <i><b>Autor: <u class='autor'>{{post.autor}}</u></b></i>
             <br/>
-            <img src="public/uploads/{{post.miniatura}}" alt="" class='miniatura'/>
+            <img src="{{rutas.uploads}}/{{post.miniatura}}" alt="" class='miniatura'/>
             <h3>Contenido post de la BD</h3>
         </li>
         {% endfor %}  

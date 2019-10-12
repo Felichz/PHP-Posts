@@ -5,31 +5,32 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use \Respect\Validation\Validator;
 use App\Controller\TwigVistas;
+use App\Controller\routerMap;
 use \Exception;
 
 class SigninController
 {
     public function ejecutarSigninController ()
     {
-        $twig = TwigVistas::obtenerTwig();
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
         
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
-            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
+            return new redirectResponse($rutasPublicas['dashboard']);
         }
 
-        return $this->renderizar($twig);
+        return $this->renderizar();
     }
 
     // Se ejecuta si se detecta el método POST
     public function procesarSignin ()
     {
         GLOBAL $request;
-        $twig = TwigVistas::obtenerTwig();
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
-            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
+            return new redirectResponse($rutasPublicas['dashboard']);
         }
 
         // Validaciones y procesamiento
@@ -58,28 +59,30 @@ class SigninController
             $_SESSION['user'] = [
                 'email' => $email
             ];
-            return new RedirectResponse(getenv('APP_HOST') . 'user/dashboard');
+            return new redirectResponse($rutasPublicas['dashboard']);
         }
         catch (Exception $e) {
             $mensaje = $e->getMessage();
         }
 
         // Retorna la respuesta HTTP HtmlResponse
-        return $this->renderizar($twig, $mensaje);
+        return $this->renderizar($mensaje);
     }
 
     public function logout () 
     {
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
         unset($_SESSION['user']);
 
-        return new RedirectResponse(getenv('APP_HOST') . 'user/signin');
+        return new redirectResponse($rutasPublicas['signin']);
     }
 
-    public function renderizar ($twig, $mensaje = NULL)
+    public function renderizar (string $mensaje = NULL)
     {
-        return new HtmlResponse($twig->render('signin.twig.html', [
-            'mensaje' => $mensaje,
-            'apphost' => getenv('APP_HOST')
+        $twigVistas = new TwigVistas;
+
+        return new HtmlResponse($twigVistas->renderizar('signin.twig.html', [
+            'mensaje' => $mensaje
             ]));
     }
 }

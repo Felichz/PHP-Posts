@@ -24,6 +24,9 @@ $dotenv->load();
 $eloquent = new App\Model\BDConection;
 $eloquent -> conectar();
 
+// Obtener configuraciones de rutas
+$rutasPublicas = routerMap::obtenerRutasPublicas();
+
 // ======================== PROCESAR RUTAS ========================
 
 /*
@@ -54,7 +57,7 @@ else if( permisosRuta() ){
     $response = ejecutarControlador($route);
 }
 else {
-    $response = new RedirectResponse(getenv('APP_HOST') . 'user/signin');
+    $response = new redirectResponse($rutasPublicas['signin']);
 }
 
 // Procesar respuesta HTTP si es que la hay
@@ -80,8 +83,9 @@ function routerProcesarRequest($request) {
 
 // Devuelve si se tiene permitido acceder a la ruta o no
 function permisosRuta() {
+    GLOBAL $route;
 
-    $necesitaAutenticacion = isset($handlers['needsAuth']);
+    $necesitaAutenticacion = isset($route->handler['needsAuth']);
     $sesionDefinida = isset($_SESSION['user']);
 
     if(  $necesitaAutenticacion && !$sesionDefinida ) {

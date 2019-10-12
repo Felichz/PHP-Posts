@@ -2,17 +2,18 @@
 
 use \Zend\Diactoros\Response\HtmlResponse;
 use App\Controller\TwigVistas;
+use App\Controller\routerMap;
 
 class DashboardController
 {
     function ejecutarDashboardController()
     {
-        $twig = TwigVistas:: obtenerTwig();
+        $twigVistas = new TwigVistas;
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
         
         $email = $_SESSION['user']['email'];
-        return new HtmlResponse( $twig->render('dashboard.twig.html', [
-            'email' => $email,
-            'apphost' => getenv('APP_HOST')
+        return new HtmlResponse( $twigVistas->renderizar('dashboard.twig.html', [
+            'email' => $email
             ]) );
     }
 }

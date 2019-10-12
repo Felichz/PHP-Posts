@@ -5,13 +5,19 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as Validator;
 use App\Controller\TwigVistas;
+use App\Controller\routerMap;
 use \Exception;
 
 class bdpostsController {
 
     public function ejecutarBdpostsController() {
+        // echo __DIR__ . '\..\..';
+        // die;
+
         GLOBAL $request;
-        $twig = TwigVistas::obtenerTwig();
+        $twigVistas = new TwigVistas;
+        $rutasPublicas = routerMap::obtenerRutasPublicas();
+        $rutasServer = routerMap::obtenerRutasServer();
 
         /* 
             Todo lo que se está manejando aquí con el objeto request,
@@ -21,7 +27,7 @@ class bdpostsController {
 
         // Redireccion si la sesion no esta definida por un usuario
         if ( !isset($_SESSION['user']) ) {
-            return new RedirectResponse(getenv('APP_HOST') . 'user/signin');
+            return new redirectResponse($rutasPublicas['signin']);
         }
         $autor = $_SESSION['user']['email'];
 
@@ -57,7 +63,7 @@ class bdpostsController {
 
                     // Mover imagen a uploads
                     $filename = time() . '-' . $miniatura->getClientFilename();
-                    $miniatura->moveTo('../public/uploads/' . $filename);
+                    $miniatura->moveTo( $rutasServer['uploads'] . '/' . $filename);
                 }
 
                 $NuevoPost = new BDPosts();
@@ -67,17 +73,15 @@ class bdpostsController {
                 $NuevoPost->save();
 
                 $mensaje = 'Publicación realizada con éxito!';
-                $response = new HtmlResponse($twig->render('nuevoPostRealizado.twig.html', [
-                    'mensaje' => $mensaje,
-                    'apphost' => getenv('APP_HOST')
+                $response = new HtmlResponse($twigVistas->renderizar('nuevoPostRealizado.twig.html', [
+                    'mensaje' => $mensaje
                     ]));                
             } catch (Exception $e) {
                 $mensaje = $e->getMessage();
 
-                $response = new HtmlResponse($twig->render('nuevoPost.twig.html', [
+                $response = new HtmlResponse($twigVistas->renderizar('nuevoPost.twig.html', [
                     'mensaje' => $mensaje,
-                    'autor' => $autor,
-                    'apphost' => getenv('APP_HOST')
+                    'autor' => $autor
                 ]));
             }
             
@@ -86,9 +90,8 @@ class bdpostsController {
         else
         {
             //Renderizar la platilla con Twig
-            $response = new HtmlResponse($twig->render('nuevoPost.twig.html', [
-                'autor' => $autor,
-                'apphost' => getenv('APP_HOST')
+            $response = new HtmlResponse($twigVistas->renderizar('nuevoPost.twig.html', [
+                'autor' => $autor
                 ]));
             return $response;
         }
