@@ -13,18 +13,20 @@ class TwigVistas
 
     public function renderizar(string $plantilla, array $parametrosUsuario = NULL)
     {
+        GLOBAL $CONF;
+        
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         // App Address es la ruta a la carpeta principal raiz de donde
         // buscar los archivos desde el HTML o hacer redirecciones
         // desde el cliente publico
-        if(getenv('APP_DIR')){
-            $appAddress = 'http://' . $_SERVER['HTTP_HOST'] . '/' . getenv('APP_DIR') . '/';
+        if( !empty($CONF['APP_DIR']) ){
+            $appAddress = $CONF['HOST'] . '/' . $CONF['APP_DIR'] . '/';
         }
         else {
-            $appAddress = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+            $appAddress = $CONF['HOST'] . '/';
         }
-
+        
         $parametrosDefault = [
             'rutas' => $rutasPublicas,
             'appAddress' => $appAddress

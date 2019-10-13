@@ -11,13 +11,10 @@ use \Exception;
 class bdpostsController {
 
     public function ejecutarBdpostsController() {
-        // echo __DIR__ . '\..\..';
-        // die;
-
-        GLOBAL $request;
+        
+        GLOBAL $request, $CONF;
         $twigVistas = new TwigVistas;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
-        $rutasServer = routerMap::obtenerRutasServer();
 
         /* 
             Todo lo que se está manejando aquí con el objeto request,
@@ -63,7 +60,7 @@ class bdpostsController {
 
                     // Mover imagen a uploads
                     $filename = time() . '-' . $miniatura->getClientFilename();
-                    $miniatura->moveTo( $rutasServer['uploads'] . '/' . $filename);
+                    $miniatura->moveTo( $CONF['PATH']['UPLOADS'] . '/' . $filename);
                 }
 
                 $NuevoPost = new BDPosts();

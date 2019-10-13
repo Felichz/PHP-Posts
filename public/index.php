@@ -7,25 +7,31 @@ ini_set('display_errors', 1);
 ini_set('display_startup_error', 1);
 ERROR_REPORTING(E_ALL);
 
-// Se inicia la sesion pero sin definirla
-session_start();
-
 // Autoloader de Composer
 require_once '../vendor/autoload.php';
 
+// Cargar clases
 use App\Controller\routerMap; // Clase con todas las rutas de la APP mapeadas
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
+use Dotenv\Dotenv;
 
-// Cargar variables de entorno (configuracion local)
-$dotenv = Dotenv\Dotenv::create(__DIR__ . '/..'); // Debe apuntar a la carpeta raiz
+// Cargar variables de entorno
+$dotenv = Dotenv::create(__DIR__ . '/..'); // Debe apuntar a la carpeta raiz
 $dotenv->load();
+
+// Cargar archivo de configuracion
+// Cargado desde carpeta raiz
+require_once dirname(__DIR__) . '/config.php';
+
+// Obtener configuraciones de rutas http para hacer redirecciones desde el cliente
+$rutasPublicas = routerMap::obtenerRutasPublicas();
 
 // Inicializar conexión a la BD
 $eloquent = new App\Model\BDConection;
 $eloquent -> conectar();
 
-// Obtener configuraciones de rutas
-$rutasPublicas = routerMap::obtenerRutasPublicas();
+// Se inicia la sesion pero sin definirla
+session_start();
 
 // ======================== PROCESAR RUTAS ========================
 

@@ -2,37 +2,33 @@
 
 class routerMap {
 
+    // Las rutas publicas son las accesibles desde el cliente
+    // En esta app se suelen utilizar para hacer redirecciones http al cliente
     static function obtenerRutasPublicas()
     {
+        GLOBAL $CONF;
 
-        $dir = '/' . getenv('APP_DIR');
+        if ( empty($CONF['APP_DIR']) ){
+            $dir = '/';
+        }
+        else {
+            $dir = '/' . $CONF['APP_DIR'] . '/';
+        }
 
         $rutasPublicas = [
-            'index' => $dir . '/',
-            'addPosts' => $dir . '/posts/add',
-            'addedPosts' => $dir . '/posts/added',
-            'signup' => $dir . '/user/signup',
-            'procesarSignup' => $dir . '/user/signup',
-            'signin' => $dir . '/user/signin',
-            'procesarSignin' => $dir . '/user/signin',
-            'logout' => $dir . '/user/logout',
-            'dashboard' => $dir . '/user/dashboard',
-            'uploads' => $dir . '/public/uploads'
+            'index' => $dir,
+            'addPosts' => $dir . 'posts/add',
+            'addedPosts' => $dir . 'posts/added',
+            'signup' => $dir . 'user/signup',
+            'procesarSignup' => $dir . 'user/signup',
+            'signin' => $dir . 'user/signin',
+            'procesarSignin' => $dir . 'user/signin',
+            'logout' => $dir . 'user/logout',
+            'dashboard' => $dir . 'user/dashboard',
+            'uploads' => $dir . 'uploads'
         ];
 
         return $rutasPublicas;
-    }
-
-    static function obtenerRutasServer()
-    {
-        // Este archivo debe estar en /lib/Controller/
-        $raiz = __DIR__ . '/../../';
-
-        $rutasServer = [
-            'uploads' => $raiz . 'public/uploads'
-        ];
-
-        return $rutasServer;
     }
 
     static function mapear($map){
