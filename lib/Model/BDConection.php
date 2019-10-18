@@ -6,6 +6,7 @@ class BDConection {
 
     public function conectar()
     {
+        global $CONF;
         $capsule = new Capsule;
 
         $capsule->addConnection([
