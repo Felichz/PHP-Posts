@@ -6,27 +6,26 @@
 {% endblock %}
 
 {% block content %}
-    <header>
-        <div class='botonEnlace'>
-            <a href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
-        </div>
-        <div class='botonEnlace'>
-            <a href='{{rutas.signup}}'>Registrar usuario</a>
-        </div>
-        <div class='botonEnlace'>
-            <a href='{{rutas.signin}}'>Acceder usuario</a>
-        </div>
-    </header>
+<br>
+<div class="container">
+    <div class="row">
+            <a class="btn btn-primary" href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
+            <a class="btn btn-primary" href='{{rutas.signup}}'>Registrar usuario</a>
+            <a class="btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
+            <a class="btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
+    </div>
 
-    <ul id='posts'>
-        {% for post in posts %}
-        <li>
+    {% for post in posts %}
+    <div class="row">
+        <div class="col">
             <p class='titulo'>{{post.titulo}}</p>
             <i><b>Autor: <u class='autor'>{{post.autor}}</u></b></i>
             <br/>
             <img src="{{rutas.uploads}}/{{post.miniatura}}" alt="" class='miniatura'/>
             <h3>Contenido post de la BD</h3>
-        </li>
-        {% endfor %}  
-    </ul>
+        </div>
+    </div>
+    {% endfor %}  
+
+</div>
 {% endblock %}
