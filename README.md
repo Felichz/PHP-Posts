@@ -1,5 +1,5 @@
 # PHP-Posts
-App en PHP 7 donde se pueden hacer publicaciones tipo blog post, con imagenes en miniatura y con autenticacion previa. Manteniendo una **estructura** profesional y manejando los **estándares** de la industria. ([Curso](https://platzi.com/cursos/php/ "Curso") tomado en Platzi)
+App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticacion de usuarios. Manteniendo una **estructura** profesional y manejando los **estándares** de la industria. ([Curso](https://platzi.com/cursos/php/ "Curso") tomado en Platzi)
 
 Temas dados:
 - Patrones de diseño  
