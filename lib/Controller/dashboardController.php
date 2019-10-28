@@ -3,6 +3,7 @@
 use \Zend\Diactoros\Response\HtmlResponse;
 use App\Controller\TwigVistas;
 use App\Controller\routerMap;
+use App\Model\BDUsers;
 
 class DashboardController
 {
@@ -12,8 +13,13 @@ class DashboardController
         $rutasPublicas = routerMap::obtenerRutasPublicas();
         
         $email = $_SESSION['user']['email'];
+
+        $user = BDUsers::where('email', $email)->get()->first();
+        $posts = $user->posts;
+
         return new HtmlResponse( $twigVistas->renderizar('dashboard.twig.html', [
-            'email' => $email
+            'email' => $email,
+            'posts' => $posts
             ]) );
     }
 }

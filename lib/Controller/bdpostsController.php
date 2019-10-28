@@ -10,90 +10,116 @@ use \Exception;
 
 class bdpostsController {
 
-    public function ejecutarBdpostsController() {
-        
+    protected $autor;
+    protected $request;
+    protected $CONF;
+    protected $rutas;
+    protected $twigVistas;
+
+    function __construct()
+    {
         GLOBAL $request, $CONF;
-        $twigVistas = new TwigVistas;
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
+
+        $this->autor = $_SESSION['user']['email'];
+        $this->request = $request;
+        $this->CONF = $CONF;
+        $this->rutas = routerMap::obtenerRutasPublicas();
+        $this->twigVistas = new TwigVistas;
+    }
+
+    public function newPostForm()
+    {
+        //Renderizar la platilla con Twig
+        $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPost.twig.html', [
+            'autor' => $this->autor
+            ]));
+        return $response;
+    }
+
+    public function guardarPost() {
 
         /* 
-            Todo lo que se está manejando aquí con el objeto request,
-            viene de las interfaces estándar establecidas en PSR-7, 
-            buscar en la documentación.
+            Objeto request de interfaces estándar PSR-7
         */
 
-        // Redireccion si la sesion no esta definida por un usuario
-        if ( !isset($_SESSION['user']) ) {
-            return new redirectResponse($rutasPublicas['signin']);
-        }
-        $autor = $_SESSION['user']['email'];
+        // Validar entrada de datos con librería respect/validation
 
-        if ($request->getMethod() == 'POST')
-        {
-            // Validar entrada de datos con librería respect/validation
-
-            // Si la validación dentro del bloque try falla, el validador arroja una exepción la cual
-            // es captada y manejada sin detener el flujo de la aplicación
-            try {
-                // postData sería como $_POST
-                $postData = $request->getParsedBody();
-                
-                $files = $request->getUploadedFiles(); // Desde la super global $_FILES
-                $miniatura = $files['miniatura'];
-
-                if ( !Validator::notEmpty()->validate($postData['titulo']) ) {
-                    throw new Exception('El título no puede estar vacío');
-                }
-                if ( !Validator::length(null, 250)->validate($postData['titulo']) ) {
-                    throw new Exception('Título demasiado largo');
-                }
-
-                if($_FILES['miniatura']['name'] == ''){
-                    throw new Exception('Se debe subir una miniatura');
-                }
-
-                if($miniatura->getError() == UPLOAD_ERR_OK){
-                    // Crea la carpeta si no existe
-                    if(!file_exists('../public/uploads')) {
-                        mkdir('../public/uploads');
-                    }
-
-                    // Mover imagen a uploads
-                    $filename = time() . '-' . $miniatura->getClientFilename();
-                    $miniatura->moveTo( $CONF['PATH']['UPLOADS'] . '/' . $filename);
-                }
-
-                $NuevoPost = new BDPosts();
-                $NuevoPost->autor = $autor;
-                $NuevoPost->titulo = $postData['titulo'];
-                $NuevoPost->miniatura = $filename;
-                $NuevoPost->save();
-
-                $mensaje = 'Publicación realizada con éxito!';
-                $response = new HtmlResponse($twigVistas->renderizar('nuevoPostRealizado.twig.html', [
-                    'mensaje' => $mensaje
-                    ]));                
-            } catch (Exception $e) {
-                $mensaje = $e->getMessage();
-
-                $response = new HtmlResponse($twigVistas->renderizar('nuevoPost.twig.html', [
-                    'mensaje' => $mensaje,
-                    'autor' => $autor
-                ]));
-            }
+        // Si la validación dentro del bloque try falla, el validador arroja una exepción la cual
+        // es captada y manejada sin detener el flujo de la aplicación
+        try {
+            // Obtener datos de formulario POST
+            $postData = $this->request->getParsedBody();
             
-            return $response;
-        }
-        else
-        {
-            //Renderizar la platilla con Twig
-            $response = new HtmlResponse($twigVistas->renderizar('nuevoPost.twig.html', [
-                'autor' => $autor
+            $files = $this->request->getUploadedFiles(); // Desde la super global $_FILES
+            $miniatura = $files['miniatura'];
+            $nombreMiniatura = time() . '-' . $miniatura->getClientFilename();
+
+            // Validar y guardar miniatura
+            $this->validarForm( $postData, $miniatura );
+            $this->guardarMiniatura( $miniatura, $nombreMiniatura );
+
+            // Guardar post en base de datos
+            $BDPosts = new BDPosts();
+            $BDPosts->guardarPost($this->autor, $postData['titulo'], $nombreMiniatura);
+
+            // Enviar respuesta HTML
+            $mensaje = 'Publicación realizada con éxito!';
+            $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPostRealizado.twig.html', [
+                'mensaje' => $mensaje
                 ]));
-            return $response;
+
+        } catch (Exception $e) {
+            $mensaje = $e->getMessage();
+
+            $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPost.twig.html', [
+                'mensaje' => $mensaje,
+                'autor' => $this->autor
+            ]));
+        }
+        
+        return $response;
+    }
+
+    protected function validarForm( $postData, $miniatura )
+    {
+        // Titulo
+        if ( !Validator::notEmpty()->validate($postData['titulo']) ) {
+            throw new Exception('El título no puede estar vacío');
+        }
+        if ( !Validator::length(null, 250)->validate($postData['titulo']) ) {
+            throw new Exception('Título demasiado largo');
+        }
+
+        // Miniatura
+        if($_FILES['miniatura']['name'] == ''){
+            throw new Exception('Se debe subir una miniatura');
+        }
+
+        if($miniatura->getError() != UPLOAD_ERR_OK){
+            throw new Exception('Error al guardar miniatura');
         }
     }
 
+    protected function guardarMiniatura( $miniatura, $nombreMiniatura )
+    {
+        // Crea la carpeta si no existe
+        if(!file_exists('../public/uploads')) {
+            mkdir('../public/uploads');
+        }
+
+        // Mover imagen a uploads
+        $miniatura->moveTo( $this->CONF['PATH']['UPLOADS'] . '/' . $nombreMiniatura);
+    }
+
+    public function deletePost()
+    {
+        $postData = $this->request->getParsedBody();
+        $postID = $postData['post'];
+
+        BDPosts::find($postID)->delete();
+
+        return new RedirectResponse( $this->rutas['dashboard'] );
+    }
 }
 
 ?>

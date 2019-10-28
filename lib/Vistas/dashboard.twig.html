@@ -2,13 +2,52 @@
 
 {% block head %}
 <title>Dash Board</title>
+
+<style>
+    .row {
+        padding: 7.5px;
+    }
+
+    .btn {
+        margin: 0 !important;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-    <h1>Dash Board</h1>
-    <b>User:</b> {{email}}
-    <br><br>
-    <a href="{{appAddress}}">Volver</a>
-    <br>
-    <a href="{{appAddress}}user/logout">Logout</a>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Dash Board</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3 class="d-inline-block" style="margin-right: 10px;">Usuario:</h3> 
+                {{ email }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class='btn btn-secondary' href="{{ rutas.logout }}">Cerrar sesi&oacute;n</a>
+                <a class='btn btn-secondary' href="{{ rutas.index }}">Volver</a>
+            </div>
+        </div>
+
+        {% for post in posts %}
+            <div class="container dash-post">
+                <div class="row">
+                    <div class="col-8 col-md-10">
+                        <b>Post:</b> {{ post.titulo }}
+                    </div>
+                    <div class="col-1">
+                        <form style='margin: 0;' action="{{ rutas.dashboard }}" method="POST">
+                            <input type="hidden" name="post" value='{{ post.id }}'>
+                            <button class='btn btn-secondary' type='submit'>Borrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}  
+    </div>
 {% endblock %}

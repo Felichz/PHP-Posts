@@ -74,7 +74,7 @@ class SigninController
         $rutasPublicas = routerMap::obtenerRutasPublicas();
         unset($_SESSION['user']);
 
-        return new redirectResponse($rutasPublicas['signin']);
+        return new redirectResponse($rutasPublicas['index']);
     }
 
     public function renderizar (string $mensaje = NULL)

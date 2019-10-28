@@ -1,21 +1,38 @@
 {% extends 'defaultTemplate.twig.html' %}
 
-{% block head %}
-<title>Registrar usuario</title>
-{% endblock %}
-
 {% block content %}
-<h1>Registrar usuario</h1>
-
-<form action="{{appAddress}}user/signup" method="POST">
-    <input type="text" name='email' placeholder='Email' />
-    <input type="password" name='password' placeholder='Contrase&nacute;a' />
-    <input type="submit" value='Registrar'/>
-</form>
-
-<a href="../">Volver</a>
-
-<br/>
-
-<h2>{{ mensaje }}</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Registrar usuario</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {% if mensaje %}
+            <div class="alert alert-danger">
+                {{ mensaje }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
+            <form action="{{ rutas.signup }}" method="POST">
+                <div class='form-group'>
+                    <label for="">Email:</label>
+                    <input class="form-control" type="email" id='email' name='email' />
+                </div>
+                <div class="form-group">
+                    <label for="">Contrase&ntilde;a:</label>
+                    <input class="form-control" type="password" id='password' name='password' />
+                </div>
+                <input class='btn btn-primary' type="submit" value='Registrar'/>
+                <a class="btn btn-secondary" href="{{ rutas.index }}">
+                    Volver
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

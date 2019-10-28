@@ -1,28 +1,58 @@
 {% extends 'defaultTemplate.twig.html' %}
 
 {% block head %}
-    <title>Inicio</title>
-    <link rel="stylesheet" href="{{appAddress}}css/index.css"/>
+<title>Inicio</title>
 {% endblock %}
 
 {% block content %}
 <br>
 <div class="container">
-    <div class="row">
-            <a class="btn btn-primary" href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
-            <a class="btn btn-primary" href='{{rutas.signup}}'>Registrar usuario</a>
-            <a class="btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
-            <a class="btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
-    </div>
 
-    {% for post in posts %}
+    {% if logged %}
     <div class="row">
         <div class="col">
-            <p class='titulo'>{{post.titulo}}</p>
-            <i><b>Autor: <u class='autor'>{{post.autor}}</u></b></i>
-            <br/>
-            <img src="{{rutas.uploads}}/{{post.miniatura}}" alt="" class='miniatura'/>
-            <h3>Contenido post de la BD</h3>
+            <h3 class="d-inline-block" style="margin-right: 10px;">User:</h3> 
+            {{ email }}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col">
+                <a class="btn btn-primary" href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
+                {% if logged %}
+                <a class="btn btn-primary" href='{{rutas.dashboard}}'>Dashboard</a>
+                <a class="btn btn-primary" href='{{rutas.logout}}'>Cerrar sesi&oacute;n</a>
+                {% else %}
+                <a class="btn btn-primary" href='{{rutas.signup}}'>Registrar usuario</a>
+                <a class="btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
+                {% endif %}
+        </div>
+    </div>
+
+    <br>
+    
+    {% for post in posts %}
+    <div class="container post">
+        <div class="row">
+            <div class="col-xl-12">
+                <h1 class='titulo'>{{post.titulo}}</h1>
+            </div>
+            <div class="col-xl-12">
+                <i>Autor: {{post.autor}}</i>
+            </div>
+            <div class="col-xl-12">
+                <br/>
+            </div>
+            <div class="col-xl-12">
+                <p>
+                    <img align='left' src="{{rutas.uploads}}/{{post.miniatura}}" alt="" class='miniatura'/>
+                    {{ipsum.1}}
+                </p>
+                <p>
+                    {{ipsum.2}}
+                </p>
+            </div>
         </div>
     </div>
     {% endfor %}  

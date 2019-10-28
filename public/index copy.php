@@ -58,7 +58,7 @@ if (!$route)
 {
     echo 'Error 404';
 }
-else if( permisosRuta($route) ){
+else if( permisosRuta() ){
     // Se obtiene la respuesta HTTP desde el controlador respectivo
     $response = ejecutarControlador($route);
 }
@@ -88,7 +88,8 @@ function routerProcesarRequest($request) {
 }
 
 // Devuelve si se tiene permitido acceder a la ruta o no
-function permisosRuta( $route ) {
+function permisosRuta() {
+    GLOBAL $route;
 
     $necesitaAutenticacion = isset($route->handler['needsAuth']);
     $sesionDefinida = isset($_SESSION['user']);

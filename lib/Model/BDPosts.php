@@ -6,17 +6,17 @@ class BDPosts extends Model
 {
     protected $table = 'posts';
 
-    public function cargarPosts()
+    public function guardarPost($autor, $titulo, $nombreMiniatura)
     {
-        $registros = $this -> all();
-        foreach ($registros as $k => $registro)
-        {
-            $posts[$k]['titulo'] = $registro->titulo;
-            $posts[$k]['autor'] = $registro->autor;
-            $posts[$k]['miniatura'] = $registro->miniatura;
-        }
+        $this->autor = $autor;
+        $this->titulo = $titulo;
+        $this->miniatura = $nombreMiniatura;
+        $this->save();
+    }
 
-        return $posts ?? NULL;
+    public function borrarPost( $id )
+    {
+        
     }
 }
 

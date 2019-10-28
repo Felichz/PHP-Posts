@@ -17,12 +17,10 @@ class routerMap {
 
         $rutasPublicas = [
             'index' => $dir,
-            'addPosts' => $dir . 'posts/add',
-            'addedPosts' => $dir . 'posts/added',
+            'addPosts' => $dir . 'post/add',
+            'addedPosts' => $dir . 'post/added',
             'signup' => $dir . 'user/signup',
-            'procesarSignup' => $dir . 'user/signup',
             'signin' => $dir . 'user/signin',
-            'procesarSignin' => $dir . 'user/signin',
             'logout' => $dir . 'user/logout',
             'dashboard' => $dir . 'user/dashboard',
             'uploads' => $dir . 'uploads'
@@ -43,12 +41,20 @@ class routerMap {
         $map->get('addPosts', $rutas['addPosts'],
         [
             'controllerClass' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'ejecutarBDPostsController'
+            'controllerAction' => 'newPostForm',
+            'needsAuth' => true
         ]);
         $map->post('addedPosts', $rutas['addedPosts'],
         [
             'controllerClass' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'ejecutarBDPostsController'
+            'controllerAction' => 'guardarPost',
+            'needsAuth' => true
+        ]);
+        $map->post('deletePosts', $rutas['dashboard'],
+        [
+            'controllerClass' => 'App\Controller\bdpostsController',
+            'controllerAction' => 'deletePost',
+            'needsAuth' => true
         ]);
         $map->get('signup', $rutas['signup'],
         [
@@ -56,7 +62,7 @@ class routerMap {
             'controllerClass' => 'App\Controller\SignupController',
             'controllerAction' => 'ejecutarSignupController'
         ]);
-        $map->post('procesarSignup', $rutas['procesarSignup'],
+        $map->post('procesarSignup', $rutas['signup'],
         [
             'controllerClass' => 'App\Controller\SignupController',
             'controllerAction' => 'procesarSignup'
@@ -66,7 +72,7 @@ class routerMap {
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'ejecutarSigninController'
         ]);
-        $map->post('procesarSignin', $rutas['procesarSignin'],
+        $map->post('procesarSignin', $rutas['signin'],
         [
             'controllerClass' => 'App\Controller\SigninController',
             'controllerAction' => 'procesarSignin'

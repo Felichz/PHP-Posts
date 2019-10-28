@@ -15,21 +15,28 @@ class TwigVistas
     {
         GLOBAL $CONF;
         
+        // Rutas para hacer REDIRECCIONES en las plantillas, se usan
+        // desde el mapa de rutas para que sea sencillo cambiar
+        // rutas, asi se cambia en las plantillas tambien
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
-        // App Address es la ruta a la carpeta principal raiz de donde
-        // buscar los archivos desde el HTML o hacer redirecciones
-        // desde el cliente publico
+        // App Address es la URL HTTP a la app
+        // Se debe usar SOLO para solicitar archivos, para redireccionar
+        // a rutas de la app se debe usar $rutasPublicas del routerMap
         if( !empty($CONF['APP_DIR']) ){
             $appAddress = $CONF['HOST'] . '/' . $CONF['APP_DIR'] . '/';
         }
         else {
             $appAddress = $CONF['HOST'] . '/';
         }
+
+        // Verifica si hay una sesión iniciada
+        $logged = isset($_SESSION['user']) ? true : false;
         
         $parametrosDefault = [
             'rutas' => $rutasPublicas,
-            'appAddress' => $appAddress
+            'appAddress' => $appAddress,
+            'logged' => $logged
         ];
 
         $parametros = array_merge($parametrosUsuario, $parametrosDefault);

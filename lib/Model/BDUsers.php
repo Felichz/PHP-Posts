@@ -29,6 +29,7 @@ class BDUsers extends Model
         return false;
     }
 
+    // Login
     public function verificarUsuario ($email, $passowrd)
     {
         $usuario = $this->where('email', $email)->first();
@@ -38,6 +39,10 @@ class BDUsers extends Model
         }
 
         return false;
+    }
+
+    public function posts() {
+        return $this->hasMany('App\Model\BDPosts', 'autor', 'email');
     }
 }
 

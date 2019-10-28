@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
+// Esta clase no cuenta como Model de Eloquent, es el Capsule Manager
 class BDConection {
 
     public function conectar()
