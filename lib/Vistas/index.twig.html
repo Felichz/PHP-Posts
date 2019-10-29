@@ -7,8 +7,13 @@
     #nav .col {
         border-radius: 0;
         border: solid 1px white;
-        box-shadow: 0px 18px 15px -17px rgba(0,0,0,0.75);
         border-bottom: none;
+    }
+
+    #nav .row {
+        margin: 0;
+        padding: 0;
+        box-shadow: 0px 18px 15px -17px rgba(0,0,0,0.75);
     }
 </style>
 {% endblock %}
@@ -27,14 +32,16 @@
     {% endif %}
 
     <div class="row" id='nav'>
-        <a class="col btn btn-primary" href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
-        {% if logged %}
-        <a class="col btn btn-primary" href='{{rutas.dashboard}}'>Dashboard</a>
-        <a class="col btn btn-primary" href='{{rutas.logout}}'>Cerrar sesi&oacute;n</a>
-        {% else %}
-        <a class="col btn btn-primary" href='{{rutas.signup}}'>Registrar usuario</a>
-        <a class="col btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
-        {% endif %}
+        <div class="col row">
+            <a class="col btn btn-primary" href='{{rutas.addPosts}}' target='blank'>Nuevo Post</a>
+            {% if logged %}
+            <a class="col btn btn-primary" href='{{rutas.dashboard}}'>Dashboard</a>
+            <a class="col btn btn-primary" href='{{rutas.logout}}'>Cerrar sesi&oacute;n</a>
+            {% else %}
+            <a class="col btn btn-primary" href='{{rutas.signup}}'>Registrar usuario</a>
+            <a class="col btn btn-primary" href='{{rutas.signin}}'>Acceder usuario</a>
+            {% endif %}
+        </div>
     </div>
     
     {% for post in posts %}
