@@ -1,4 +1,4 @@
-<?php namespace App\Controller;
+<?php namespace App\routes;
 
 class routerMap {
 

@@ -5,7 +5,7 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use \Respect\Validation\Validator;
 use App\Controller\TwigVistas;
-use App\Controller\routerMap;
+use App\routes\routerMap;
 use \Exception;
 
 class SignupController

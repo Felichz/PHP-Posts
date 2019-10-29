@@ -2,7 +2,7 @@
 
 use \Zend\Diactoros\Response\HtmlResponse;
 use App\Controller\TwigVistas;
-use App\Controller\routerMap;
+use App\routes\routerMap;
 use \App\Model\BDPosts;
 
 class indexController {

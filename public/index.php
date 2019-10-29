@@ -11,7 +11,7 @@ ERROR_REPORTING(E_ALL);
 require_once '../vendor/autoload.php';
 
 // Cargar clases
-use App\Controller\routerMap; // Clase con todas las rutas de la APP mapeadas
+use App\routes\routerMap; // Clase con todas las rutas de la APP mapeadas
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 use Dotenv\Dotenv;
 
@@ -21,7 +21,7 @@ $dotenv->load();
 
 // Cargar archivo de configuracion
 // Cargado desde carpeta raiz
-require_once dirname(__DIR__) . '/config.php';
+$CONF = require dirname(__DIR__) . '/lib/Config/config.php';
 
 // Obtener configuraciones de rutas http para hacer redirecciones desde el cliente
 $rutasPublicas = routerMap::obtenerRutasPublicas();

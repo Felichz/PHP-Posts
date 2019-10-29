@@ -11,7 +11,7 @@ ERROR_REPORTING(E_ALL);
 require_once '../vendor/autoload.php';
 
 // Cargar clases
-use App\Controller\routerMap; // Clase con todas las rutas de la APP mapeadas
+use App\routes\routerMap; // Clase con todas las rutas de la APP mapeadas
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 use Dotenv\Dotenv;
 

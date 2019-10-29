@@ -1,8 +1,10 @@
 <?php namespace App\Controller;
 
-use App\Controller\routerMap;
+use App\routes\routerMap;
 
-// Plantillas Twig
+// La funcion de esta clase es proveer un metodo para renderizar
+// que contenga parametros que sean siempre default y comunes
+// para cualquier render, como las rutas HTTP
 class TwigVistas
 {
     public function __construct()

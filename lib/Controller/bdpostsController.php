@@ -5,7 +5,7 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as Validator;
 use App\Controller\TwigVistas;
-use App\Controller\routerMap;
+use App\routes\routerMap;
 use \Exception;
 
 class bdpostsController {
@@ -103,8 +103,8 @@ class bdpostsController {
     protected function guardarMiniatura( $miniatura, $nombreMiniatura )
     {
         // Crea la carpeta si no existe
-        if(!file_exists('../public/uploads')) {
-            mkdir('../public/uploads');
+        if(!file_exists( $this->CONF['PATH']['UPLOADS'] )) {
+            mkdir( $this->CONF['PATH']['UPLOADS'] );
         }
 
         // Mover imagen a uploads
