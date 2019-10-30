@@ -3,14 +3,14 @@
 use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
-use \Respect\Validation\Validator;
 use App\Controller\TwigVistas;
+use App\Model\User;
 use App\routes\routerMap;
 use \Exception;
 
 class SignupController
 {
-    public function ejecutarSignupController ()
+    public function index ()
     {
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
@@ -27,58 +27,33 @@ class SignupController
     public function procesarSignup ()
     {
         GLOBAL $request;
-        $twigVistas = new TwigVistas;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         // Si ya hay un usuario logeado en la sesion entonces envía una redirección
         if ( isset($_SESSION['user']) ) {
             return new redirectResponse($rutasPublicas['dashboard']);
         }
-        
-        // Validaciones y procesamiento
-        try {
-            $BDUsers = new BDUsers;
 
-            $postData = $request->getParsedBody();
-            $email = $postData['email'];
-            $password = $postData['password'];
+        $postData = $request->getParsedBody();
+        $email = $postData['email'];
+        $password = $postData['password'];
+        $BDUsers = new BDUsers;
+        $validation = new ValidationController;
 
-            // Validar email
-            if (!Validator::email()->validate($email)) {
-                throw new Exception('Email inválido');
-            }
+        if( $validation->validarSignup($postData) ) {
 
-            // Validar contraseña por pasos para poder dar un mensaje más específico
-            if (!Validator::alnum()->noWhitespace()->validate($password)) {
-                throw new Exception('La contraseña solo admite carácteres alfanuméricos y sin espacios en blanco');
-            }
-            if (!Validator::length(5, null)->Validate($password)) {
-                throw new Exception('La contraseña debe contener al menos 5 caracteres');
-            }
-            if (!Validator::length(null, 250)->Validate($password)) {
-                throw new Exception('Contraseña demasiado larga');
-            }
-
-            // Y por último antes de procesar el registro,
-            // verificar que el email aún no esté registrado
-            if ($BDUsers->emailRegistrado($email)) {
-                throw new Exception('Email ya registrado');
-            }
-
-            // No se arrojaron Exceptions, se realiza registro
-            $BDUsers->registrarUsuario($email, $password);
-            // Inicia la sesion y redirecciona al dashboard
-            $_SESSION['user'] = [
-                'email' => $email
-            ];
-            return new redirectResponse($rutasPublicas['dashboard']);
+            $BDUsers->registrarUsuario( $email, $password );
+            $user = $BDUsers->obtenerUsuario( $email );
+            $user->iniciarSesion();
+            
+            return new redirectResponse( $rutasPublicas['dashboard'] );
         }
-        catch (Exception $e) {
-            $mensaje = $e->getMessage();
-        }
+        else {
+            $mensaje = $validation->errorMessage;
 
-        // Retorna la respuesta HTTP HtmlResponse
-        return $this->renderizar($mensaje);
+            // respuesta HTTP HtmlResponse
+            return isset( $mensaje ) ? $this->renderizar($mensaje) : $this->renderizar();
+        }
     }
 
     function renderizar ($mensaje = NULL) 
@@ -87,7 +62,7 @@ class SignupController
 
         return new HtmlResponse($twigVistas->renderizar('signup.twig.html', [
             'mensaje' => $mensaje
-            ]));;
+        ]));
     }
 }
 

@@ -8,18 +8,19 @@ use \App\Model\BDPosts;
 class indexController {
 
     public function ejecutarIndexController(){
+        GLOBAL $CONF;
+
         $twigVistas = new TwigVistas;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
         
         // Cargar autores de los post de la BD
         $posts = BDPosts::all()->reverse();
 
-        // Solicitar parrafos a API lorem ipsum
-        $ipsum[1] = file_get_contents('https://loripsum.net/api/1/long/plaintext');
-        $ipsum[2] = file_get_contents('https://loripsum.net/api/1/medium/plaintext');
-
         // Obtener email de usuario
         $email = $_SESSION['user']['email'] ?? false;
+
+        // Parrafos Lorem ipsum
+        $ipsum = include $CONF['PATH']['UTILS'] . '/ipsum.php';
 
         // Renderizar la platilla index con Twig
         $response = new HtmlResponse($twigVistas->renderizar('index.twig.html', [

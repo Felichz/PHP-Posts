@@ -60,7 +60,7 @@ class routerMap {
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
             'controllerClass' => 'App\Controller\SignupController',
-            'controllerAction' => 'ejecutarSignupController'
+            'controllerAction' => 'index'
         ]);
         $map->post('procesarSignup', $rutas['signup'],
         [
@@ -70,7 +70,7 @@ class routerMap {
         $map->get('signin', $rutas['signin'],
         [
             'controllerClass' => 'App\Controller\SigninController',
-            'controllerAction' => 'ejecutarSigninController'
+            'controllerAction' => 'index'
         ]);
         $map->post('procesarSignin', $rutas['signin'],
         [
@@ -85,7 +85,7 @@ class routerMap {
         $map->get('dashboard', $rutas['dashboard'],
         [
             'controllerClass' => 'App\Controller\DashboardController',
-            'controllerAction' => 'ejecutarDashboardController',
+            'controllerAction' => 'index',
             'needsAuth' => true
         ]);
 

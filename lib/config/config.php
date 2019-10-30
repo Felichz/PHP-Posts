@@ -1,5 +1,8 @@
 <?php
 
+// Acceso a la carpeta raiz de la app desde el server
+$APP_ROOT = dirname(__DIR__, 2);
+
 return [
     // Rutas
     // Acceso HTTP
@@ -7,8 +10,9 @@ return [
     'APP_DIR' => getenv('APP_DIR'),
     // Acceso desde el server
     'PATH' => [
-        'ROOT' => dirname(__DIR__, 2),
-        'UPLOADS' => dirname(__DIR__, 2) . '/public/uploads'
+        'ROOT' => $APP_ROOT,
+        'UPLOADS' => $APP_ROOT . '/public/uploads',
+        'UTILS' => $APP_ROOT . '/lib/Utils'
     ],
 
     // Base de Datos

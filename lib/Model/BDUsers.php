@@ -16,21 +16,22 @@ class BDUsers extends Model
         $this-> save();
     }
 
-    // Verifica si un email ya está registrado en la BD
-    public function emailRegistrado ($email)
+    public function obtenerUsuario ( $email )
+    {
+        return $this->usuarioRegistrado( $email ) ? new User( $email ) : false;
+    }
+
+    // Verifica si un usuario ya está registrado en la BD
+    public function usuarioRegistrado ( $email )
     {
         // Busca un usuario donde coincida el email
         $usuario = $this->where('email', $email)->first();
 
-        if(!is_null($usuario['email'])){
-            return true;
-        }
-
-        return false;
+        return !is_null($usuario['email']) ? true : false;
     }
 
-    // Login
-    public function verificarUsuario ($email, $passowrd)
+    // Verifica la contraseña del login
+    public function verificarPassword ($email, $passowrd)
     {
         $usuario = $this->where('email', $email)->first();
         
@@ -40,7 +41,7 @@ class BDUsers extends Model
 
         return false;
     }
-
+    
     public function posts() {
         return $this->hasMany('App\Model\BDPosts', 'autor', 'email');
     }

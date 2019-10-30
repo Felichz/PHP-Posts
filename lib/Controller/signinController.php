@@ -5,12 +5,13 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use \Respect\Validation\Validator;
 use App\Controller\TwigVistas;
+use App\Model\User;
 use App\routes\routerMap;
 use \Exception;
 
 class SigninController
 {
-    public function ejecutarSigninController ()
+    public function index ()
     {
         $rutasPublicas = routerMap::obtenerRutasPublicas();
         
@@ -47,11 +48,11 @@ class SigninController
             }
 
             // verificar que el email esté registrado
-            if (!$BDUsers->emailRegistrado($email)) {
+            if (!$BDUsers->usuarioRegistrado($email)) {
                 throw new Exception('No existe un usuario con ese email');
             }
 
-            if (!$BDUsers->verificarUsuario($email, $password)) {
+            if (!$BDUsers->verificarPassword($email, $password)) {
                 throw new Exception('Datos incorrectos');
             }
 
@@ -72,9 +73,11 @@ class SigninController
     public function logout () 
     {
         $rutasPublicas = routerMap::obtenerRutasPublicas();
-        unset($_SESSION['user']);
 
-        return new redirectResponse($rutasPublicas['index']);
+        $user = new User( $_SESSION['user']['email'] );
+        $user->cerrarSesion();
+
+        return new redirectResponse( $rutasPublicas['index'] );
     }
 
     public function renderizar (string $mensaje = NULL)

@@ -90,17 +90,17 @@ function routerProcesarRequest($request) {
 // Devuelve si se tiene permitido acceder a la ruta o no
 function permisosRuta( $route ) {
 
-    $necesitaAutenticacion = isset($route->handler['needsAuth']);
-    $sesionDefinida = isset($_SESSION['user']);
+    $necesitaAutenticacion = isset( $route->handler['needsAuth'] );
+    $sesionDefinida = isset( $_SESSION['user'] );
 
     if(  $necesitaAutenticacion && !$sesionDefinida ) {
-        $permisos = false;
+        $permiso = false;
     }
     else {
-        $permisos = true;
+        $permiso = true;
     }
 
-    return $permisos;
+    return $permiso;
 }
 
 // Ejecuta controlador respectivo segun la ruta dada
