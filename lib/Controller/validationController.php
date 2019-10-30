@@ -17,6 +17,7 @@ class ValidationController
         try
         {
             $error = false;
+            $this->errorMessage = NULL;
 
             // Validar email
             if (!Validator::email()->validate($email)) {
@@ -83,6 +84,38 @@ class ValidationController
         return $error == false ? true : false;
     }
 
+    public function validarNuevoPost ( $postData, $miniatura ) 
+    {
+        try
+        {
+            $error = false;
+            $this->errorMessage = NULL;
+
+            // Titulo
+            if ( !Validator::notEmpty()->validate($postData['titulo']) ) {
+                throw new Exception('El título no puede estar vacío');
+            }
+            if ( !Validator::length(null, 250)->validate($postData['titulo']) ) {
+                throw new Exception('Título demasiado largo');
+            }
+
+            // Miniatura
+            if( $miniatura->getError() == 4 ){
+                throw new Exception('Se debe subir una miniatura');
+            }
+
+            if($miniatura->getError() != UPLOAD_ERR_OK){
+                throw new Exception('Error al guardar miniatura');
+            }
+        }
+        catch ( Exception $e )
+        {
+            $error = true;
+            $this->errorMessage = $e->getMessage();
+        }
+
+        return $error == false ? true : false;
+    }
 }
 
 ?>

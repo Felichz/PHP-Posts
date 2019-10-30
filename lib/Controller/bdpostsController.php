@@ -38,38 +38,30 @@ class bdpostsController {
 
     public function guardarPost() {
 
-        /* 
-            Objeto request de interfaces estándar PSR-7
-        */
+        $postData = $this->request->getParsedBody();
+        $files = $this->request->getUploadedFiles(); // Desde la super global $_FILES
+        $miniatura = $files['miniatura'];
+        $nombreMiniatura = time() . '-' . $miniatura->getClientFilename();
+        $BDPosts = new BDPosts();
+        $validation = new ValidationController;
 
-        // Validar entrada de datos con librería respect/validation
-
-        // Si la validación dentro del bloque try falla, el validador arroja una exepción la cual
-        // es captada y manejada sin detener el flujo de la aplicación
-        try {
-            // Obtener datos de formulario POST
-            $postData = $this->request->getParsedBody();
-            
-            $files = $this->request->getUploadedFiles(); // Desde la super global $_FILES
-            $miniatura = $files['miniatura'];
-            $nombreMiniatura = time() . '-' . $miniatura->getClientFilename();
-
-            // Validar y guardar miniatura
-            $this->validarForm( $postData, $miniatura );
+        // Validar y guardar miniatura
+        if ( $validation->validarNuevoPost($postData, $miniatura) )
+        {
             $this->guardarMiniatura( $miniatura, $nombreMiniatura );
 
             // Guardar post en base de datos
-            $BDPosts = new BDPosts();
             $BDPosts->guardarPost($this->autor, $postData['titulo'], $nombreMiniatura);
 
             // Enviar respuesta HTML
             $mensaje = 'Publicación realizada con éxito!';
             $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPostRealizado.twig.html', [
                 'mensaje' => $mensaje
-                ]));
-
-        } catch (Exception $e) {
-            $mensaje = $e->getMessage();
+            ]));
+        }
+        else
+        {
+            $mensaje = $validation->errorMessage;
 
             $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPost.twig.html', [
                 'mensaje' => $mensaje,
@@ -78,26 +70,6 @@ class bdpostsController {
         }
         
         return $response;
-    }
-
-    protected function validarForm( $postData, $miniatura )
-    {
-        // Titulo
-        if ( !Validator::notEmpty()->validate($postData['titulo']) ) {
-            throw new Exception('El título no puede estar vacío');
-        }
-        if ( !Validator::length(null, 250)->validate($postData['titulo']) ) {
-            throw new Exception('Título demasiado largo');
-        }
-
-        // Miniatura
-        if($_FILES['miniatura']['name'] == ''){
-            throw new Exception('Se debe subir una miniatura');
-        }
-
-        if($miniatura->getError() != UPLOAD_ERR_OK){
-            throw new Exception('Error al guardar miniatura');
-        }
     }
 
     protected function guardarMiniatura( $miniatura, $nombreMiniatura )
