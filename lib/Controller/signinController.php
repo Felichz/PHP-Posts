@@ -14,11 +14,6 @@ class SigninController
     public function index ()
     {
         $rutasPublicas = routerMap::obtenerRutasPublicas();
-        
-        // Si ya hay un usuario logeado en la sesion entonces envía una redirección
-        if ( isset($_SESSION['user']) ) {
-            return new redirectResponse($rutasPublicas['dashboard']);
-        }
 
         return $this->renderizar();
     }
@@ -29,45 +24,25 @@ class SigninController
         GLOBAL $request;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
-        // Si ya hay un usuario logeado en la sesion entonces envía una redirección
-        if ( isset($_SESSION['user']) ) {
-            return new redirectResponse($rutasPublicas['dashboard']);
+        $postData = $request->getParsedBody();
+        $email = $postData['email'];
+        $BDUsers = new BDUsers;
+        $validation = new ValidationController;
+
+        if( $validation->validarSignin($postData) ) {
+
+        $user = $BDUsers->obtenerUsuario( $email );
+        $user->iniciarSesion();
+
+        return new redirectResponse($rutasPublicas['dashboard']);
+        
         }
+        else {
+            $mensaje = $validation->errorMessage;
 
-        // Validaciones y procesamiento
-        try {
-            $BDUsers = new BDUsers;
-
-            $postData = $request->getParsedBody();
-            $email = $postData['email'];
-            $password = $postData['password'];
-
-            // Validar email
-            if (!Validator::email()->validate($email)) {
-                throw new Exception('Email inválido');
-            }
-
-            // verificar que el email esté registrado
-            if (!$BDUsers->usuarioRegistrado($email)) {
-                throw new Exception('No existe un usuario con ese email');
-            }
-
-            if (!$BDUsers->verificarPassword($email, $password)) {
-                throw new Exception('Datos incorrectos');
-            }
-
-            // Logeado con éxito, no se arrojaron Exceptions
-            $_SESSION['user'] = [
-                'email' => $email
-            ];
-            return new redirectResponse($rutasPublicas['dashboard']);
+            // respuesta HTTP HtmlResponse
+            return isset( $mensaje ) ? $this->renderizar($mensaje) : $this->renderizar();
         }
-        catch (Exception $e) {
-            $mensaje = $e->getMessage();
-        }
-
-        // Retorna la respuesta HTTP HtmlResponse
-        return $this->renderizar($mensaje);
     }
 
     public function logout () 

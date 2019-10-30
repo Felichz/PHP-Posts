@@ -60,22 +60,26 @@ class routerMap {
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
             'controllerClass' => 'App\Controller\SignupController',
-            'controllerAction' => 'index'
+            'controllerAction' => 'index',
+            'needsNoSession' => true
         ]);
         $map->post('procesarSignup', $rutas['signup'],
         [
             'controllerClass' => 'App\Controller\SignupController',
-            'controllerAction' => 'procesarSignup'
+            'controllerAction' => 'procesarSignup',
+            'needsNoSession' => true
         ]); 
         $map->get('signin', $rutas['signin'],
         [
             'controllerClass' => 'App\Controller\SigninController',
-            'controllerAction' => 'index'
+            'controllerAction' => 'index',
+            'needsNoSession' => true
         ]);
         $map->post('procesarSignin', $rutas['signin'],
         [
             'controllerClass' => 'App\Controller\SigninController',
-            'controllerAction' => 'procesarSignin'
+            'controllerAction' => 'procesarSignin',
+            'needsNoSession' => true
         ]);
         $map->get('logout', $rutas['logout'],
         [

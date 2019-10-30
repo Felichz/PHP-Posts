@@ -12,27 +12,13 @@ class SignupController
 {
     public function index ()
     {
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
-
-        // Si ya hay un usuario logeado en la sesion entonces envía una redirección
-        if ( isset($_SESSION['user']) ) {
-            return new redirectResponse($rutasPublicas['dashboard']);
-        }
-
         return $this->renderizar();
     }
 
-    // Se ejecuta si se detecta el método POST, también ejecuta la funcion principal,
-    // la funcion base 'ejecutarSignupController' la cual renderiza lo visual
     public function procesarSignup ()
     {
         GLOBAL $request;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
-
-        // Si ya hay un usuario logeado en la sesion entonces envía una redirección
-        if ( isset($_SESSION['user']) ) {
-            return new redirectResponse($rutasPublicas['dashboard']);
-        }
 
         $postData = $request->getParsedBody();
         $email = $postData['email'];
@@ -52,7 +38,7 @@ class SignupController
             $mensaje = $validation->errorMessage;
 
             // respuesta HTTP HtmlResponse
-            return isset( $mensaje ) ? $this->renderizar($mensaje) : $this->renderizar();
+            return $this->renderizar($mensaje);
         }
     }
 

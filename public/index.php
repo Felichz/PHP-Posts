@@ -52,18 +52,26 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_FILES
 );
 
-$route = routerProcesarRequest($request); // Contiene los handlers
+$route = routerProcesarRequest( $request ); // Contiene los handlers
 
-if (!$route)
+if ( !$route )
 {
     echo 'Error 404';
 }
-else if( permisosRuta($route) ){
-    // Se obtiene la respuesta HTTP desde el controlador respectivo
-    $response = ejecutarControlador($route);
+else
+{
+    $errorPermisos = verificarPermisosRuta( $route );
+}
+
+if ( $errorPermisos == 'needsAuth' ) {
+    $response = new redirectResponse( $rutasPublicas['signin'] );
+}
+else if( $errorPermisos == 'needsNoSession' ){
+    $response = new redirectResponse( $rutasPublicas['dashboard'] );
 }
 else {
-    $response = new redirectResponse($rutasPublicas['signin']);
+    // Se obtiene la respuesta HTTP desde el controlador respectivo
+    $response = ejecutarControlador($route);
 }
 
 // Procesar respuesta HTTP si es que la hay
@@ -88,19 +96,23 @@ function routerProcesarRequest($request) {
 }
 
 // Devuelve si se tiene permitido acceder a la ruta o no
-function permisosRuta( $route ) {
+function verificarPermisosRuta( $route ) {
 
-    $necesitaAutenticacion = isset( $route->handler['needsAuth'] );
     $sesionDefinida = isset( $_SESSION['user'] );
+    $necesitaAutenticacion = isset( $route->handler['needsAuth'] );
+    $needsNoSession = isset( $route->handler['needsNoSession'] );
 
-    if(  $necesitaAutenticacion && !$sesionDefinida ) {
-        $permiso = false;
+    $errorPermisos = NULL;
+
+    if ( $needsNoSession && $sesionDefinida)
+    {
+        $errorPermisos = 'needsNoSession';
     }
-    else {
-        $permiso = true;
+    else if (  $necesitaAutenticacion && !$sesionDefinida ) {
+        $errorPermisos = 'needsAuth';
     }
 
-    return $permiso;
+    return $errorPermisos;
 }
 
 // Ejecuta controlador respectivo segun la ruta dada
