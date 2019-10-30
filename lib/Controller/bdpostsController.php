@@ -15,6 +15,7 @@ class bdpostsController {
     protected $CONF;
     protected $rutas;
     protected $twigVistas;
+    protected $BDPosts;
 
     function __construct()
     {
@@ -25,6 +26,7 @@ class bdpostsController {
         $this->CONF = $CONF;
         $this->rutas = routerMap::obtenerRutasPublicas();
         $this->twigVistas = new TwigVistas;
+        $this->BDPosts = new BDPosts();
     }
 
     public function newPostForm()
@@ -42,7 +44,8 @@ class bdpostsController {
         $files = $this->request->getUploadedFiles(); // Desde la super global $_FILES
         $miniatura = $files['miniatura'];
         $nombreMiniatura = time() . '-' . $miniatura->getClientFilename();
-        $BDPosts = new BDPosts();
+        $BDPosts = $this->BDPosts;
+        $twigVistas = $this->twigVistas;
         $validation = new ValidationController;
 
         // Validar y guardar miniatura
@@ -55,7 +58,7 @@ class bdpostsController {
 
             // Enviar respuesta HTML
             $mensaje = 'Publicación realizada con éxito!';
-            $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPostRealizado.twig.html', [
+            $response = new HtmlResponse($twigVistas->renderizar('nuevoPostRealizado.twig.html', [
                 'mensaje' => $mensaje
             ]));
         }
@@ -63,7 +66,7 @@ class bdpostsController {
         {
             $mensaje = $validation->errorMessage;
 
-            $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPost.twig.html', [
+            $response = new HtmlResponse($twigVistas->renderizar('nuevoPost.twig.html', [
                 'mensaje' => $mensaje,
                 'autor' => $this->autor
             ]));
@@ -88,7 +91,7 @@ class bdpostsController {
         $postData = $this->request->getParsedBody();
         $postID = $postData['post'];
 
-        BDPosts::find($postID)->delete();
+        $this->BDPosts->borrarPost( $postID );
 
         return new RedirectResponse( $this->rutas['dashboard'] );
     }

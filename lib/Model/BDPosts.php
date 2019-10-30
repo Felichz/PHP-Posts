@@ -16,7 +16,7 @@ class BDPosts extends Model
 
     public function borrarPost( $id )
     {
-        
+        $this->find($id)->delete();
     }
 }
 
