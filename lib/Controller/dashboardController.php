@@ -11,11 +11,11 @@ class DashboardController
     {
         $twigVistas = new TwigVistas;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
-        
+        $BDUsers = new BDUsers();
+
         $email = $_SESSION['user']['email'];
 
-        $user = BDUsers::where('email', $email)->get()->first();
-        $posts = $user->posts->reverse();
+        $posts = $BDUsers->obtenerPosts( $email )->reverse();
 
         return new HtmlResponse( $twigVistas->renderizar('dashboard.twig.html', [
             'email' => $email,

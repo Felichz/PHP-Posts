@@ -41,6 +41,10 @@ class BDUsers extends Model
 
         return false;
     }
+
+    public function obtenerPosts( $email ) {
+        return $this->where('email', $email)->get()->first()->posts;
+    }
     
     public function posts() {
         return $this->hasMany('App\Model\BDPosts', 'autor', 'email');
