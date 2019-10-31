@@ -23,7 +23,7 @@ $dotenv->load();
 
 // Cargar archivo de configuracion
 // Cargado desde carpeta raiz
-$CONF = require dirname(__DIR__) . '/lib/Config/config.php';
+$CONF = require dirname(__DIR__) . '/lib/config/config.php';
 
 // Obtener configuraciones de rutas http para hacer redirecciones desde el cliente
 $rutasPublicas = routerMap::obtenerRutasPublicas();
