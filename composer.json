@@ -1,7 +1,8 @@
 {
     "autoload": {
         "psr-4": {
-            "App\\": "lib/"
+            "App\\": "lib/",
+            "App\\Controller\\Container\\": "lib/Controller/Container/"
         }
     },
     "require": {
@@ -10,6 +11,7 @@
         "aura/router": "^3.1",
         "twig/twig": "^2.11",
         "respect/validation": "^1.1",
-        "vlucas/phpdotenv": "^3.6"
+        "vlucas/phpdotenv": "^3.6",
+        "league/container": "^3.3"
     }
 }

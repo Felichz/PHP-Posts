@@ -3,13 +3,20 @@
 use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
-use App\Controller\TwigVistas;
 use App\Model\User;
 use App\routes\routerMap;
 use \Exception;
 
 class SignupController
 {
+
+    public function __construct( $request, $vistas, $validation )
+    {
+        $this->request = $request;
+        $this->vistas = $vistas;
+        $this->validation = $validation;
+    }
+
     public function index ()
     {
         return $this->renderizar();
@@ -17,14 +24,14 @@ class SignupController
 
     public function procesarSignup ()
     {
-        GLOBAL $request;
+        $request = $this->request;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         $postData = $request->getParsedBody();
         $email = $postData['email'];
         $password = $postData['password'];
         $BDUsers = new BDUsers;
-        $validation = new ValidationController;
+        $validation = $this->validation;
 
         if( $validation->validarSignup($postData) ) {
 
@@ -44,9 +51,9 @@ class SignupController
 
     function renderizar ($mensaje = NULL) 
     {
-        $twigVistas = new TwigVistas;
+        $vistas = $this->vistas;
 
-        return new HtmlResponse($twigVistas->renderizar('signup.twig.html', [
+        return new HtmlResponse($vistas->renderizar('signup.twig.html', [
             'mensaje' => $mensaje
         ]));
     }

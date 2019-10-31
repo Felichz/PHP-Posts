@@ -7,9 +7,14 @@ use App\Model\BDUsers;
 
 class DashboardController
 {
+    public function __construct( $vistas )
+    {
+        $this->vistas = $vistas;   
+    }
+
     function index()
     {
-        $twigVistas = new TwigVistas;
+        $vistas = $this->vistas;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
         $BDUsers = new BDUsers();
 
@@ -17,7 +22,7 @@ class DashboardController
 
         $posts = $BDUsers->obtenerPosts( $email )->reverse();
 
-        return new HtmlResponse( $twigVistas->renderizar('dashboard.twig.html', [
+        return new HtmlResponse( $vistas->renderizar('dashboard.twig.html', [
             'email' => $email,
             'posts' => $posts
             ]) );

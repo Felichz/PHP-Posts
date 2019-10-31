@@ -17,22 +17,24 @@ class bdpostsController {
     protected $twigVistas;
     protected $BDPosts;
 
-    function __construct()
+    function __construct( $request, $vistas, $validation)
     {
-        GLOBAL $request, $CONF;
+        GLOBAL $CONF;
+
+        $this->request = $request;
+        $this->vistas = $vistas;
+        $this->validation = $validation;
 
         $this->autor = $_SESSION['user']['email'];
-        $this->request = $request;
         $this->CONF = $CONF;
         $this->rutas = routerMap::obtenerRutasPublicas();
-        $this->twigVistas = new TwigVistas;
-        $this->BDPosts = new BDPosts();
+
     }
 
     public function newPostForm()
     {
         //Renderizar la platilla con Twig
-        $response = new HtmlResponse($this->twigVistas->renderizar('nuevoPost.twig.html', [
+        $response = new HtmlResponse($this->vistas->renderizar('nuevoPost.twig.html', [
             'autor' => $this->autor
             ]));
         return $response;
@@ -40,13 +42,16 @@ class bdpostsController {
 
     public function guardarPost() {
 
-        $postData = $this->request->getParsedBody();
-        $files = $this->request->getUploadedFiles(); // Desde la super global $_FILES
+        $request = $this->request;
+        $vistas = $this->vistas;
+        $validation = $this->validation;
+        $BDPosts = new BDPosts;
+
+        $postData = $request->getParsedBody();
+        $files = $request->getUploadedFiles(); // Desde la super global $_FILES
         $miniatura = $files['miniatura'];
+
         $nombreMiniatura = time() . '-' . $miniatura->getClientFilename();
-        $BDPosts = $this->BDPosts;
-        $twigVistas = $this->twigVistas;
-        $validation = new ValidationController;
 
         // Validar y guardar miniatura
         if ( $validation->validarNuevoPost($postData, $miniatura) )
@@ -58,7 +63,7 @@ class bdpostsController {
 
             // Enviar respuesta HTML
             $mensaje = 'Publicación realizada con éxito!';
-            $response = new HtmlResponse($twigVistas->renderizar('nuevoPostRealizado.twig.html', [
+            $response = new HtmlResponse($vistas->renderizar('nuevoPostRealizado.twig.html', [
                 'mensaje' => $mensaje
             ]));
         }
@@ -66,7 +71,7 @@ class bdpostsController {
         {
             $mensaje = $validation->errorMessage;
 
-            $response = new HtmlResponse($twigVistas->renderizar('nuevoPost.twig.html', [
+            $response = new HtmlResponse($vistas->renderizar('nuevoPost.twig.html', [
                 'mensaje' => $mensaje,
                 'autor' => $this->autor
             ]));

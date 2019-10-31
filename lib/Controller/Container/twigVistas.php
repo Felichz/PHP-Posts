@@ -1,4 +1,4 @@
-<?php namespace App\Controller;
+<?php namespace App\Controller\Container;
 
 use App\routes\routerMap;
 

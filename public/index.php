@@ -13,7 +13,8 @@ require_once '../vendor/autoload.php';
 // Cargar clases
 use App\routes\routerMap; // Clase con todas las rutas de la APP mapeadas
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
-use Dotenv\Dotenv;
+use Dotenv\Dotenv;  // Variables de entorno
+use App\Controller\DependencyInjection; // Contenedor para inyeccion de dependencias
 
 // Cargar variables de entorno
 $dotenv = Dotenv::create(__DIR__ . '/..'); // Debe apuntar a la carpeta raiz
@@ -32,6 +33,20 @@ $eloquent -> conectar();
 
 // Se inicia la sesion pero sin definirla
 session_start();
+
+// ======================== CONTENEDOR DEPENDENCIAS ========================
+
+/**
+ * Definir servicios, los servicios son objetos que estan presentes en el sistema
+ * globalmente, por ejemplo una conexion a la base de datos, un motor de plantillas,
+ * o un objeto para enviar emails. Casi cualquier objeto global, clases de nivel bajo.
+ * 
+ * Como los objetos se crean al momento de solicitarlos, el orden para definirlos
+ * no importa.
+*/
+
+
+
 
 // ======================== PROCESAR RUTAS ========================
 
@@ -116,16 +131,16 @@ function verificarPermisosRuta( $route ) {
 }
 
 // Ejecuta controlador respectivo segun la ruta dada
-function ejecutarControlador($route){
+function ejecutarControlador($route) {
 
     $controllerClass = $route->handler['controllerClass'];
     $controllerAction = $route->handler['controllerAction'];
 
-    $controllerObject = new $controllerClass;
+    $controllerObject = DependencyInjection::obtenerInstancia( $controllerClass );
 
-    $response = $controllerObject -> $controllerAction();
-    
-    return $response;
+    // Por la interfaz de los controladores, sabemos que sus métodos
+    // siempre retornan una respuesta HTTP
+    return $controllerObject->$controllerAction();
 }
 
 // Aplica los headers de la respuesta HTTP

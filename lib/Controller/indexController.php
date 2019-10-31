@@ -1,16 +1,21 @@
 <?php namespace App\Controller;
 
 use \Zend\Diactoros\Response\HtmlResponse;
-use App\Controller\TwigVistas;
 use App\routes\routerMap;
 use \App\Model\BDPosts;
 
-class indexController {
+class indexController
+{
+    public function __construct( $vistas )
+    {
+        $this->vistas = $vistas;
+    }
 
-    public function ejecutarIndexController(){
+    public function ejecutarIndexController() 
+    {
         GLOBAL $CONF;
 
-        $twigVistas = new TwigVistas;
+        $vistas = $this->vistas;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
         
         // Cargar autores de los post de la BD
@@ -23,13 +28,13 @@ class indexController {
         $ipsum = include $CONF['PATH']['UTILS'] . '/ipsum.php';
 
         // Renderizar la platilla index con Twig
-        $response = new HtmlResponse($twigVistas->renderizar('index.twig.html', [
+        $response = new HtmlResponse($vistas->renderizar('index.twig.html', [
             'posts' => $posts,
             'ipsum' => $ipsum,
             'email' => $email
             ]));
         return $response;
-}
+    }
 }
 
 ?>

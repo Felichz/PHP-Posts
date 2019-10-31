@@ -4,13 +4,19 @@ use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use \Respect\Validation\Validator;
-use App\Controller\TwigVistas;
 use App\Model\User;
 use App\routes\routerMap;
 use \Exception;
 
 class SigninController
 {
+    public function __construct($request, $vistas, $validation)
+    {
+        $this->request = $request;
+        $this->vistas = $vistas;
+        $this->validation = $validation;
+    }
+
     public function index ()
     {
         $rutasPublicas = routerMap::obtenerRutasPublicas();
@@ -21,13 +27,13 @@ class SigninController
     // Se ejecuta si se detecta el método POST
     public function procesarSignin ()
     {
-        GLOBAL $request;
+        $request = $this->request;
+        $validation = $this->validation;
         $rutasPublicas = routerMap::obtenerRutasPublicas();
 
         $postData = $request->getParsedBody();
         $email = $postData['email'];
         $BDUsers = new BDUsers;
-        $validation = new ValidationController;
 
         if( $validation->validarSignin($postData) ) {
 
@@ -57,9 +63,9 @@ class SigninController
 
     public function renderizar (string $mensaje = NULL)
     {
-        $twigVistas = new TwigVistas;
+        $vistas = $this->vistas;
 
-        return new HtmlResponse($twigVistas->renderizar('signin.twig.html', [
+        return new HtmlResponse($vistas->renderizar('signin.twig.html', [
             'mensaje' => $mensaje
             ]));
     }
