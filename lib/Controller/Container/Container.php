@@ -1,5 +1,7 @@
 <?php namespace App\Controller\Container;
 
+use App\Singletons\SingletonRequest;
+
 class Container
 {
     public function get( $class )
@@ -8,10 +10,11 @@ class Container
 
         // Dependencias
         $container->add( 'Request', function(){
-            GLOBAL $request;
-            return $request;
-        } );
+            return SingletonRequest::getRequest();
+        });
+
         $container->add( 'Vistas', \App\Controller\Container\TwigVistas::class );
+
         $container->add( 'Validation', \App\Controller\Container\Validation::class );
         
         // Definir que dependencias inyectar como parametros en cada clase

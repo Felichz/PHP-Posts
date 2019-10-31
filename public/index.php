@@ -15,6 +15,7 @@ use App\routes\routerMap; // Clase con todas las rutas de la APP mapeadas
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 use Dotenv\Dotenv;  // Variables de entorno
 use App\Controller\DependencyInjection; // Controla la inyeccion de dependencias
+use App\Singletons\SingletonRequest;
 
 // Cargar variables de entorno
 $dotenv = Dotenv::create(__DIR__ . '/..'); // Debe apuntar a la carpeta raiz
@@ -45,13 +46,7 @@ objeto, lo que queramos que nos devuelva.
 */
 
 // Objeto HTTP Request - ZEND DIACTOROS
-$request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
-    $_SERVER,
-    $_GET,
-    $_POST,
-    $_COOKIE,
-    $_FILES
-);
+$request = SingletonRequest::getRequest();
 
 $route = routerProcesarRequest( $request ); // Contiene los handlers
 
