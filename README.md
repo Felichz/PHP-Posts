@@ -1,5 +1,5 @@
 # PHP-Posts
-App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios. El punto no es que la app tenga muchas funcionalidades para el usuario, el punto es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria. (En parte basada en [curso](https://platzi.com/cursos/php/ "curso") tomado en Platzi), actualizo el proyecto mientras aprendo nuevas ténicas de programación.
+App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios. El punto no es que la app tenga muchas funcionalidades para el usuario, el punto es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria (En parte basada en [curso](https://platzi.com/cursos/php/ "curso") tomado en Platzi). Actualizo el proyecto mientras aprendo nuevas ténicas de programación.
 
 Temas y conceptos utilizados:
 - **Patrones de diseño**  
