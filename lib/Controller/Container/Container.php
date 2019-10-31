@@ -21,6 +21,9 @@ class Container
         $container->add( \App\Controller\indexController::class) 
             ->addArgument( $container->get('Vistas') );
 
+        $container->add( \App\Controller\ErrorMessageController::class) 
+            ->addArgument( $container->get('Vistas') );
+
         $container->add( \App\Controller\DashboardController::class) 
             ->addArgument( $container->get('Vistas') );
 

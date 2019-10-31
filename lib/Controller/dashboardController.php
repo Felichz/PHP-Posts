@@ -24,10 +24,12 @@ class DashboardController
 
         $posts = $BDUsers->obtenerPosts( $email )->reverse();
 
-        return new HtmlResponse( $vistas->renderizar('dashboard.twig.html', [
-            'email' => $email,
-            'posts' => $posts
-            ]) );
+        return new HtmlResponse(
+            $vistas->renderizar('dashboard.twig.html', [
+                'email' => $email,
+                'posts' => $posts
+            ]) 
+        );
     }
 }
 

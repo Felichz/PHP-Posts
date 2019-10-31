@@ -68,9 +68,11 @@ class SigninController
     {
         $vistas = $this->vistas;
 
-        return new HtmlResponse($vistas->renderizar('signin.twig.html', [
-            'mensaje' => $mensaje
-            ]));
+        return new HtmlResponse(
+            $vistas->renderizar('signin.twig.html', [
+                'mensaje' => $mensaje
+            ])
+        );
     }
 }
 

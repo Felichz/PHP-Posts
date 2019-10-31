@@ -30,11 +30,13 @@ class indexController
         $ipsum = include $CONF['PATH']['UTILS'] . '/ipsum.php';
 
         // Renderizar la platilla index con Twig
-        $response = new HtmlResponse($vistas->renderizar('index.twig.html', [
-            'posts' => $posts,
-            'ipsum' => $ipsum,
-            'email' => $email
-            ]));
+        $response = new HtmlResponse(
+            $vistas->renderizar('index.twig.html', [
+                'posts' => $posts,
+                'ipsum' => $ipsum,
+                'email' => $email
+            ])
+        );
 
         return $response;
     }

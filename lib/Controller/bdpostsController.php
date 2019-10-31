@@ -38,9 +38,11 @@ class bdpostsController {
     public function index()
     {
         //Renderizar la platilla con Twig
-        $response = new HtmlResponse($this->vistas->renderizar('nuevoPost.twig.html', [
-            'autor' => $this->autor
-            ]));
+        $response = new HtmlResponse(
+            $this->vistas->renderizar('nuevoPost.twig.html', [
+                'autor' => $this->autor
+            ])
+        );
         return $response;
     }
 
@@ -67,18 +69,22 @@ class bdpostsController {
 
             // Enviar respuesta HTML
             $mensaje = 'Publicación realizada con éxito!';
-            $response = new HtmlResponse($vistas->renderizar('nuevoPostRealizado.twig.html', [
-                'mensaje' => $mensaje
-            ]));
+            $response = new HtmlResponse(
+                $vistas->renderizar('nuevoPostRealizado.twig.html', [
+                    'mensaje' => $mensaje
+                ])
+            );
         }
         else
         {
             $mensaje = $validation->errorMessage;
 
-            $response = new HtmlResponse($vistas->renderizar('nuevoPost.twig.html', [
-                'mensaje' => $mensaje,
-                'autor' => $this->autor
-            ]));
+            $response = new HtmlResponse(
+                $vistas->renderizar('nuevoPost.twig.html', [
+                    'mensaje' => $mensaje,
+                    'autor' => $this->autor
+                ])
+            );
         }
         
         return $response;

@@ -1,0 +1,19 @@
+{% extends 'defaultTemplate.twig.html' %}
+
+{% block head %}
+<title>Error</title>
+
+<link rel="stylesheet" href="{{ appAddress }}css/errorMessage.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="vertical-center">
+    <div class="container" id='error'>
+        <div class="col">
+            <h1>{{ errorMessage }}</h1>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

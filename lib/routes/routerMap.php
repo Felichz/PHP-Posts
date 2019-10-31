@@ -4,6 +4,7 @@ class routerMap {
 
     // Las rutas publicas son las accesibles desde el cliente
     // En esta app se suelen utilizar para hacer redirecciones http al cliente
+
     static function obtenerRutasPublicas()
     {
         GLOBAL $CONF;

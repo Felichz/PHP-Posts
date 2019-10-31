@@ -8,6 +8,8 @@ return [
     // Acceso HTTP
     'HOST' => 'http://' . $_SERVER['HTTP_HOST'],
     'APP_DIR' => getenv('APP_DIR'),
+    // Especifica si se deben mostrar errores o no
+    'DEBUG' => getenv('DEBUG') == 'true' ? true : false,
     // Acceso desde el server
     'PATH' => [
         'ROOT' => $APP_ROOT,

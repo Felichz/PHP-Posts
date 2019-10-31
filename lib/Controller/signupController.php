@@ -56,9 +56,11 @@ class SignupController
     {
         $vistas = $this->vistas;
 
-        return new HtmlResponse($vistas->renderizar('signup.twig.html', [
-            'mensaje' => $mensaje
-        ]));
+        return new HtmlResponse(
+            $vistas->renderizar('signup.twig.html', [
+                'mensaje' => $mensaje
+            ])
+        );
     }
 }
 
