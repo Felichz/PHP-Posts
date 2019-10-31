@@ -1,28 +1,33 @@
 # PHP-Posts
-App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticacion de usuarios. Manteniendo una **estructura** profesional y manejando los **estándares** de la industria. (Basado en [curso](https://platzi.com/cursos/php/ "curso") tomado en Platzi)
+App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios. El punto no es que la app tenga muchas funcionalidades para el usuario, el punto es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria (En parte basada en [curso](https://platzi.com/cursos/php/ "curso") tomado en Platzi). Actualizo el proyecto mientras aprendo nuevas ténicas de programación.
+### [Ver demo online del proyecto](http://felix-platziphp.herokuapp.com "Ver demo online del proyecto")  
 
-Temas dados:
-- Patrones de diseño  
+------------
+
+### Temas y conceptos utilizados:
+- **Patrones de diseño**  
  -- Front Controller  
  -- MVC  
-- [Estándares PSR (PHP-FIG)](https://www.php-fig.org/psr/ "Estándares PSR")  
+ -- Dependency Injection  
+ -- Singleton  
+- **[Estándares PSR (PHP-FIG)](https://www.php-fig.org/psr/ "Estándares PSR")**  
  -- Autoloading de clases PSR-4  
  -- Manejo de respuestas HTTP PSR-7  
-- Gestión de librerías con composer:  
+- **Principios SOLID**  
+ -- Principio de responsabilidad única  
+ -- Principio abierto/cerrado  
+ -- Principio de substitución de Liskov  
+ -- Principio de segregación de interfaces  
+ -- Principio de inversión de dependencias  
+- **Gestión de librerías con composer**  
  -- **Eloquent ORM**, Interacción con la Base de Datos  
  -- **Zend/Diactoros**, Implementación de mensajes HTTP PSR-7  
  -- **Aura/Router**, Router HTTP PSR-7  
  -- **Twig**, Motor de plantillas  
- -- **Respect/Validation** (Se usó para hacer validaciones datos en formularios)  
- -- **vlucas/PHPdotenv** (Simular variables de entorno a nivel local)  
+ -- **Respect/Validation**, Se usó para hacer validaciones datos en formularios  
+ -- **vlucas/PHPdotenv**, Variables de entorno  
+ -- **league/container**, Contenedor para inyección de dependencias PSR-11  
 </br>
-
--------------------------------
-
-### ¿Para que se usa un router?
-La direccion url debería corresponder con nuestro directorio del proyecto en el servidor. Pero, debido a que estamos usando la programación a orientada a objetos y el patrón MVC, el directorio cambia de estructura y las url de nuestro proyecto no son tan amigables.
-
-Para solucionarlo, se usó el paquete aura/router que a modo práctico: el router escucha todas las peticiones del url en nuestra app y recupera los valores introducidos; y según configuremos el map (nuestro mapa del sitio), el router (dentro del front controller) llama a los respectivos archivos con las clases y métodos, dejando la url mas amigable y permitiendo el acceso solo a los archivos que deseamos.
 
 ------------
 
