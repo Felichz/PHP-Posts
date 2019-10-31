@@ -1,11 +1,12 @@
 <?php namespace App\Controller\Container;
 
+use App\Interfaces\Vistas;
 use App\routes\routerMap;
 
 // La funcion de esta clase es proveer un metodo para renderizar
 // que contenga parametros que sean siempre default y comunes
 // para cualquier render, como las rutas HTTP
-class TwigVistas
+class TwigVistas implements Vistas
 {
     public function __construct()
     {

@@ -1,5 +1,8 @@
 <?php namespace App\Controller;
 
+use App\Interfaces\Vistas;
+use App\Interfaces\Validation as ValidationInterface;
+
 use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
@@ -10,14 +13,14 @@ use \Exception;
 class SignupController
 {
 
-    public function __construct( $request, $vistas, $validation )
+    public function __construct( $request, Vistas $vistas, ValidationInterface $validation )
     {
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
     }
 
-    public function index ()
+    public function index()
     {
         return $this->renderizar();
     }

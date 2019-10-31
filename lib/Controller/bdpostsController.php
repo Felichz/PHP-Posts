@@ -1,5 +1,8 @@
 <?php namespace App\Controller;
 
+use App\Interfaces\Vistas;
+use App\Interfaces\Validation as ValidationInterface;
+
 use App\Model\BDPosts;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
@@ -17,13 +20,14 @@ class bdpostsController {
     protected $twigVistas;
     protected $BDPosts;
 
-    function __construct( $request, $vistas, $validation)
+    function __construct( $request, Vistas $vistas, ValidationInterface $validation)
     {
         GLOBAL $CONF;
 
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
+        $this->BDPosts = new BDPosts;
 
         $this->autor = $_SESSION['user']['email'];
         $this->CONF = $CONF;
@@ -31,7 +35,7 @@ class bdpostsController {
 
     }
 
-    public function newPostForm()
+    public function index()
     {
         //Renderizar la platilla con Twig
         $response = new HtmlResponse($this->vistas->renderizar('nuevoPost.twig.html', [
@@ -45,7 +49,7 @@ class bdpostsController {
         $request = $this->request;
         $vistas = $this->vistas;
         $validation = $this->validation;
-        $BDPosts = new BDPosts;
+        $BDPosts = $this->BDPosts;
 
         $postData = $request->getParsedBody();
         $files = $request->getUploadedFiles(); // Desde la super global $_FILES

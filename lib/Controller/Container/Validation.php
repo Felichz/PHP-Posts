@@ -1,10 +1,12 @@
 <?php namespace App\Controller\Container;
 
+use App\Interfaces\Validation as ValidationInterface;
+
 use App\Model\BDUsers;
 use Exception;
 use \Respect\Validation\Validator;
 
-class ValidationController
+class Validation implements ValidationInterface
 {
 
     public function validarSignup( $postData )

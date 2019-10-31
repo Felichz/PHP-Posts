@@ -35,13 +35,12 @@ class routerMap {
         $map->get('index', $rutas['index'],
             [
             'controllerClass' => 'App\Controller\indexController',
-            'controllerAction' => 'ejecutarIndexController',
-            'controllerParameters' => '$twig'
+            'controllerAction' => 'index'
             ]);
         $map->get('addPosts', $rutas['addPosts'],
         [
             'controllerClass' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'newPostForm',
+            'controllerAction' => 'index',
             'needsAuth' => true
         ]);
         $map->post('addedPosts', $rutas['addedPosts'],

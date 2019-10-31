@@ -12,7 +12,7 @@ class Container
             return $request;
         } );
         $container->add( 'Vistas', \App\Controller\Container\TwigVistas::class );
-        $container->add( 'Validation', \App\Controller\Container\ValidationController::class );
+        $container->add( 'Validation', \App\Controller\Container\Validation::class );
         
         // Definir que dependencias inyectar como parametros en cada clase
         $container->add( \App\Controller\indexController::class) 

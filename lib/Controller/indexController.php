@@ -1,17 +1,19 @@
 <?php namespace App\Controller;
 
-use \Zend\Diactoros\Response\HtmlResponse;
+use App\Interfaces\Vistas;
+
+use Zend\Diactoros\Response\HtmlResponse;
 use App\routes\routerMap;
-use \App\Model\BDPosts;
+use App\Model\BDPosts;
 
 class indexController
 {
-    public function __construct( $vistas )
+    public function __construct( Vistas $vistas )
     {
         $this->vistas = $vistas;
     }
 
-    public function ejecutarIndexController() 
+    public function index() 
     {
         GLOBAL $CONF;
 
@@ -33,6 +35,7 @@ class indexController
             'ipsum' => $ipsum,
             'email' => $email
             ]));
+
         return $response;
     }
 }

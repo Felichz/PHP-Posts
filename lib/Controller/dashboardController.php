@@ -1,5 +1,7 @@
 <?php namespace App\Controller;
 
+use App\Interfaces\Vistas;
+
 use \Zend\Diactoros\Response\HtmlResponse;
 use App\Controller\TwigVistas;
 use App\routes\routerMap;
@@ -7,7 +9,7 @@ use App\Model\BDUsers;
 
 class DashboardController
 {
-    public function __construct( $vistas )
+    public function __construct( Vistas $vistas )
     {
         $this->vistas = $vistas;   
     }
