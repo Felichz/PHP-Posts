@@ -3,18 +3,17 @@
 use App\Interfaces\Vistas;
 use App\Interfaces\Validation as ValidationInterface;
 
-use \App\Model\BDUsers;
-use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
-use Zend\Diactoros\Response\RedirectResponse;
-use \Respect\Validation\Validator;
+use App\Model\BDUsers;
 use App\Model\User;
-use App\routes\routerMap;
+use App\Routes\Router;
+
 use \Exception;
 
 class SigninController
 {
-    public function __construct($request, Vistas $vistas, ValidationInterface $validation)
+    public function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation)
     {
+        $this->HttpResponse = $HttpResponse;
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
@@ -22,7 +21,7 @@ class SigninController
 
     public function index ()
     {
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
+        $rutasHttp = Router::obtenerRutasHttp();
 
         return $this->renderizar();
     }
@@ -30,9 +29,10 @@ class SigninController
     // Se ejecuta si se detecta el método POST
     public function procesarSignin ()
     {
+        $HttpResponse = $this->HttpResponse;
         $request = $this->request;
         $validation = $this->validation;
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
+        $rutasHttp = Router::obtenerRutasHttp();
 
         $postData = $request->getParsedBody();
         $email = $postData['email'];
@@ -43,7 +43,7 @@ class SigninController
         $user = $BDUsers->obtenerUsuario( $email );
         $user->iniciarSesion();
 
-        return new redirectResponse($rutasPublicas['dashboard']);
+        return $HttpResponse->RedirectResponse($rutasHttp['dashboard']);
         
         }
         else {
@@ -56,19 +56,21 @@ class SigninController
 
     public function logout () 
     {
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
+        $HttpResponse = $this->HttpResponse;
+        $rutasHttp = Router::obtenerRutasHttp();
 
         $user = new User( $_SESSION['user']['email'] );
         $user->cerrarSesion();
 
-        return new redirectResponse( $rutasPublicas['index'] );
+        return $HttpResponse->RedirectResponse( $rutasHttp['index'] );
     }
 
     public function renderizar (string $mensaje = NULL)
     {
         $vistas = $this->vistas;
+        $HttpResponse = $this->HttpResponse;
 
-        return new HtmlResponse(
+        return $HttpResponse->HtmlResponse(
             $vistas->renderizar('signin.twig.html', [
                 'mensaje' => $mensaje
             ])

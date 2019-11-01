@@ -8,7 +8,7 @@ use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as Validator;
 use App\Controller\TwigVistas;
-use App\routes\routerMap;
+use App\Routes\Router;
 use \Exception;
 
 class bdpostsController {
@@ -17,13 +17,13 @@ class bdpostsController {
     protected $request;
     protected $CONF;
     protected $rutas;
-    protected $twigVistas;
     protected $BDPosts;
 
-    function __construct( $request, Vistas $vistas, ValidationInterface $validation)
+    function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation)
     {
         GLOBAL $CONF;
 
+        $this->HttpResponse = $HttpResponse;
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
@@ -31,14 +31,16 @@ class bdpostsController {
 
         $this->autor = $_SESSION['user']['email'];
         $this->CONF = $CONF;
-        $this->rutas = routerMap::obtenerRutasPublicas();
+        $this->rutas = Router::obtenerRutasHttp();
 
     }
 
     public function index()
     {
+        $HttpResponse = $this->HttpResponse;
+
         //Renderizar la platilla con Twig
-        $response = new HtmlResponse(
+        $response = $HttpResponse->HtmlResponse(
             $this->vistas->renderizar('nuevoPost.twig.html', [
                 'autor' => $this->autor
             ])
@@ -48,6 +50,7 @@ class bdpostsController {
 
     public function guardarPost() {
 
+        $HttpResponse = $this->HttpResponse;
         $request = $this->request;
         $vistas = $this->vistas;
         $validation = $this->validation;
@@ -69,7 +72,7 @@ class bdpostsController {
 
             // Enviar respuesta HTML
             $mensaje = 'Publicación realizada con éxito!';
-            $response = new HtmlResponse(
+            $response = $HttpResponse->HtmlResponse(
                 $vistas->renderizar('nuevoPostRealizado.twig.html', [
                     'mensaje' => $mensaje
                 ])
@@ -79,7 +82,7 @@ class bdpostsController {
         {
             $mensaje = $validation->errorMessage;
 
-            $response = new HtmlResponse(
+            $response = $HttpResponse->HtmlResponse(
                 $vistas->renderizar('nuevoPost.twig.html', [
                     'mensaje' => $mensaje,
                     'autor' => $this->autor
@@ -103,6 +106,7 @@ class bdpostsController {
 
     public function deletePost()
     {
+        $HttpResponse = $this->HttpResponse;
         $postData = $this->request->getParsedBody();
         $postID = $postData['post'];
 

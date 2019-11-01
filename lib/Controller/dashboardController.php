@@ -4,27 +4,29 @@ use App\Interfaces\Vistas;
 
 use \Zend\Diactoros\Response\HtmlResponse;
 use App\Controller\TwigVistas;
-use App\routes\routerMap;
 use App\Model\BDUsers;
+use App\Routes\Router;
 
 class DashboardController
 {
-    public function __construct( Vistas $vistas )
+    public function __construct($HttpResponse, Vistas $vistas )
     {
+        $this->HttpResponse = $HttpResponse;
         $this->vistas = $vistas;   
     }
 
     function index()
     {
+        $HttpResponse = $this->HttpResponse;
         $vistas = $this->vistas;
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
+        $rutasHttp = Router::obtenerRutasHttp();
         $BDUsers = new BDUsers();
 
         $email = $_SESSION['user']['email'];
 
         $posts = $BDUsers->obtenerPosts( $email )->reverse();
 
-        return new HtmlResponse(
+        return $HttpResponse->HtmlResponse(
             $vistas->renderizar('dashboard.twig.html', [
                 'email' => $email,
                 'posts' => $posts

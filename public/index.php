@@ -22,14 +22,16 @@ else
     ini_set('display_errors', false);
 }
 // Cargar clases
-use App\routes\routerMap; // Clase con todas las rutas de la APP mapeadas
+use App\Routes\Router;
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 use App\Controller\DependencyInjection; // Controla la inyeccion de dependencias
 use App\Singletons\SingletonRequest;
 use Zend\Diactoros\Response\HtmlResponse;
 
+use function App\Routes\procesarRequest;
+
 // Obtener configuraciones de rutas http para hacer redirecciones desde el cliente
-$rutasPublicas = routerMap::obtenerRutasPublicas();
+$rutasHttp = Router::obtenerRutasHttp();
 
 // Inicializar conexión a la BD
 $eloquent = new App\Model\BDConection;
@@ -46,7 +48,8 @@ try {
 
     // Las Exception de codigo 1 siempre se muestran al usuario
 
-    $route = routerProcesarRequest( $request ); // Devuelve los handlers
+    $HttpResponse = DependencyInjection::obtenerInstancia('HttpResponse');
+    $route = Router::procesarRequest( $request ); // Devuelve los handlers
 
     if ( !$route )
     {
@@ -61,10 +64,10 @@ try {
         $httpResponse = ejecutarControlador( $route );
     }
     else if ( $errorPermisos == 'needsAuth' ) {
-        $httpResponse = new redirectResponse( $rutasPublicas['signin'] );
+        $httpResponse = $HttpResponse->RedirectResponse( $rutasHttp['signin'] );
     }
     else if( $errorPermisos == 'needsNoSession' ){
-        $httpResponse = new redirectResponse( $rutasPublicas['dashboard'] );
+        $httpResponse = $HttpResponse->RedirectResponse( $rutasHttp['dashboard'] );
     }
 
     // ======================== PROCESAR RESPUESTA HTTP ========================
@@ -98,25 +101,6 @@ catch ( Exception $e ) {
 
 
 // ======================== FUNCIONES ========================
-
-/*
-    El router es un objeto al que le damos una ruta y este nos devuelve un Handler
-    dependiendo de que ruta le dimos, nosotros establecemos que handler nos debe
-    devolver con cada ruta, eso se especifica en el mapa de rutas, justamente se
-    mapea. El handler puede ser lo que nosotros queramos, un string, un arreglo, un
-    objeto, lo que queramos que nos devuelva.
-*/
-
-function routerProcesarRequest($request) {
-
-    $routerContainer = new \Aura\Router\RouterContainer();
-
-    $map = $routerContainer->getMap(); // Molde de mapa de rutas
-    $matcher = $routerContainer->getMatcher(); // Matcher, compara mapa con objeto request, devuelve handlers
-    
-    $map = routerMap::mapear($map);
-    return $matcher->match($request);
-}
 
 // Devuelve si se tiene permitido acceder a la ruta o no
 function verificarPermisosRuta( $route ) {

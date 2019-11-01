@@ -1,0 +1,33 @@
+<?php namespace App\Routes;
+
+class HttpRoutes
+{
+    // Rutas http publicas accesibles desde el cliente
+
+    static function obtenerRutasHttp ()
+    {
+        GLOBAL $CONF;
+
+        if ( empty($CONF['APP_DIR']) ){
+            $dir = '/';
+        }
+        else {
+            $dir = '/' . $CONF['APP_DIR'] . '/';
+        }
+
+        $rutasHttp = [
+            'index' => $dir,
+            'addPosts' => $dir . 'post/add',
+            'addedPosts' => $dir . 'post/added',
+            'signup' => $dir . 'user/signup',
+            'signin' => $dir . 'user/signin',
+            'logout' => $dir . 'user/logout',
+            'dashboard' => $dir . 'user/dashboard',
+            'uploads' => $dir . 'uploads'
+        ];
+
+        return $rutasHttp;
+    }
+}
+
+?>

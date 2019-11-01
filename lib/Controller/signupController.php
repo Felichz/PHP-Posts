@@ -7,14 +7,15 @@ use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
 use Zend\Diactoros\Response\RedirectResponse;
 use App\Model\User;
-use App\routes\routerMap;
+use App\Routes\Router;
 use \Exception;
 
 class SignupController
 {
 
-    public function __construct( $request, Vistas $vistas, ValidationInterface $validation )
+    public function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation )
     {
+        $this->HttpResponse = $HttpResponse;
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
@@ -27,8 +28,9 @@ class SignupController
 
     public function procesarSignup ()
     {
+        $HttpResponse = $this->HttpResponse;
         $request = $this->request;
-        $rutasPublicas = routerMap::obtenerRutasPublicas();
+        $rutasHttp = Router::obtenerRutasHttp();
 
         $postData = $request->getParsedBody();
         $email = $postData['email'];
@@ -42,7 +44,7 @@ class SignupController
             $user = $BDUsers->obtenerUsuario( $email );
             $user->iniciarSesion();
             
-            return new redirectResponse( $rutasPublicas['dashboard'] );
+            return $HttpResponse->RedirectResponse( $rutasHttp['dashboard'] );
         }
         else {
             $mensaje = $validation->errorMessage;
@@ -54,9 +56,10 @@ class SignupController
 
     function renderizar ($mensaje = NULL) 
     {
+        $HttpResponse = $this->HttpResponse;
         $vistas = $this->vistas;
 
-        return new HtmlResponse(
+        return $HttpResponse->HtmlResponse(
             $vistas->renderizar('signup.twig.html', [
                 'mensaje' => $mensaje
             ])
