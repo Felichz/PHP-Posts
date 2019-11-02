@@ -19,18 +19,18 @@ class bdpostsController {
     protected $rutas;
     protected $BDPosts;
 
-    function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation)
+    function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation, array $CONF)
     {
-        GLOBAL $CONF;
 
         $this->HttpResponse = $HttpResponse;
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
+        $this->$CONF = $CONF;
+
         $this->BDPosts = new BDPosts;
 
         $this->autor = $_SESSION['user']['email'];
-        $this->CONF = $CONF;
         $this->rutas = Router::obtenerRutasHttp();
 
     }

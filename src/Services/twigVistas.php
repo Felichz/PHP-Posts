@@ -1,4 +1,4 @@
-<?php namespace App\Controller\Container;
+<?php namespace App\Services;
 
 use App\Interfaces\Vistas;
 use App\Routes\Router;
@@ -8,9 +8,9 @@ use App\Routes\Router;
 // para cualquier render, como las rutas HTTP
 class TwigVistas implements Vistas
 {
-    public function __construct()
+    public function __construct( array $CONF )
     {
-        GLOBAL $CONF;
+        $this->CONF = $CONF;
 
         $loader = new \Twig\Loader\FilesystemLoader( $CONF['PATH']['ROOT'] . '/src/Vistas');
         $this->twigObject = new \Twig\Environment($loader);
@@ -18,7 +18,7 @@ class TwigVistas implements Vistas
 
     public function renderizar(string $plantilla, array $parametrosUsuario = NULL)
     {
-        GLOBAL $CONF;
+        $CONF = $this->CONF;
         
         // Rutas para hacer REDIRECCIONES en las plantillas, se usan
         // desde el mapa de rutas para que sea sencillo cambiar

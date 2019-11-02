@@ -8,15 +8,16 @@ use App\Routes\Router;
 
 class indexController
 {
-    public function __construct($HttpResponse, Vistas $vistas )
+    public function __construct($HttpResponse, Vistas $vistas, array $CONF)
     {
         $this->HttpResponse = $HttpResponse;
         $this->vistas = $vistas;
+        $this->CONF = $CONF;
     }
 
     public function index() 
     {
-        GLOBAL $CONF;
+        $CONF = $this->CONF;
 
         $HttpResponse = $this->HttpResponse;
         $vistas = $this->vistas;

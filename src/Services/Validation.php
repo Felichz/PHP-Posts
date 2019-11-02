@@ -1,4 +1,4 @@
-<?php namespace App\Controller\Container;
+<?php namespace App\Services;
 
 use App\Interfaces\Validation as ValidationInterface;
 

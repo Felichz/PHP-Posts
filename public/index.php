@@ -3,15 +3,15 @@
 // ======================== INICIALIZACIONES ========================
 
 // Autoloader de Composer
+
 require_once '../vendor/autoload.php';
 
 // Cargar variables de entorno
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..'); // Debe apuntar a la carpeta raiz
 $dotenv->load();
 
-// Cargar archivo de configuracion
-// Cargado desde carpeta raiz
-$CONF = require dirname(__DIR__) . '/src/config/config.php';
+// Cargar configuracion
+$CONF = App\Conf\Conf::getConf();
 
 // Inicializar los errores
 if ( $CONF['DEBUG'] == true ) {
@@ -24,7 +24,7 @@ else
 // Cargar clases
 use App\Routes\Router;
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
-use App\Controller\DependencyInjection; // Controla la inyeccion de dependencias
+use App\Services\DependencyInjection; // Controla la inyeccion de dependencias
 use App\Singletons\SingletonRequest;
 use Zend\Diactoros\Response\HtmlResponse;
 

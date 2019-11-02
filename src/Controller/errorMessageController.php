@@ -5,9 +5,8 @@ use Zend\Diactoros\Response\HtmlResponse;
 
 class ErrorMessageController
 {
-    public function __construct($HttpResponse, Vistas $vistas )
+    public function __construct($HttpResponse, Vistas $vistas, array $CONF )
     {
-        GLOBAL $CONF;
         $this->CONF = $CONF;
         $this->HttpResponse = $HttpResponse;
         $this->vistas = $vistas;

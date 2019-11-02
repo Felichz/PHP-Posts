@@ -1,12 +1,14 @@
 <?php namespace App\Routes;
 
+use App\Conf\Conf;
+
 class HttpRoutes
 {
     // Rutas http publicas accesibles desde el cliente
 
     static function obtenerRutasHttp ()
     {
-        GLOBAL $CONF;
+        $CONF = Conf::getConf();
 
         if ( empty($CONF['APP_DIR']) ){
             $dir = '/';

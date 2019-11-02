@@ -1,6 +1,6 @@
-<?php namespace App\Controller;
+<?php namespace App\Services;
 
-use App\Controller\Container\Container;
+use App\Services\Container;
 use Exception;
 
 class DependencyInjection
