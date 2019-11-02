@@ -10,7 +10,9 @@ class TwigVistas implements Vistas
 {
     public function __construct()
     {
-        $loader = new \Twig\Loader\FilesystemLoader('../lib/Vistas');
+        GLOBAL $CONF;
+
+        $loader = new \Twig\Loader\FilesystemLoader( $CONF['PATH']['ROOT'] . '/src/Vistas');
         $this->twigObject = new \Twig\Environment($loader);
     }
 

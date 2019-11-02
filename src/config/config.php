@@ -14,7 +14,7 @@ return [
     'PATH' => [
         'ROOT' => $APP_ROOT,
         'UPLOADS' => $APP_ROOT . '/public/uploads',
-        'UTILS' => $APP_ROOT . '/lib/Utils'
+        'UTILS' => $APP_ROOT . '/src/Utils'
     ],
 
     // Base de Datos

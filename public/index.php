@@ -11,7 +11,7 @@ $dotenv->load();
 
 // Cargar archivo de configuracion
 // Cargado desde carpeta raiz
-$CONF = require dirname(__DIR__) . '/lib/config/config.php';
+$CONF = require dirname(__DIR__) . '/src/config/config.php';
 
 // Inicializar los errores
 if ( $CONF['DEBUG'] == true ) {
