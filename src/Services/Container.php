@@ -3,9 +3,13 @@
 use App\Conf\Conf;
 use App\Singletons\SingletonRequest;
 
+// Singleton Dependency Injection Container
+
 class Container
 {
-    public function get( $class )
+    static private $container = NULL;
+
+    static private function newContainer()
     {
         $container = new \League\Container\Container;
 
@@ -65,7 +69,17 @@ class Container
             ->addArgument( $container->get('Vistas') )
             ->addArgument( $container->get('Validation') );
 
-        return $container->get( $class );
+            return $container;
+    }
+
+    static function getContainer()
+    {
+        if ( self::$container === NULL )
+        {
+            self::$container = self::newContainer();
+        }
+
+        return self::$container;
     }
 }
 

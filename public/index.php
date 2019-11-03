@@ -48,7 +48,7 @@ try {
 
     // Las Exception de codigo 1 siempre se muestran al usuario
 
-    $HttpResponse = DependencyInjection::obtenerInstancia('HttpResponse');
+    $HttpResponse = DependencyInjection::obtenerElemento('HttpResponse');
     $route = Router::procesarRequest( $request ); // Devuelve los handlers
 
     if ( !$route )
@@ -93,7 +93,7 @@ try {
     }
 }
 catch ( Exception $e ) {
-    $controller = DependencyInjection::obtenerInstancia( 'App\Controller\ErrorMessageController' );
+    $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
     $httpResponse = $controller->index( $e );
 
     echo $httpResponse->getBody();
@@ -128,7 +128,7 @@ function ejecutarControlador( $route ) {
     $controllerClass = $route->handler['controllerClass'];
     $controllerAction = $route->handler['controllerAction'];
 
-    $controllerObject = DependencyInjection::obtenerInstancia( $controllerClass );
+    $controllerObject = DependencyInjection::obtenerElemento( $controllerClass );
 
     // Por la interfaz de los controladores, sabemos que sus métodos
     // siempre retornan una respuesta HTTP

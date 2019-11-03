@@ -8,10 +8,9 @@ class DependencyInjection
     // Observacion: Se cumple principio Open/Closed de SOLID
     // No hay que modificar la clase para implementar nuevas dependencias
 
-    static function obtenerInstancia( $class )
+    static function obtenerElemento( $class )
     {
-        $container = new Container;
-
+        $container = Container::getContainer();
         $instance = $container->get( $class );
     
         return $instance;
