@@ -18,6 +18,11 @@ class BDPosts extends Model
     {
         $this->find($id)->delete();
     }
+
+    public function cargarPosts()
+    {
+        return $this->all()->reverse();
+    }
 }
 
 ?>

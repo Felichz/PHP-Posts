@@ -24,7 +24,7 @@ class DashboardController
 
         $email = $_SESSION['user']['email'];
 
-        $posts = $BDUsers->obtenerPosts( $email )->reverse();
+        $posts = $BDUsers->obtenerPosts( $email );
 
         return $HttpResponse->HtmlResponse(
             $vistas->renderizar('dashboard.twig.html', [

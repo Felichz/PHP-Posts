@@ -18,7 +18,12 @@ class BDUsers extends Model
 
     public function obtenerUsuario ( $email )
     {
-        return $this->usuarioRegistrado( $email ) ? new User( $email ) : false;
+        if ( $this->usuarioRegistrado( $email ) ) {
+            return new User( $email )
+        }
+        else {
+            return false;
+        }
     }
 
     // Verifica si un usuario ya está registrado en la BD
@@ -43,7 +48,7 @@ class BDUsers extends Model
     }
 
     public function obtenerPosts( $email ) {
-        return $this->where('email', $email)->get()->first()->posts;
+        return $this->where('email', $email)->get()->first()->posts->reverse();
     }
     
     public function posts() {

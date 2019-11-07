@@ -13,18 +13,19 @@ class indexController
         $this->HttpResponse = $HttpResponse;
         $this->vistas = $vistas;
         $this->CONF = $CONF;
+        $this->BDPosts = new BDPosts;
     }
 
     public function index() 
     {
-        $CONF = $this->CONF;
-
         $HttpResponse = $this->HttpResponse;
         $vistas = $this->vistas;
+        $CONF = $this->CONF;
+        $BDPosts = $this->BDPosts;
         $rutasHttp = Router::obtenerRutasHttp();
         
         // Cargar autores de los post de la BD
-        $posts = BDPosts::all()->reverse();
+        $posts = $BDPosts->cargarPosts();
 
         // Obtener email de usuario
         $email = $_SESSION['user']['email'] ?? false;

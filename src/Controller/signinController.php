@@ -47,10 +47,11 @@ class SigninController
         
         }
         else {
+            $mensaje = NULL;
             $mensaje = $validation->errorMessage;
 
             // respuesta HTTP HtmlResponse
-            return isset( $mensaje ) ? $this->renderizar($mensaje) : $this->renderizar();
+            return $this->renderizar($mensaje);
         }
     }
 
