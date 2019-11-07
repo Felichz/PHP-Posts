@@ -15,7 +15,7 @@ class bdpostsController {
 
     protected $autor;
     protected $request;
-    protected $CONF;
+    protected $CONF = array();
     protected $rutas;
     protected $BDPosts;
 
@@ -25,8 +25,8 @@ class bdpostsController {
         $this->HttpResponse = $HttpResponse;
         $this->request = $request;
         $this->vistas = $vistas;
-        $this->validation = $validation;
-        $this->$CONF = $CONF;
+        $this->validation = $validation;    
+        $this->CONF = $CONF;
 
         $this->BDPosts = new BDPosts;
 
@@ -37,6 +37,7 @@ class bdpostsController {
 
     public function index()
     {
+        
         $HttpResponse = $this->HttpResponse;
 
         //Renderizar la platilla con Twig
