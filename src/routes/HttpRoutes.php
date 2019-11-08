@@ -25,7 +25,8 @@ class HttpRoutes
             'signin' => $dir . 'user/signin',
             'logout' => $dir . 'user/logout',
             'dashboard' => $dir . 'user/dashboard',
-            'uploads' => $dir . 'uploads'
+            'uploads' => $dir . 'uploads',
+            'img' => $dir . 'img'
         ];
 
         return $rutasHttp;

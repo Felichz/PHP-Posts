@@ -8,6 +8,8 @@ use App\Routes\Router;
 
 class indexController
 {
+    use \App\Traits\Miniatura;
+
     public function __construct($HttpResponse, Vistas $vistas, array $CONF)
     {
         $this->HttpResponse = $HttpResponse;
@@ -38,7 +40,8 @@ class indexController
             $vistas->renderizar('index.twig.html', [
                 'posts' => $posts,
                 'ipsum' => $ipsum,
-                'email' => $email
+                'email' => $email,
+                'controller' => $this
             ])
         );
 

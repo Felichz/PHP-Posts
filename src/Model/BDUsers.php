@@ -19,7 +19,7 @@ class BDUsers extends Model
     public function obtenerUsuario ( $email )
     {
         if ( $this->usuarioRegistrado( $email ) ) {
-            return new User( $email )
+            return new User( $email );
         }
         else {
             return false;
