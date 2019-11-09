@@ -2,16 +2,16 @@
 
 use App\Interfaces\Vistas;
 use App\Interfaces\Validation as ValidationInterface;
+use \Psr\Http\Message\ServerRequestInterface;
 
 use App\Model\BDUsers;
 use App\Model\User;
 use App\Routes\Router;
-
 use \Exception;
 
 class SigninController
 {
-    public function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation)
+    public function __construct($HttpResponse, ServerRequestInterface $request, Vistas $vistas, ValidationInterface $validation)
     {
         $this->HttpResponse = $HttpResponse;
         $this->request = $request;

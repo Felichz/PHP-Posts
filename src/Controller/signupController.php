@@ -2,6 +2,7 @@
 
 use App\Interfaces\Vistas;
 use App\Interfaces\Validation as ValidationInterface;
+use \Psr\Http\Message\ServerRequestInterface;
 
 use \App\Model\BDUsers;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
@@ -13,7 +14,7 @@ use \Exception;
 class SignupController
 {
 
-    public function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation )
+    public function __construct($HttpResponse, ServerRequestInterface $request, Vistas $vistas, ValidationInterface $validation )
     {
         $this->HttpResponse = $HttpResponse;
         $this->request = $request;

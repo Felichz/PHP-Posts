@@ -2,6 +2,7 @@
 
 use App\Interfaces\Vistas;
 use App\Interfaces\Validation as ValidationInterface;
+use \Psr\Http\Message\ServerRequestInterface;
 
 use App\Model\BDPosts;
 use \Zend\Diactoros\Response\HtmlResponse; // PSR-7
@@ -19,7 +20,7 @@ class bdpostsController {
     protected $rutas;
     protected $BDPosts;
 
-    function __construct($HttpResponse, $request, Vistas $vistas, ValidationInterface $validation, array $CONF)
+    function __construct($HttpResponse, ServerRequestInterface $request, Vistas $vistas, ValidationInterface $validation, array $CONF)
     {
 
         $this->HttpResponse = $HttpResponse;
