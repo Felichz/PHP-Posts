@@ -74,6 +74,9 @@ try {
 
     if ( isset( $httpResponse ) ){
 
+        // Establecer HTTP Status Code
+        http_response_code( $httpResponse->getStatusCode() );
+
         if ( $httpResponse instanceof RedirectResponse )
         {
             aplicarHeaders( $httpResponse );
