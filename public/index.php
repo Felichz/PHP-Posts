@@ -44,15 +44,18 @@ $request = SingletonRequest::getRequest();
 session_start();
 
 try {
-    // ======================== PROCESAR RUTA ========================
+    // ================= PROCESAR CONSULTA HTTP Y OBTENER RUTA =================
 
-    // Las Exception de codigo 1 siempre se muestran al usuario
-
-    $HttpResponse = DependencyInjection::obtenerElemento('HttpResponse');
     $route = Router::procesarRequest( $request ); // Devuelve los handlers
+
+    // ========================== CREAR RESPUESTA HTTP ==========================
+
+    // Objeto para crear respuestas HTML y Redirect
+    $HttpResponse = DependencyInjection::obtenerElemento('HttpResponse');
 
     if ( !$route )
     {
+        // Las Exception de codigo 1 siempre se muestran al usuario
         throw new Exception('Error 404', 1);
     }
     
