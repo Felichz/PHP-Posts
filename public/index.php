@@ -26,19 +26,19 @@ else
 use App\Middlewares\AuthMiddleware;
 use App\Routes\Router;
 use App\Services\Container;
-use Middlewares\AuraRouter;
-use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 use App\Services\DependencyInjection; // Controla la inyeccion de dependencias
 use App\Singletons\SingletonRequest;
+
+use Middlewares\AuraRouter;
+
+use Zend\Diactoros\Response;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmptyResponse;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
-use function App\Routes\procesarRequest;
+use Franzl\Middleware\Whoops\WhoopsMiddleware;
 
 // Obtener configuraciones de rutas http para hacer redirecciones desde el cliente
 $rutasHttp = Router::obtenerRutasHttp();
@@ -63,8 +63,13 @@ $harmony = new Harmony($request, new Response());
 $emitter = new SapiEmitter;
 
 try {
+        $harmony->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()));
+        
+        if( $CONF['DEBUG'] === true ) {
+            $harmony->addMiddleware(new WhoopsMiddleware); // Debug lib
+        }
+
         $harmony
-        ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
         ->addMiddleware(new AuraRouter($router))
         ->addMiddleware(new AuthMiddleware($rutasHttp, 'request-handler'))
         ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
