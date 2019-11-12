@@ -12,17 +12,17 @@ class ErrorMessageController
         $this->vistas = $vistas;
     }
 
-    public function index( \Exception $e )
+    public function index( string $errorMessage )
     {
         $CONF = $this->CONF;
         $HttpResponse = $this->HttpResponse;
         $vistas = $this->vistas;
 
-        if ( $CONF['DEBUG'] == true | $e->getCode() == 1 )
+        if ( $CONF['DEBUG'] == true )
         {
-            $errorMessage = $e->getMessage(); // Mostrar Exception debug
+            $errorMessage = $errorMessage; // Mostrar Exception debug
         }
-        else {        
+        else {     
             $errorMessage = 'An error has ocurred'; // Ocultar Exception debug
         }
 

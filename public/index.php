@@ -34,6 +34,7 @@ use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Zend\Diactoros\Response;
+use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
@@ -59,19 +60,27 @@ $container = Container::getContainer();
 
 $harmony = new Harmony($request, new Response());
 
+$emitter = new SapiEmitter;
+
 try {
-    $harmony
+        $harmony
         ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
         ->addMiddleware(new AuraRouter($router))
         ->addMiddleware(new AuthMiddleware($rutasHttp, 'request-handler'))
         ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
         ->run();
-}
+} 
 catch ( Exception $e ) {
     $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
-    $httpResponse = $controller->index( $e );
+    $httpResponse = $controller->index( $e->getMessage() );
 
-    echo $httpResponse->getBody();
+    $emitter->emit($httpResponse);
+}
+catch ( Error $e ) {
+    $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
+    $httpResponse = $controller->index( $e->getMessage() );
+
+    $emitter->emit($httpResponse);
 }
 
 ?>
