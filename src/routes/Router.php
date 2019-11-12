@@ -13,14 +13,22 @@ use \Aura\Router\RouterContainer;
 
 class Router implements RouterInterface
 {
-    static function procesarRequest ( $request )
+    static function routerContainer()
     {
         $routerContainer = new RouterContainer();
 
         $map = $routerContainer->getMap(); // Molde de mapa de rutas
-        $matcher = $routerContainer->getMatcher(); // Matcher, compara mapa con objeto request, devuelve handlers
         
         $map = routerMap::mapear( $map );
+
+        return $routerContainer;
+    }
+
+    static function procesarRequest ( $request )
+    {
+        $routerContainer = self::routerContainer();
+        
+        $matcher = $routerContainer->getMatcher(); // Matcher, compara mapa con objeto request, devuelve handlers
         return $matcher->match( $request );
     }
 

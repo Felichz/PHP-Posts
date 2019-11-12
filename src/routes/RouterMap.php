@@ -7,61 +7,61 @@ class routerMap {
 
         $map->get('index', $rutas['index'],
             [
-            'controllerClass' => 'App\Controller\indexController',
-            'controllerAction' => 'index'
+            'App\Controller\indexController',
+            'index'
             ]);
         $map->get('addPosts', $rutas['addPosts'],
         [
-            'controllerClass' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'index',
+            'App\Controller\bdpostsController',
+            'index',
             'needsAuth' => true
         ]);
         $map->post('addedPosts', $rutas['addedPosts'],
         [
-            'controllerClass' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'guardarPost',
+            'App\Controller\bdpostsController',
+            'guardarPost',
             'needsAuth' => true
         ]);
         $map->post('deletePosts', $rutas['dashboard'],
         [
-            'controllerClass' => 'App\Controller\bdpostsController',
-            'controllerAction' => 'deletePost',
+            'App\Controller\bdpostsController',
+            'deletePost',
             'needsAuth' => true
         ]);
         $map->get('signup', $rutas['signup'],
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
-            'controllerClass' => 'App\Controller\SignupController',
-            'controllerAction' => 'index',
+            'App\Controller\SignupController',
+            'index',
             'needsNoSession' => true
         ]);
         $map->post('procesarSignup', $rutas['signup'],
         [
-            'controllerClass' => 'App\Controller\SignupController',
-            'controllerAction' => 'procesarSignup',
+            'App\Controller\SignupController',
+            'procesarSignup',
             'needsNoSession' => true
         ]); 
         $map->get('signin', $rutas['signin'],
         [
-            'controllerClass' => 'App\Controller\SigninController',
-            'controllerAction' => 'index',
+            'App\Controller\SigninController',
+            'index',
             'needsNoSession' => true
         ]);
         $map->post('procesarSignin', $rutas['signin'],
         [
-            'controllerClass' => 'App\Controller\SigninController',
-            'controllerAction' => 'procesarSignin',
+            'App\Controller\SigninController',
+            'procesarSignin',
             'needsNoSession' => true
         ]);
         $map->get('logout', $rutas['logout'],
         [
-            'controllerClass' => 'App\Controller\SigninController',
-            'controllerAction' => 'logout'
+            'App\Controller\SigninController',
+            'logout'
         ]);
         $map->get('dashboard', $rutas['dashboard'],
         [
-            'controllerClass' => 'App\Controller\DashboardController',
-            'controllerAction' => 'index',
+            'App\Controller\DashboardController',
+            'index',
             'needsAuth' => true
         ]);
 

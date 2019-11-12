@@ -22,11 +22,20 @@ else
     ini_set('display_errors', false);
 }
 // Cargar clases
+
+use App\Middlewares\AuthMiddleware;
 use App\Routes\Router;
+use App\Services\Container;
+use Middlewares\AuraRouter;
 use Zend\Diactoros\Response\RedirectResponse; // Objeto para respuestas HTTP de redireccionamiento
 use App\Services\DependencyInjection; // Controla la inyeccion de dependencias
 use App\Singletons\SingletonRequest;
+use WoohooLabs\Harmony\Harmony;
+use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
+use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 use function App\Routes\procesarRequest;
 
@@ -43,115 +52,26 @@ $request = SingletonRequest::getRequest();
 // Se inicia la sesion pero sin definirla
 session_start();
 
+// ======================== REQUEST HANDLER ARMONY ========================
+
+$router = Router::routerContainer();
+$container = Container::getContainer();
+
+$harmony = new Harmony($request, new Response());
+
 try {
-    // ================= PROCESAR CONSULTA HTTP Y OBTENER RUTA =================
-
-    $route = Router::procesarRequest( $request ); // Devuelve los handlers
-
-    // ========================== CREAR RESPUESTA HTTP ==========================
-
-    // Objeto para crear respuestas HTML y Redirect
-    $HttpResponse = DependencyInjection::obtenerElemento('HttpResponse');
-
-    if ( !$route )
-    {
-        // Las Exception de codigo 1 siempre se muestran al usuario
-        throw new Exception('Error 404', 1);
-    }
-    
-    $errorPermisos = verificarPermisosRuta( $route );
-
-    if ( $errorPermisos == NULL )
-    {
-        // Se obtiene la respuesta HTTP desde el controlador respectivo
-        $httpResponse = ejecutarControlador( $route );
-    }
-    else if ( $errorPermisos == 'needsAuth' ) {
-        $httpResponse = $HttpResponse->RedirectResponse( $rutasHttp['signin'] );
-    }
-    else if( $errorPermisos == 'needsNoSession' ){
-        $httpResponse = $HttpResponse->RedirectResponse( $rutasHttp['dashboard'] );
-    }
-
-    // ======================== PROCESAR RESPUESTA HTTP ========================
-
-    if ( isset( $httpResponse ) ){
-
-        // Establecer HTTP Status Code
-        http_response_code( $httpResponse->getStatusCode() );
-
-        if ( $httpResponse instanceof RedirectResponse )
-        {
-            aplicarHeaders( $httpResponse );
-        }
-        else if ( $httpResponse instanceof HtmlResponse )
-        {
-            echo $httpResponse->getBody(); // Muestra el cuerpo de respuesta HTTP, representa el HTML
-        }
-        else
-        {
-            throw new Exception('Invalid response', 1);
-        }
-    }
-    else
-    {
-        throw new Exception('No response', 1);
-    }
+    $harmony
+        ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+        ->addMiddleware(new AuraRouter($router))
+        ->addMiddleware(new AuthMiddleware($rutasHttp, 'request-handler'))
+        ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
+        ->run();
 }
 catch ( Exception $e ) {
     $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
     $httpResponse = $controller->index( $e );
 
     echo $httpResponse->getBody();
-}
-
-
-// ======================== FUNCIONES ========================
-
-// Devuelve si se tiene permitido acceder a la ruta o no
-function verificarPermisosRuta( $route ) {
-
-    $sesionDefinida = isset( $_SESSION['user'] );
-    $necesitaAutenticacion = isset( $route->handler['needsAuth'] );
-    $needsNoSession = isset( $route->handler['needsNoSession'] );
-
-    $errorPermisos = NULL;
-
-    if ( $needsNoSession && $sesionDefinida)
-    {
-        $errorPermisos = 'needsNoSession';
-    }
-    else if (  $necesitaAutenticacion && !$sesionDefinida ) {
-        $errorPermisos = 'needsAuth';
-    }
-
-    return $errorPermisos;
-}
-
-// Ejecuta controlador respectivo segun la ruta dada
-function ejecutarControlador( $route ) {
-
-    $controllerClass = $route->handler['controllerClass'];
-    $controllerAction = $route->handler['controllerAction'];
-
-    $controllerObject = DependencyInjection::obtenerElemento( $controllerClass );
-
-    // Por la interfaz de los controladores, sabemos que sus métodos
-    // siempre retornan una respuesta HTTP
-    $httpResponse = $controllerObject->$controllerAction();
-    
-    return $httpResponse;
-}
-
-// Aplica los headers de la respuesta HTTP
-function aplicarHeaders($httpResponse) {
-
-    foreach ($httpResponse->getHeaders() as $name => $values) {
-
-        foreach ($values as $value) {
-            header(sprintf('%s: %s', $name, $value), false);
-        }
-    }
 }
 
 ?>
