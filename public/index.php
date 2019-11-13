@@ -2,43 +2,58 @@
 
 // ======================== INICIALIZACIONES ========================
 
-// Autoloader de Composer
+//// Autoloader de Composer ////
 
 require_once '../vendor/autoload.php';
 
-// Cargar variables de entorno
+//// Cargar variables de entorno ////
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/..'); // Debe apuntar a la carpeta raiz
 $dotenv->load();
 
-// Cargar configuracion
+//// Cargar configuracion ////
 $CONF = App\Conf\Conf::getConf();
 
-// Inicializar los errores
+//// Inicializar los errores ////
 if ( $CONF['DEBUG'] == true ) {
+    ini_set('display_errors', true);
+    ini_set('display_startup_error', true);
     ERROR_REPORTING(E_ALL);
 }
 else
 {
     ini_set('display_errors', false);
+    ini_set('display_startup_error', false);
+    ERROR_REPORTING(0);
 }
-// Cargar clases
 
-use App\Middlewares\AuthMiddleware;
+//// Cargar clases ////
+
+// App //
 use App\Routes\Router;
 use App\Services\Container;
 use App\Services\DependencyInjection; // Controla la inyeccion de dependencias
-use App\Singletons\SingletonRequest;
+use App\Singletons\SingletonRequest; // Devuelve objeto request PSR-7 de Zend Diactoros
 
-use Middlewares\AuraRouter;
-
+// PSR-7 Response
 use Zend\Diactoros\Response;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
+// Logger //
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+// Harmony Request Handler //
 use WoohooLabs\Harmony\Harmony;
-use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+// Middlewares //
 use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use Middlewares\AuraRouter;
+use App\Middlewares\AppWhoopsMiddleware;
+use App\Middlewares\AuthMiddleware;
 
-use Franzl\Middleware\Whoops\WhoopsMiddleware;
+// Inicializar Logger, create a log channel
+$log = new Logger('app');
+$log->pushHandler(new StreamHandler($CONF['PATH']['LOG'] . '/app.log', Logger::WARNING));
 
 // Obtener configuraciones de rutas http para hacer redirecciones desde el cliente
 $rutasHttp = Router::obtenerRutasHttp();
@@ -66,22 +81,25 @@ try {
         $harmony->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()));
         
         if( $CONF['DEBUG'] === true ) {
-            $harmony->addMiddleware(new WhoopsMiddleware); // Debug lib
+            $harmony->addMiddleware( new AppWhoopsMiddleware($log) ); // Debug lib
         }
 
-        $harmony
-        ->addMiddleware(new AuraRouter($router))
-        ->addMiddleware(new AuthMiddleware($rutasHttp, 'request-handler'))
-        ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
-        ->run();
+        $harmony->addMiddleware(new AuraRouter($router))
+                ->addMiddleware(new AuthMiddleware($rutasHttp, 'request-handler'))
+                ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
+                ->run();
 } 
 catch ( Exception $e ) {
+    $log->warning( $e->getMessage() );
+
     $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
     $httpResponse = $controller->index( $e->getMessage() );
 
     $emitter->emit($httpResponse);
 }
 catch ( Error $e ) {
+    $log->error( $e->getMessage() );
+
     $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
     $httpResponse = $controller->index( $e->getMessage() );
 

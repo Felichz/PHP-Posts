@@ -1,0 +1,1 @@
+Este archivo es para que se cree la carpeta en el repositorio pero sin guardar ningun log
