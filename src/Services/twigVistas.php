@@ -28,8 +28,8 @@ class TwigVistas implements Vistas
         // App Address es la URL HTTP a la app
         // Se debe usar SOLO para solicitar archivos, para redireccionar
         // a rutas de la app se debe usar $rutasHttp del Router
-        if( !empty($CONF['APP_DIR']) ){
-            $appAddress = $CONF['HOST'] . '/' . $CONF['APP_DIR'] . '/';
+        if( !empty($CONF['APP_URI']) ){
+            $appAddress = $CONF['HOST'] . '/' . $CONF['APP_URI'] . '/';
         }
         else {
             $appAddress = $CONF['HOST'] . '/';

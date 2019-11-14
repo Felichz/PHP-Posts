@@ -15,9 +15,11 @@ class Conf
             // Rutas
             // Acceso HTTP
             'HOST' => 'http://' . $_SERVER['HTTP_HOST'],
-            'APP_DIR' => getenv('APP_DIR'),
+            'APP_URI' => getenv('APP_URI'),
+            // Entorno de la app
+            'APP_ENV' => getenv('APP_ENV'),
             // Especifica si se deben mostrar errores o no
-            'DEBUG' => getenv('DEBUG') === 'true' ? true : false,
+            'DEBUG' => getenv('APP_DEBUG') === 'true' ? true : false,
             // Acceso desde el server
             'PATH' => [
                 'ROOT' => $APP_ROOT,

@@ -10,11 +10,11 @@ class HttpRoutes
     {
         $CONF = Conf::getConf();
 
-        if ( empty($CONF['APP_DIR']) ){
+        if ( empty($CONF['APP_URI']) ){
             $dir = '/';
         }
         else {
-            $dir = '/' . $CONF['APP_DIR'] . '/';
+            $dir = '/' . $CONF['APP_URI'] . '/';
         }
 
         $rutasHttp = [
