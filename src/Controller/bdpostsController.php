@@ -43,7 +43,7 @@ class bdpostsController {
 
         //Renderizar la platilla con Twig
         $response = $HttpResponse->HtmlResponse(
-            $this->vistas->renderizar('nuevoPost.twig.html', [
+            $this->vistas->renderizar('post/nuevoPost.twig.html', [
                 'autor' => $this->autor
             ])
         );
@@ -75,7 +75,7 @@ class bdpostsController {
             // Enviar respuesta HTML
             $mensaje = 'Publicación realizada con éxito!';
             $response = $HttpResponse->HtmlResponse(
-                $vistas->renderizar('nuevoPostRealizado.twig.html', [
+                $vistas->renderizar('post/nuevoPostRealizado.twig.html', [
                     'mensaje' => $mensaje
                 ])
             );
@@ -85,7 +85,7 @@ class bdpostsController {
             $mensaje = $validation->errorMessage;
 
             $response = $HttpResponse->HtmlResponse(
-                $vistas->renderizar('nuevoPost.twig.html', [
+                $vistas->renderizar('post/nuevoPost.twig.html', [
                     'mensaje' => $mensaje,
                     'autor' => $this->autor
                 ])

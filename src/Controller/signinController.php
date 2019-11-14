@@ -72,7 +72,7 @@ class SigninController
         $HttpResponse = $this->HttpResponse;
 
         return $HttpResponse->HtmlResponse(
-            $vistas->renderizar('signin.twig.html', [
+            $vistas->renderizar('user/signin.twig.html', [
                 'mensaje' => $mensaje
             ])
         );

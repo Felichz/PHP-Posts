@@ -27,7 +27,7 @@ class DashboardController
         $posts = $BDUsers->obtenerPosts( $email );
 
         return $HttpResponse->HtmlResponse(
-            $vistas->renderizar('dashboard.twig.html', [
+            $vistas->renderizar('user/dashboard.twig.html', [
                 'email' => $email,
                 'posts' => $posts
             ]) 
