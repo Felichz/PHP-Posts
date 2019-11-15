@@ -44,7 +44,14 @@ class TwigVistas implements Vistas
             'logged' => $logged
         ];
 
-        $parametros = array_merge($parametrosUsuario, $parametrosDefault);
+        if ( $parametrosUsuario )
+        {
+            $parametros = array_merge($parametrosUsuario, $parametrosDefault);
+        }
+        else
+        {
+            $parametros = $parametrosDefault;
+        }
 
         $render = $this->twigObject->render($plantilla, $parametros);
 

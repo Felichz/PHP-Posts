@@ -28,6 +28,18 @@ class Conf
                 'UTILS' => $APP_ROOT . '/src/Utils'
             ],
         
+            // Email
+            'EMAIL' => [
+                'APP_EMAIL' => 'php-avanzado@example.com',
+
+                'SMTP' => [
+                    'HOST' => getenv('SMTP_HOST'),
+                    'PORT' => getenv('SMTP_PORT'),
+                    'USER' => getenv('SMTP_USER'),
+                    'PASS' => getenv('SMTP_PASS')
+                ]
+            ],
+
             // Base de Datos
             'DB_HOST' => getenv('DB_HOST'),
             'DB_NAME' => getenv('DB_NAME'),

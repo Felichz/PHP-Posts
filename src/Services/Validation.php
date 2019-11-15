@@ -8,6 +8,35 @@ use \Respect\Validation\Validator;
 
 class Validation implements ValidationInterface
 {
+    public function validarContacto( $postData )
+    {
+        $email = $postData['email'];
+        $mensaje = $postData['message'];
+
+        try
+        {
+            $error = false;
+            $this->errorMessage = NULL;
+
+            // Validar email
+            if ( !Validator::email()->validate($email) ) {
+                throw new Exception('Email inválido');
+            }
+
+            // Validar mensaje
+            if ( !Validator::length(20, null)->validate($mensaje) )
+            {
+                throw new Exception('Mensaje muy corto');
+            }
+        }
+        catch ( Exception $e )
+        {
+            $error = true;
+            $this->errorMessage = $e->getMessage();
+        }
+
+        return $error == false ? true : false;
+    }
 
     public function validarSignup( $postData )
     {

@@ -18,13 +18,23 @@ class HttpRoutes
         }
 
         $rutasHttp = [
+            // App
             'index' => $dir,
+
+            // Contact
+            'contactForm' => $dir . 'contact',
+
+            // Posts
             'addPosts' => $dir . 'post/add',
             'addedPosts' => $dir . 'post/added',
+
+            // Users
             'signup' => $dir . 'user/signup',
             'signin' => $dir . 'user/signin',
             'logout' => $dir . 'user/logout',
             'dashboard' => $dir . 'user/dashboard',
+
+            // Public files
             'uploads' => $dir . 'uploads',
             'img' => $dir . 'img'
         ];

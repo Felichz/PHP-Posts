@@ -5,11 +5,26 @@ class routerMap {
     static function mapear($map){
         $rutas = Router::obtenerRutasHttp();
 
+        // App
         $map->get('index', $rutas['index'],
-            [
+        [
             'App\Controller\indexController',
             'index'
-            ]);
+        ]);
+
+        // Contact
+        $map->get('contactForm', $rutas['contactForm'],
+        [
+            'App\Controller\contactController',
+            'index'
+        ]);
+        $map->post('contactSend', $rutas['contactForm'],
+        [
+            'App\Controller\contactController',
+            'send'
+        ]);
+
+        // Posts
         $map->get('addPosts', $rutas['addPosts'],
         [
             'App\Controller\bdpostsController',
@@ -28,6 +43,8 @@ class routerMap {
             'deletePost',
             'needsAuth' => true
         ]);
+
+        // Users
         $map->get('signup', $rutas['signup'],
         [
             //Los nombres de las clases deben estar en StudlyCaps, primera letra mayúscula
@@ -65,7 +82,6 @@ class routerMap {
             'needsAuth' => true
         ]);
 
-        // return $map;
     }
 
 }

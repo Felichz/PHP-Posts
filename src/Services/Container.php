@@ -13,18 +13,19 @@ class Container
     {
         $container = new \League\Container\Container;
 
+        $CONF = Conf::getConf();
+
         // Dependencias
-        // Dependencias
-        $container->add( 'Conf', function(){
-            return Conf::getConf();
+        $container->add( 'Conf', function() use ($CONF) {
+            return $CONF;
         });
 
         $container->add( 'Request', function(){
             return SingletonRequest::getRequest();
         });
 
-        $container->add( 'Vistas', function () {
-            return new TwigVistas( Conf::getConf() );
+        $container->add( 'Vistas', function () use ($CONF) {
+            return new TwigVistas( $CONF );
         });
 
         $container->add( 'Validation', \App\Services\Validation::class );
@@ -33,8 +34,11 @@ class Container
             ->addArgument( \Zend\Diactoros\Response\HtmlResponse::class )
             ->addArgument( \Zend\Diactoros\Response\RedirectResponse::class );
         
-        // Definir que dependencias inyectar como parametros en cada clase
+        $container->add( 'Mailer', function () use ($CONF) {
+                return new \App\Services\SwiftMailer($CONF['EMAIL']['SMTP']);
+            });
 
+        // Definir que dependencias inyectar como parametros en cada clase
         // CONTROLLERS
         $container->add( \App\Controller\indexController::class )
             ->addArgument( $container->get('HttpResponse') )
@@ -46,9 +50,13 @@ class Container
             ->addArgument( $container->get('Vistas') )
             ->addArgument( $container->get('Conf') );
 
-        $container->add( \App\Controller\DashboardController::class )
+        $container->add( \App\Controller\contactController::class )
             ->addArgument( $container->get('HttpResponse') )
-            ->addArgument( $container->get('Vistas') );
+            ->addArgument( $container->get('Request') )
+            ->addArgument( $container->get('Vistas') )
+            ->addArgument( $container->get('Validation') )
+            ->addArgument( $container->get('Conf') )
+            ->addArgument( $container->get('Mailer') );
 
         $container->add( \App\Controller\bdpostsController::class )
             ->addArgument( $container->get('HttpResponse') )
@@ -68,6 +76,10 @@ class Container
             ->addArgument( $container->get('Request') )
             ->addArgument( $container->get('Vistas') )
             ->addArgument( $container->get('Validation') );
+
+        $container->add( \App\Controller\DashboardController::class )
+            ->addArgument( $container->get('HttpResponse') )
+            ->addArgument( $container->get('Vistas') );
 
             return $container;
     }

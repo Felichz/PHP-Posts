@@ -92,14 +92,15 @@ try {
 catch ( Exception $e ) {
     $log->warning( $e->getMessage() );
 
-    $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
-    $httpResponse = $controller->index( $e->getMessage() );
-
-    $emitter->emit($httpResponse);
+    errorMessageController( $e );
 }
 catch ( Error $e ) {
     $log->error( $e->getMessage() );
 
+    errorMessageController( $e );
+}
+
+function errorMessageController( $e ) {
     $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
     $httpResponse = $controller->index( $e->getMessage() );
 
