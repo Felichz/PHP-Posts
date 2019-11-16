@@ -4,6 +4,7 @@ use App\Interfaces\Mailer as MailerInterface;
 use App\Interfaces\Validation as ValidationInterface;
 use App\Interfaces\Vistas;
 use App\Services\HttpResponse;
+use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 
 class contactController
@@ -38,7 +39,7 @@ class contactController
         $postData = $this->request->getParsedBody();
 
         if ( $this->validation->validarContacto($postData) ) {
-            $alertSuccess = 'Email enviado con éxito';
+            $postData = $this->request->getParsedBody();
 
             $this->mailer->sendMail([
                 'to' => $this->CONF['EMAIL']['APP_EMAIL'],
@@ -47,6 +48,8 @@ class contactController
                 'subject' => 'Formulario de contacto PHPAvanzado',
                 'body' => $postData['message']
             ]);
+
+            $alertSuccess = 'Email enviado con éxito';
         }
         else {
             $alertDanger = $this->validation->errorMessage;
@@ -62,5 +65,18 @@ class contactController
         ]);
 
         return $this->httpResponse->HtmlResponse( $html );
+    }
+
+    protected function sendMail()
+    {
+        $postData = $this->request->getParsedBody();
+
+        return $this->mailer->sendMail([
+            'to' => $this->CONF['EMAIL']['APP_EMAIL'],
+            'from' => $postData['email'],
+            'replyTo' => $postData['email'],
+            'subject' => 'Formulario de contacto PHPAvanzado',
+            'body' => $postData['message']
+        ]);
     }
 }

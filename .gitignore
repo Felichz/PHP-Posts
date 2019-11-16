@@ -1,4 +1,5 @@
 .env
+taskList.txt
 .vscode/
 public/uploads/
 log/*

@@ -92,19 +92,19 @@ try {
 catch ( Exception $e ) {
     $log->warning( $e->getMessage() );
 
-    errorMessageController( $e );
+    $emitter->emit( errorMessageController($e) );
 }
 catch ( Error $e ) {
     $log->error( $e->getMessage() );
 
-    errorMessageController( $e );
+    $emitter->emit( errorMessageController($e) );
 }
 
 function errorMessageController( $e ) {
     $controller = DependencyInjection::obtenerElemento( 'App\Controller\ErrorMessageController' );
     $httpResponse = $controller->index( $e->getMessage() );
 
-    $emitter->emit($httpResponse);
+    return $httpResponse;
 }
 
 ?>

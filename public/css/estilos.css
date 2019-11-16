@@ -1,11 +1,24 @@
-.post{
+body
+{
+    position: relative;
+    min-height: 100vh;
+}
+
+#content
+{
+    padding-bottom: 4em;
+}
+
+.post
+{
     background: #EEE;
     margin-bottom: 15px;
     padding: 15px;
     box-shadow: 0px 18px 16px -24px rgba(0,0,0,0.5);
 }
 
-.dash-post{
+.dash-post
+{
     background: #EEE;
     margin-bottom: 5px;
     padding: 5px;
@@ -15,4 +28,15 @@
 {
     width: 150px;
     margin: 0px 10px 10px 0px;
+}
+
+#footer
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: #EEE;
+    color: #111;
+    padding: 1em;
 }

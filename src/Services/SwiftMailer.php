@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Interfaces\Mailer;
+use Exception;
 
 class SwiftMailer implements Mailer
 {
@@ -12,7 +13,7 @@ class SwiftMailer implements Mailer
     }
 
     // Parameters: to from replyTo subject body
-    public function sendMail( array $parameters ): bool
+    public function sendMail( array $parameters )
     {
         $smtp = $this->smtp;
 
@@ -40,7 +41,5 @@ class SwiftMailer implements Mailer
 
         // Send the message
         $result = $mailer->send($message);
-
-        return true;
     }
 }

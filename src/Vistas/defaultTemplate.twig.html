@@ -14,14 +14,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <!-- As a link -->  
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="{{ rutas.index }}">PHP Posts</a>
-        </nav>
-    </header>
-    {% block content %}
+    {% include "layout/header.twig" %}
+    <section id="content">
+        {% block content %}
 
-    {% endblock %}
+        {% endblock %}
+    </section>
+    {% include "layout/footer.twig" %}
 </body>
 </html>
