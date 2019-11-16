@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 
+use App\Conf\Conf;
 use Illuminate\Database\Eloquent\Model;
 
 class BDPosts extends Model
@@ -16,7 +17,17 @@ class BDPosts extends Model
 
     public function borrarPost( $id )
     {
-        $this->findOrFail($id)->delete();
+        $CONF = Conf::getConf();
+
+        $post = $this->findOrFail($id);
+        $post->delete();
+
+        // Borrar archivo miniatura
+        $miniatura = $CONF['PATH']['UPLOADS'] . '/' . $post->miniatura;
+        if( file_exists($miniatura) )
+        {
+            unlink( $miniatura );
+        }
     }
 
     public function cargarPosts()
