@@ -39,9 +39,10 @@ class SignupController
         $BDUsers = new BDUsers;
         $validation = $this->validation;
 
-        if( $validation->validarSignup($postData) ) {
+        if( $validation->validarSignup($email, $password) ) {
 
             $BDUsers->registrarUsuario( $email, $password );
+
             $user = $BDUsers->obtenerUsuario( $email );
             $user->iniciarSesion();
             

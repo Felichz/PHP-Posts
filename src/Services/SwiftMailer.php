@@ -36,6 +36,7 @@ class SwiftMailer implements Mailer
         $message = (new \Swift_Message($subject))
         ->setFrom($from)
         ->setTo($to)
+        ->setContentType("text/html")
         ->setBody($body)
         ;
 

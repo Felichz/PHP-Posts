@@ -2,7 +2,7 @@
 
 interface Validation
 {
-    public function validarSignup( $postData );
+    public function validarSignup( $email, $password );
 
     public function validarSignin( $postData );
 

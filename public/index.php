@@ -60,7 +60,7 @@ $rutasHttp = Router::obtenerRutasHttp();
 
 // Inicializar conexión a la BD
 $eloquent = new App\Model\BDConection;
-$eloquent -> conectar();
+$eloquent->conectar();
 
 // Objeto HTTP Request - ZEND DIACTOROS
 $request = SingletonRequest::getRequest();

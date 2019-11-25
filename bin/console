@@ -8,5 +8,7 @@ use Symfony\Component\Console\Application;
 $application = new Application();
 
 $application->add( new App\Commands\Hello );
+$application->add( new App\Commands\SendMail() );
+$application->add( new App\Commands\CreateUser() );
 
 $application->run();

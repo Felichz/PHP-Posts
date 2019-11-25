@@ -1,9 +1,8 @@
 <?php
 
-use Phinx\Db\Action\AddColumn;
 use Phinx\Migration\AbstractMigration;
 
-class CreatePostsTable extends AbstractMigration
+class CreateTableMessages extends AbstractMigration
 {
     /**
      * Change Method.
@@ -32,12 +31,13 @@ class CreatePostsTable extends AbstractMigration
      */
     public function change()
     {
-        $posts = $this->table('posts');
-
-        $posts
-            ->addColumn('autor', 'string', ['limit' => 30])
-            ->addColumn('titulo', 'string', ['limit' => 255])
-            ->addColumn('miniatura', 'string', ['limit' => 100])
+        $table = $this->table('messages');
+        
+        $table
+            ->addColumn('email', 'string')
+            ->addColumn('name', 'string')
+            ->addColumn('message', 'text')
+            ->addColumn('sent', 'boolean', ['default' => 0])
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime')
             ->create();

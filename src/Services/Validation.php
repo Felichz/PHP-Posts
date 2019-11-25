@@ -28,6 +28,11 @@ class Validation implements ValidationInterface
             {
                 throw new Exception('Mensaje muy corto');
             }
+
+            if ( !Validator::length(null, 15000)->validate($mensaje) )
+            {
+                throw new Exception('Mensaje demasiado largo');
+            }
         }
         catch ( Exception $e )
         {
@@ -38,10 +43,8 @@ class Validation implements ValidationInterface
         return $error == false ? true : false;
     }
 
-    public function validarSignup( $postData )
+    public function validarSignup( $email, $password )
     {
-        $email = $postData['email'];
-        $password = $postData['password'];
 
         $BDUsers = new BDUsers();
 
@@ -146,6 +149,18 @@ class Validation implements ValidationInterface
         }
 
         return $error == false ? true : false;
+    }
+
+    public function validarEmail( $email )
+    {
+        if (!Validator::email()->validate($email)) {
+            throw new Exception('Email inválido');
+        }
+    }
+
+    public function validarPassword( $password )
+    {
+        
     }
 }
 

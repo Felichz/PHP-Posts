@@ -1,5 +1,7 @@
 <?php namespace App\Conf;
 
+use Dotenv\Dotenv;
+
 // Clase Singleton
 
 class Conf
@@ -8,13 +10,17 @@ class Conf
 
     private function __construct()
     {
+        //// Cargar variables de entorno ////
+        $dotenv = Dotenv::create( dirname(dirname(__DIR__)) ); // Debe apuntar a la carpeta raiz
+        $dotenv->load();
+
         // Acceso a la carpeta raiz de la app desde el server
         $APP_ROOT = dirname(__DIR__, 2);
         
         $this->CONF = [
             // Rutas
             // Acceso HTTP
-            'HOST' => 'http://' . $_SERVER['HTTP_HOST'],
+            'HOST' => isset( $_SERVER['HTTP_HOST'] ) ? 'http://' . $_SERVER['HTTP_HOST'] : false,
             'APP_URI' => getenv('APP_URI'),
             // Entorno de la app
             'APP_ENV' => getenv('APP_ENV'),

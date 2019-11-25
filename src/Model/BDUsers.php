@@ -1,5 +1,6 @@
 <?php namespace App\Model;
 
+use App\Services\Validation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -8,12 +9,16 @@ class BDUsers extends Model
     protected $table = 'usuarios';
     public $timestamps = false;
 
-    public function registrarUsuario ($email, $passowrd)
+    public function registrarUsuario ( $email, $passowrd )
     {
-        $this-> email = $email;
-        // Encriptar contrase;a con passowrd_hash
-        $this-> password = password_hash($passowrd, PASSWORD_DEFAULT);
-        $this-> save();
+        $validation = new Validation;
+
+        if ( $validation->validarSignup( $email, $passowrd ) ) {
+            $this->email = $email;
+            // Encriptar password con passowrd_hash
+            $this->password = password_hash($passowrd, PASSWORD_DEFAULT);
+            $this->save();
+        }
     }
 
     public function obtenerUsuario ( $email )
