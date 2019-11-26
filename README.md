@@ -30,9 +30,9 @@ App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticaci�
  -- Singleton  
 - **[Estándares PSR (PHP-FIG)](https://www.php-fig.org/psr/ "Estándares PSR")**  
  -- PSR-3: Loggers  
- -- PSR-4: Autoloading de clases
- -- PSR-7: Manejo de respuestas HTTP
- -- PSR-15: Middlewares y Server Request Handler HTTP
+ -- PSR-4: Autoloading de clases  
+ -- PSR-7: Manejo de respuestas HTTP  
+ -- PSR-15: Middlewares y Server Request Handler HTTP  
 - **Principios SOLID**  
  -- Principio de responsabilidad única  
  -- Principio abierto/cerrado  
