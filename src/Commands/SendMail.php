@@ -18,6 +18,7 @@ class SendMail extends Command
             ->setDescription('Enviar Email de la BD.')
             ->setHelp('Enviar un Email previamente guardado en la Base de Datos, con id del email opcional.')
             ->addArgument('id', InputArgument::OPTIONAL, 'Email ID')
+            ->addArgument('force', InputArgument::OPTIONAL, 'Forzar envio aunque el email ya figure como enviado')
         ;
     }
 
@@ -44,6 +45,12 @@ class SendMail extends Command
 
             if ( !$message ) {
                 $sent = 1;
+            }
+        }
+
+        if ( $input->getArgument('force') ) {
+            if ( $input->getArgument('force') == 'force' ) {
+                $sent = 0;
             }
         }
 
