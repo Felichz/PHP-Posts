@@ -49,12 +49,12 @@ class contactController
             $rutaLog = str_replace('\\', '/', $this->CONF['PATH']['LOG']);
 
             if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ) {
-                $comando = 'start /B php ' . $rutaBin . '/console send-mail > ' . $rutaLog . '/console.log"';
+                $comando = 'start /B php ' . $rutaBin . '/console send-mail > ' . $rutaLog . '/cmd-output.log"';
                 pclose(popen($comando, 'r'));
             }
             else {
-                // $comando = '/usr/bin/nohup ' . $this->CONF['PATH']['BIN'] . '/console send-mail >/dev/null 2>&1 &';
-                // exec($comando);
+                $comando = '/usr/bin/nohup php ' . $rutaBin . '/console send-mail >' . $rutaLog . '/shell-output.log 2>&1 &';
+                shell_exec($comando);
             }
 
             $alertSuccess = 'Email enviado con éxito';
