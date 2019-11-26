@@ -4,6 +4,7 @@ use App\Interfaces\Mailer as MailerInterface;
 use App\Interfaces\Validation as ValidationInterface;
 use App\Interfaces\Vistas;
 use App\Model\Messages;
+use App\Services\AsyncCommand;
 use App\Services\HttpResponse;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,7 +16,7 @@ class contactController
     protected $vistas;
     protected $validation;
 
-    public function __construct( HttpResponse $httpResponse, ServerRequestInterface $request, Vistas $vistas, ValidationInterface $validation, array $CONF, MailerInterface $mailer )
+    public function __construct( HttpResponse $httpResponse, ServerRequestInterface $request, Vistas $vistas, ValidationInterface $validation, array $CONF, MailerInterface $mailer, AsyncCommand $asyncCommand )
     {
         $this->httpResponse = $httpResponse;
         $this->request = $request;
@@ -23,6 +24,7 @@ class contactController
         $this->validation = $validation;
         $this->CONF = $CONF;
         $this->mailer = $mailer;
+        $this->asyncCommand = $asyncCommand;
 
         $this->messages = new Messages;
     }
@@ -45,17 +47,8 @@ class contactController
             $mailId = $this->messages->guardarMensaje( $postData['email'], $postData['nombre'], $postData['message'] );
 
             // Ejecutar comando para enviar Emails de manera asincrona
-            $rutaBin = str_replace('\\', '/', $this->CONF['PATH']['BIN']);
-            $rutaLog = str_replace('\\', '/', $this->CONF['PATH']['LOG']);
-
-            if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ) {
-                $comando = 'start /B php ' . $rutaBin . '/console send-mail ' . $mailId . ' > ' . $rutaLog . '/cmd-output.log"';
-                pclose(popen($comando, 'r'));
-            }
-            else {
-                $comando = '/usr/bin/nohup php ' . $rutaBin . '/console send-mail ' . $mailId . ' >' . $rutaLog . '/shell-output.log 2>&1 &';
-                shell_exec($comando);
-            }
+            $rutaBin = $this->CONF['PATH']['BIN'];
+            $this->asyncCommand->ejecutarComando("php {$rutaBin}/console send-mail {$mailId}"); 
 
             $alertSuccess = 'Email enviado con éxito';
         }

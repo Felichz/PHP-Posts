@@ -38,6 +38,10 @@ class Container
                 return new \App\Services\SwiftMailer($CONF['EMAIL']['SMTP']);
             });
 
+        $container->add( 'AsyncCommand', function () use ($CONF) {
+            return new \App\Services\AsyncCommand( $CONF );
+        });
+
         // Definir que dependencias inyectar como parametros en cada clase
         // CONTROLLERS
         $container->add( \App\Controller\indexController::class )
@@ -56,7 +60,8 @@ class Container
             ->addArgument( $container->get('Vistas') )
             ->addArgument( $container->get('Validation') )
             ->addArgument( $container->get('Conf') )
-            ->addArgument( $container->get('Mailer') );
+            ->addArgument( $container->get('Mailer') )
+            ->addArgument( $container->get('AsyncCommand') );
 
         $container->add( \App\Controller\bdpostsController::class )
             ->addArgument( $container->get('HttpResponse') )
