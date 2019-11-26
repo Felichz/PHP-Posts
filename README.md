@@ -1,18 +1,26 @@
 # PHP-Posts
-App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios. El punto no es que la app tenga muchas funcionalidades para el usuario, el punto es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria (En parte basada en [curso](https://platzi.com/cursos/php/ "curso") tomado en Platzi). Actualizo el proyecto mientras aprendo nuevas ténicas de programación.
+App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios, contiene varios formularios incluyendo uno de contacto donde se realiza el envío de Email de forma asíncrona. El punto no es que la app tenga muchas funcionalidades para el usuario, es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria (En parte basada en el curso [básico](https://platzi.com/cursos/php/ "básico") y [avanzado](https://platzi.com/cursos/php-avanzado/ "avanzado") de php tomados en Platzi). Actualizo el proyecto mientras aprendo nuevas ténicas de programación.
 ### [Ver demo online del proyecto](http://felix-platziphp.herokuapp.com "Ver demo online del proyecto")  
+
+
 
 ------------
 
 ### Temas y conceptos utilizados:
+- **Seguridad**
+- **Virtualización**
+- **Manejo de errores**
+- **Debug y XDebug**
 - **Patrones de diseño**  
  -- Front Controller  
  -- MVC  
  -- Dependency Injection  
  -- Singleton  
 - **[Estándares PSR (PHP-FIG)](https://www.php-fig.org/psr/ "Estándares PSR")**  
- -- Autoloading de clases PSR-4  
- -- Manejo de respuestas HTTP PSR-7  
+ -- PSR-3: Loggers  
+ -- PSR-4: Autoloading de clases
+ -- PSR-7: Manejo de respuestas HTTP
+ -- PSR-15: Middlewares y Server Request Handler HTTP
 - **Principios SOLID**  
  -- Principio de responsabilidad única  
  -- Principio abierto/cerrado  
@@ -25,11 +33,20 @@ App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticaci�
  -- **Aura/Router**, Router HTTP PSR-7  
  -- **Twig**, Motor de plantillas  
  -- **Respect/Validation**, Se usó para hacer validaciones datos en formularios  
- -- **vlucas/PHPdotenv**, Variables de entorno  
- -- **league/container**, Contenedor para inyección de dependencias PSR-11  
+ -- **Dotenv**, Variables de entorno  
+ -- **League/container**, Contenedor para inyección de dependencias PSR-11  
+-- **Harmony**, Middleware Dispatcher PSR-15  
+-- **Whoops**, Debug en navegador  
+-- **Monolog**, Logger PSR-3  
+-- **Phinx**, Migraciones de bases de datos  
+-- **Symfony/Console**, Crear intefaz de linea de comandos personalizada con comandos de la app  
+-- **Swiftmailer**, Envío de Emails  
 </br>
 
 ------------
 
 # Configuración:
-Se debe reemplazar ".env_sample" por ".env" y configurar las respectivas variables (Configura la base de datos)
+- Reemplazar ".env_sample" por ".env" y configurar las respectivas variables de entorno (configurar la Base de Datos).
+
+- Ejecutar las migraciones de  la Base de Datos:
+`php vendor/bin/phinx migrate`
