@@ -1,4 +1,5 @@
 .env
+phinx.yml
 taskList.txt
 .vscode/
 public/uploads/
