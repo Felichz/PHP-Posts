@@ -30,6 +30,7 @@ class Conf
             'PATH' => [
                 'ROOT' => $APP_ROOT,
                 'LOG' => $APP_ROOT . '/log',
+                'BIN' => $APP_ROOT . '/bin',
                 'UPLOADS' => $APP_ROOT . '/public/uploads',
                 'UTILS' => $APP_ROOT . '/src/Utils'
             ],

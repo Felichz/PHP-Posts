@@ -44,6 +44,19 @@ class contactController
         if ( $this->validation->validarContacto($postData) ) {
             $this->messages->guardarMensaje( $postData['email'], $postData['nombre'], $postData['message'] );
 
+            // Ejecutar comando para enviar Emails de manera asincrona
+            $rutaBin = str_replace('\\', '/', $this->CONF['PATH']['BIN']);
+            $rutaLog = str_replace('\\', '/', $this->CONF['PATH']['LOG']);
+
+            if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ) {
+                $comando = 'start /B php ' . $rutaBin . '/console send-mail > ' . $rutaLog . '/console.log"';
+                pclose(popen($comando, 'r'));
+            }
+            else {
+                // $comando = '/usr/bin/nohup ' . $this->CONF['PATH']['BIN'] . '/console send-mail >/dev/null 2>&1 &';
+                // exec($comando);
+            }
+
             $alertSuccess = 'Email enviado con éxito';
         }
         else {
