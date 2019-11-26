@@ -9,6 +9,7 @@ App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticaci�
 ### Temas y conceptos utilizados:
 - **Seguridad**
 - **Virtualización**
+- **Procesos CRON Unix para ejecutar tareas asíncronas**
 - **Manejo de errores**
 - **Debug y XDebug**
 - **Patrones de diseño**  
