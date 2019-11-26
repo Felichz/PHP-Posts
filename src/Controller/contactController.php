@@ -42,18 +42,18 @@ class contactController
         $postData = $this->request->getParsedBody();
 
         if ( $this->validation->validarContacto($postData) ) {
-            $this->messages->guardarMensaje( $postData['email'], $postData['nombre'], $postData['message'] );
+            $mailId = $this->messages->guardarMensaje( $postData['email'], $postData['nombre'], $postData['message'] );
 
             // Ejecutar comando para enviar Emails de manera asincrona
             $rutaBin = str_replace('\\', '/', $this->CONF['PATH']['BIN']);
             $rutaLog = str_replace('\\', '/', $this->CONF['PATH']['LOG']);
 
             if( strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ) {
-                $comando = 'start /B php ' . $rutaBin . '/console send-mail > ' . $rutaLog . '/cmd-output.log"';
+                $comando = 'start /B php ' . $rutaBin . '/console send-mail ' . $mailId . ' > ' . $rutaLog . '/cmd-output.log"';
                 pclose(popen($comando, 'r'));
             }
             else {
-                $comando = '/usr/bin/nohup php ' . $rutaBin . '/console send-mail >' . $rutaLog . '/shell-output.log 2>&1 &';
+                $comando = '/usr/bin/nohup php ' . $rutaBin . '/console send-mail ' . $mailId . ' >' . $rutaLog . '/shell-output.log 2>&1 &';
                 shell_exec($comando);
             }
 

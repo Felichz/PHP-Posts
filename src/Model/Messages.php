@@ -12,5 +12,7 @@ class Messages extends Model
         $this->name = $nombre;
         $this->message = $mensaje;
         $this->save();
+
+        return $this->id;
     }
 }
