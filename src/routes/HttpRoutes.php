@@ -18,6 +18,12 @@ class HttpRoutes
         }
 
         $rutasHttp = [
+            // Api
+            'api.posts.get' => $dir . 'api/post/{id}',
+            'api.posts.post' => $dir . 'api/post',
+            'api.posts.put' => $dir . 'api/post/{id}',
+            'api.posts.delete' => $dir . 'api/post/{id}',
+
             // App
             'index' => $dir,
 

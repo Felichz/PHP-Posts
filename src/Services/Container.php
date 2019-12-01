@@ -44,6 +44,15 @@ class Container
 
         // Definir que dependencias inyectar como parametros en cada clase
         // CONTROLLERS
+
+        // Api
+        $container->add( \App\Controller\Api\Posts\getController::class );
+        $container->add( \App\Controller\Api\Posts\postController::class )
+            ->addArgument( $container->get('Request') );
+        $container->add( \App\Controller\Api\Posts\putController::class );
+        $container->add( \App\Controller\Api\Posts\deleteController::class );
+
+        // App
         $container->add( \App\Controller\indexController::class )
             ->addArgument( $container->get('HttpResponse') )
             ->addArgument( $container->get('Vistas') )

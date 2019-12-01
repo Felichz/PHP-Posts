@@ -1,11 +1,38 @@
 <?php namespace App\Routes;
 
+use Zend\Diactoros\Response\EmptyResponse;
+
 class routerMap {
 
     static function mapear($map){
         $rutas = Router::obtenerRutasHttp();
 
-        // App
+        ////// Api //////
+        $map->get('api.posts.get', $rutas['api.posts.get'],
+        [
+            'App\Controller\Api\Posts\getController',
+            'init'
+        ]);
+
+        $map->post('api.posts.post', $rutas['api.posts.post'],
+        [
+            'App\Controller\Api\Posts\postController',
+            'init'
+        ]);
+
+        $map->put('api.posts.put', $rutas['api.posts.put'],
+        [
+            'App\Controller\Api\Posts\putController',
+            'init'
+        ]);
+
+        $map->delete('api.posts.delete', $rutas['api.posts.delete'],
+        [
+            'App\Controller\Api\Posts\deleteController',
+            'init'
+        ]);
+
+        ////// App //////
         $map->get('index', $rutas['index'],
         [
             'App\Controller\indexController',
