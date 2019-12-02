@@ -12,8 +12,7 @@ use App\Controller\TwigVistas;
 use App\Routes\Router;
 use \Exception;
 
-class bdpostsController
-{
+class BdpostsController {
 
     protected $autor;
     protected $request;

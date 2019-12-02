@@ -6,7 +6,7 @@ use Zend\Diactoros\Response\HtmlResponse;
 use App\Model\BDPosts;
 use App\Routes\Router;
 
-class indexController
+class IndexController
 {
     use \App\Traits\Miniatura;
 

@@ -1,8 +1,6 @@
 <?php namespace App\Routes;
 
-use Zend\Diactoros\Response\EmptyResponse;
-
-class routerMap {
+class RouterMap {
 
     static function mapear($map){
         $rutas = Router::obtenerRutasHttp();
@@ -35,38 +33,38 @@ class routerMap {
         ////// App //////
         $map->get('index', $rutas['index'],
         [
-            'App\Controller\indexController',
+            'App\Controller\IndexController',
             'index'
         ]);
 
         // Contact
         $map->get('contactForm', $rutas['contactForm'],
         [
-            'App\Controller\contactController',
+            'App\Controller\ContactController',
             'index'
         ]);
         $map->post('contactSend', $rutas['contactForm'],
         [
-            'App\Controller\contactController',
+            'App\Controller\ContactController',
             'send'
         ]);
 
         // Posts
         $map->get('addPosts', $rutas['addPosts'],
         [
-            'App\Controller\bdpostsController',
+            'App\Controller\BdpostsController',
             'index',
             'needsAuth' => true
         ]);
         $map->post('addedPosts', $rutas['addedPosts'],
         [
-            'App\Controller\bdpostsController',
+            'App\Controller\BdpostsController',
             'guardarPost',
             'needsAuth' => true
         ]);
         $map->post('deletePosts', $rutas['dashboard'],
         [
-            'App\Controller\bdpostsController',
+            'App\Controller\BdpostsController',
             'deletePost',
             'needsAuth' => true
         ]);

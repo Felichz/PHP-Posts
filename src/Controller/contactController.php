@@ -9,7 +9,7 @@ use App\Services\HttpResponse;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 
-class contactController
+class ContactController
 {
     protected $httpResponse;
     protected $request;

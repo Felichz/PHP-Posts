@@ -19,7 +19,7 @@ class Router implements RouterInterface
 
         $map = $routerContainer->getMap(); // Molde de mapa de rutas
         
-        $map = routerMap::mapear( $map );
+        $map = RouterMap::mapear( $map );
 
         return $routerContainer;
     }

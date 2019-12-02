@@ -53,7 +53,7 @@ class Container
         $container->add( \App\Controller\Api\Posts\deleteController::class );
 
         // App
-        $container->add( \App\Controller\indexController::class )
+        $container->add( \App\Controller\IndexController::class )
             ->addArgument( $container->get('HttpResponse') )
             ->addArgument( $container->get('Vistas') )
             ->addArgument( $container->get('Conf') );
@@ -63,7 +63,7 @@ class Container
             ->addArgument( $container->get('Vistas') )
             ->addArgument( $container->get('Conf') );
 
-        $container->add( \App\Controller\contactController::class )
+        $container->add( \App\Controller\ContactController::class )
             ->addArgument( $container->get('HttpResponse') )
             ->addArgument( $container->get('Request') )
             ->addArgument( $container->get('Vistas') )
@@ -72,7 +72,7 @@ class Container
             ->addArgument( $container->get('Mailer') )
             ->addArgument( $container->get('AsyncCommand') );
 
-        $container->add( \App\Controller\bdpostsController::class )
+        $container->add( \App\Controller\BdpostsController::class )
             ->addArgument( $container->get('HttpResponse') )
             ->addArgument( $container->get('Request') )
             ->addArgument( $container->get('Vistas') )
