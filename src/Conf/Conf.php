@@ -17,7 +17,7 @@ class Conf
         // Acceso a la carpeta raiz de la app desde el server
         $APP_ROOT = dirname(__DIR__, 2);
         
-        $PROTOCOL = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
+        $PROTOCOL = getenv('APP_SSL') == 'true' ? 'https' : 'http';
 
         $this->CONF = [
             // Rutas
