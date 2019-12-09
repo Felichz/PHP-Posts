@@ -17,10 +17,12 @@ class Conf
         // Acceso a la carpeta raiz de la app desde el server
         $APP_ROOT = dirname(__DIR__, 2);
         
+        $PROTOCOL = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
+
         $this->CONF = [
             // Rutas
             // Acceso HTTP
-            'HOST' => isset( $_SERVER['HTTP_HOST'] ) ? 'http://' . $_SERVER['HTTP_HOST'] : false,
+            'HOST' => isset( $_SERVER['HTTP_HOST'] ) ? $PROTOCOL . '://' . $_SERVER['HTTP_HOST'] : false,
             'APP_URI' => getenv('APP_URI'),
             // Entorno de la app
             'APP_ENV' => getenv('APP_ENV'),
@@ -37,7 +39,7 @@ class Conf
         
             // Email
             'EMAIL' => [
-                'APP_EMAIL' => 'php-avanzado@example.com',
+                'CONTACT_INBOX' => getenv('CONTACT_INBOX'),
 
                 'SMTP' => [
                     'HOST' => getenv('SMTP_HOST'),
