@@ -19,6 +19,7 @@ class SwiftMailer implements Mailer
 
         $to = $parameters['to'] ?? null;
         $from = $parameters['from'] ?? null;
+        $name = $parameters['name'] ?? null;
         $replyTo = $parameters['replyTo'] ?? null;
         $subject = $parameters['subject'] ?? null;
         $body = $parameters['body'] ?? null;
@@ -34,7 +35,7 @@ class SwiftMailer implements Mailer
 
         // Create a message
         $message = (new \Swift_Message($subject))
-        ->setFrom($from)
+        ->setFrom($from, $name)
         ->setTo($to)
         ->setContentType("text/html")
         ->setBody($body)

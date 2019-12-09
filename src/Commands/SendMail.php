@@ -61,11 +61,12 @@ class SendMail extends Command
                 $mailer = DependencyInjection::obtenerElemento('Mailer');
         
                 $mailer->sendMail([
-                    'to' => $CONF['EMAIL']['APP_EMAIL'],
-                    'from' => $message->email,
-                    'replyTo' => $message->email,
+                    'to' => $CONF['EMAIL']['CONTACT_INBOX'],
+                    'from' => $CONF['EMAIL']['SMTP']['USER'],
+                    'name' => $message->name,
+                    'replyTo' => $CONF['EMAIL']['SMTP']['USER'],
                     'subject' => 'Formulario de contacto PHPAvanzado',
-                    'body' => "Nombre: $message->name <br><br> Mensaje: <br> <pre>$message->message</pre>"
+                    'body' => "Nombre: $message->name <br><br>Email: $message->email <br><br>Mensaje: <br> <pre>$message->message</pre>"
                 ]);
         
                 $message->sent = true;
