@@ -1,6 +1,6 @@
 # PHP-Posts
 App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios, contiene varios formularios incluyendo uno de contacto donde se realiza el envío de Email de forma asíncrona. El punto no es que la app tenga muchas funcionalidades para el usuario, es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria (En parte basada en el curso [básico](https://platzi.com/cursos/php/ "básico") y [avanzado](https://platzi.com/cursos/php-avanzado/ "avanzado") de php tomados en Platzi). Actualizo el proyecto mientras aprendo nuevas ténicas de programación.
-### [Ver demo online del proyecto](http://felix-platziphp.herokuapp.com "Ver demo online del proyecto")  
+### [Ver demo online del proyecto](https://anderssonfelix.com/phpposts "Ver demo online del proyecto")  
 
 
 
