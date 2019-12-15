@@ -53,7 +53,7 @@ App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticaci�
 -- **Whoops**, Debug en navegador  
 -- **Monolog**, Logger PSR-3  
 -- **Phinx**, Migraciones de bases de datos  
--- **Symfony/Console**, Creación de intefaz de linea de comandos personalizada con comandos de la app
+-- **Symfony/Console**, Creación de intefaz de linea de comandos personalizada con comandos de la app  
 -- **Swiftmailer**, Envío de Emails 
 </br>
 
