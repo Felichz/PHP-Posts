@@ -11,6 +11,8 @@ use App\Model\User;
 use App\Routes\Router;
 use \Exception;
 
+use App\Services\AuthService;
+
 class SignupController
 {
 
@@ -20,6 +22,8 @@ class SignupController
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
+
+        $this->authService = new AuthService;
     }
 
     public function index()
@@ -31,28 +35,57 @@ class SignupController
     {
         $HttpResponse = $this->HttpResponse;
         $request = $this->request;
-        $rutasHttp = Router::obtenerRutasHttp();
 
-        $postData = $request->getParsedBody();
+        $isJson = count($request->getParsedBody()) === 0;
+
+        if ( !$isJson ) {
+            $postData = $request->getParsedBody();
+        }
+        else {
+            $json = file_get_contents('php://input');
+            $postData = json_decode($json, true);
+        }
+
         $email = $postData['email'];
         $password = $postData['password'];
+
         $BDUsers = new BDUsers;
+        $rutasHttp = Router::obtenerRutasHttp();
         $validation = $this->validation;
 
         if( $validation->validarSignup($email, $password) ) {
 
             $BDUsers->registrarUsuario( $email, $password );
-
             $user = $BDUsers->obtenerUsuario( $email );
-            $user->iniciarSesion();
-            
-            return $HttpResponse->RedirectResponse( $rutasHttp['dashboard'] );
+
+            if (!$isJson) {
+                
+                $this->authService->iniciarSesion( $user );
+                return $HttpResponse->RedirectResponse( $rutasHttp['dashboard'] );
+            }
+            else {
+                $jsonResponse = json_encode([
+                    'email' => $user->email,
+                    'password' => $user->password
+                ]);
+
+                return $HttpResponse->HtmlResponse("<pre>{$jsonResponse}</pre>");
+            }
         }
         else {
             $mensaje = $validation->errorMessage;
 
-            // respuesta HTTP HtmlResponse
-            return $this->renderizar($mensaje);
+            if ( !$isJson ) {
+                // respuesta HTTP HtmlResponse
+                return $this->renderizar($mensaje);
+            }
+            else {
+                return $HttpResponse->HtmlResponse(
+                    json_encode([
+                        'error' => $mensaje
+                    ])
+                );
+            }
         }
     }
 

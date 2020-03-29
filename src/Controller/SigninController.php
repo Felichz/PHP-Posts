@@ -9,6 +9,8 @@ use App\Model\User;
 use App\Routes\Router;
 use \Exception;
 
+use App\Services\AuthService;
+
 class SigninController
 {
     public function __construct($HttpResponse, ServerRequestInterface $request, Vistas $vistas, ValidationInterface $validation)
@@ -17,6 +19,8 @@ class SigninController
         $this->request = $request;
         $this->vistas = $vistas;
         $this->validation = $validation;
+
+        $this->authService = new AuthService;
     }
 
     public function index ()
@@ -41,7 +45,7 @@ class SigninController
         if( $validation->validarSignin($postData) ) {
 
         $user = $BDUsers->obtenerUsuario( $email );
-        $user->iniciarSesion();
+        $this->authService->iniciarSesion($user);
 
         return $HttpResponse->RedirectResponse($rutasHttp['dashboard']);
         
