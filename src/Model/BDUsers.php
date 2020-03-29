@@ -37,7 +37,7 @@ class BDUsers extends Model
         // Busca un usuario donde coincida el email
         $usuario = $this->where('email', $email)->first();
 
-        return !is_null($usuario['email']) ? true : false;
+        return !is_null($usuario) ? true : false;
     }
 
     // Verifica la contraseña del login
