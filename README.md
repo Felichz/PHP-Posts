@@ -1,66 +1,66 @@
 # PHP-Posts
-App en PHP 7 donde se pueden hacer publicaciones tipo Blog Post con autenticación de usuarios, contiene varios formularios incluyendo uno de contacto donde se realiza el envío de Email de forma asíncrona. El punto no es que la app tenga muchas funcionalidades para el usuario, es **explorar buenas prácticas para desarollarla internamente** y lograr un **código limpio** más un **software fácil de mantener en el tiempo**, con una **estructura** profesional y manejando los **estándares** de la industria (En parte basada en el curso [básico](https://platzi.com/cursos/php/ "básico") y [avanzado](https://platzi.com/cursos/php-avanzado/ "avanzado") de php tomados en Platzi). Actualizo el proyecto mientras aprendo nuevas ténicas de programación.
-### [Ver demo online del proyecto](https://anderssonfelix.com/phpposts "Ver demo online del proyecto")  
+App in PHP 7 where you can make Blog Post-like publications with user authentication. It contains several forms, including a contact form that sends emails asynchronously. The point is not that the app has many user-facing features, it is to **explore good practices to develop it internally** and achieve **clean code** plus **software that is easy to maintain over time**, with a professional **structure** and following industry **standards** (Partly based on the [basic](https://platzi.com/cursos/php/ "basic") and [advanced](https://platzi.com/cursos/php-avanzado/ "advanced") PHP courses taken at Platzi). I update the project as I learn new programming techniques.
+### [View online demo of the project](https://anderssonfelix.com/phpposts "View online demo of the project")  
 
 
 
 ------------
 
-### Temas y conceptos utilizados:
-- **Seguridad**  
-- **Virtualización**  
-- **Creación de intefaz de linea de comandos personalizada con comandos de la app**  
-- **Procesos CRON Unix para ejecutar comandos asíncronamente**  
-- **Interacción con la Base de Datos mediante un ORM**  
-- **Mensajes HTTP**  
+### Topics and concepts used:
+- **Security**  
+- **Virtualization**  
+- **Creation of a custom command-line interface with app commands**  
+- **Unix CRON processes to run commands asynchronously**  
+- **Database interaction through an ORM**  
+- **HTTP Messages**  
 - **Router**  
-- **Motores de plantillas**  
-- **Validaciones**  
-- **Variables de entorno**  
+- **Template engines**  
+- **Validations**  
+- **Environment variables**  
 - **Middlewares**  
-- **Debug y XDebug**  
+- **Debug and XDebug**  
 - **Logger**  
-- **Migraciones**  
-- **Envío de Emails**  
-- **Manejo de errores**  
-- **Patrones de diseño**  
+- **Migrations**  
+- **Sending Emails**  
+- **Error handling**  
+- **Design patterns**  
  -- Front Controller  
  -- MVC  
  -- Dependency Injection  
  -- Singleton  
-- **[Estándares PSR (PHP-FIG)](https://www.php-fig.org/psr/ "Estándares PSR")**  
+- **[PSR Standards (PHP-FIG)](https://www.php-fig.org/psr/ "PSR Standards")**  
  -- PSR-3: Loggers  
- -- PSR-4: Autoloading de clases  
- -- PSR-7: Manejo de respuestas HTTP  
- -- PSR-15: Middlewares y Server Request Handler HTTP  
-- **Principios SOLID**  
- -- Principio de responsabilidad única  
- -- Principio abierto/cerrado  
- -- Principio de substitución de Liskov  
- -- Principio de segregación de interfaces  
- -- Principio de inversión de dependencias  
-- **Gestión de librerías con composer** 
+ -- PSR-4: Class autoloading  
+ -- PSR-7: HTTP response handling  
+ -- PSR-15: Middlewares and HTTP Server Request Handler  
+- **SOLID Principles**  
+ -- Single responsibility principle  
+ -- Open/closed principle  
+ -- Liskov substitution principle  
+ -- Interface segregation principle  
+ -- Dependency inversion principle  
+- **Library management with composer** 
 
-- **librerías utilizadas**  
- -- **Eloquent ORM**, Interacción con la Base de Datos  
- -- **Zend/Diactoros**, Implementación de mensajes HTTP PSR-7  
- -- **Aura/Router**, Router HTTP PSR-7  
- -- **Twig**, Motor de plantillas  
- -- **Respect/Validation**, Se usó para hacer validaciones datos en formularios  
- -- **Dotenv**, Variables de entorno  
- -- **League/container**, Contenedor para inyección de dependencias PSR-11  
--- **Harmony**, Middleware Dispatcher PSR-15  
--- **Whoops**, Debug en navegador  
--- **Monolog**, Logger PSR-3  
--- **Phinx**, Migraciones de bases de datos  
--- **Symfony/Console**, Creación de intefaz de linea de comandos personalizada con comandos de la app  
--- **Swiftmailer**, Envío de Emails 
+- **libraries used**  
+ -- **Eloquent ORM**, Database interaction  
+ -- **Zend/Diactoros**, Implementation of PSR-7 HTTP messages  
+ -- **Aura/Router**, PSR-7 HTTP Router  
+ -- **Twig**, Template engine  
+ -- **Respect/Validation**, Used to validate form data  
+ -- **Dotenv**, Environment variables  
+ -- **League/container**, PSR-11 dependency injection container  
+-- **Harmony**, PSR-15 Middleware Dispatcher  
+-- **Whoops**, Browser debug  
+-- **Monolog**, PSR-3 Logger  
+-- **Phinx**, Database migrations  
+-- **Symfony/Console**, Creation of a custom command-line interface with app commands  
+-- **Swiftmailer**, Sending Emails 
 </br>
 
 ------------
 
-# Configuración:
-- Reemplazar ".env_sample" por ".env" y configurar las respectivas variables de entorno (configurar la Base de Datos).
+# Configuration:
+- Replace ".env_sample" with ".env" and configure the respective environment variables (configure the Database).
 
-- Ejecutar las migraciones de  la Base de Datos:
+- Run the Database migrations:
 `php vendor/bin/phinx migrate`
