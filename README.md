@@ -22,37 +22,37 @@ App in PHP 7 where you can make Blog Post-like publications with user authentica
 - **Sending Emails**  
 - **Error handling**  
 - **Design patterns**  
- -- Front Controller  
- -- MVC  
- -- Dependency Injection  
- -- Singleton  
+  - Front Controller  
+  - MVC  
+  - Dependency Injection  
+  - Singleton  
 - **[PSR Standards (PHP-FIG)](https://www.php-fig.org/psr/ "PSR Standards")**  
- -- PSR-3: Loggers  
- -- PSR-4: Class autoloading  
- -- PSR-7: HTTP response handling  
- -- PSR-15: Middlewares and HTTP Server Request Handler  
+  - PSR-3: Loggers  
+  - PSR-4: Class autoloading  
+  - PSR-7: HTTP response handling  
+  - PSR-15: Middlewares and HTTP Server Request Handler  
 - **SOLID Principles**  
- -- Single responsibility principle  
- -- Open/closed principle  
- -- Liskov substitution principle  
- -- Interface segregation principle  
- -- Dependency inversion principle  
+  - Single responsibility principle  
+  - Open/closed principle  
+  - Liskov substitution principle  
+  - Interface segregation principle  
+  - Dependency inversion principle  
 - **Library management with composer** 
 
 - **libraries used**  
- -- **Eloquent ORM**, Database interaction  
- -- **Zend/Diactoros**, Implementation of PSR-7 HTTP messages  
- -- **Aura/Router**, PSR-7 HTTP Router  
- -- **Twig**, Template engine  
- -- **Respect/Validation**, Used to validate form data  
- -- **Dotenv**, Environment variables  
- -- **League/container**, PSR-11 dependency injection container  
--- **Harmony**, PSR-15 Middleware Dispatcher  
--- **Whoops**, Browser debug  
--- **Monolog**, PSR-3 Logger  
--- **Phinx**, Database migrations  
--- **Symfony/Console**, Creation of a custom command-line interface with app commands  
--- **Swiftmailer**, Sending Emails 
+ - **Eloquent ORM**, Database interaction  
+ - **Zend/Diactoros**, Implementation of PSR-7 HTTP messages  
+ - **Aura/Router**, PSR-7 HTTP Router  
+ - **Twig**, Template engine  
+ - **Respect/Validation**, Used to validate form data  
+ - **Dotenv**, Environment variables  
+ - **League/container**, PSR-11 dependency injection container  
+ - **Harmony**, PSR-15 Middleware Dispatcher  
+ - **Whoops**, Browser debug  
+ - **Monolog**, PSR-3 Logger  
+ - **Phinx**, Database migrations  
+ - **Symfony/Console**, Creation of a custom command-line interface with app commands  
+ - **Swiftmailer**, Sending Emails 
 </br>
 
 ------------
